@@ -19,7 +19,7 @@ function getCorporateRequests(customerNumber, requestStatus) {
                 return;
             }
             $(".request_table tr").remove();
-            console.log("data length =>", data);
+            // console.log("data length =>", data);
             $("#approval_count").text(data.length > 0 ? data.length : 0);
             // $("#approval_count").text(data.length);
             // $("#approval_count").text("1");
@@ -119,7 +119,7 @@ function transactionsBarChart(transactions) {
         $("#transactionNoData").show();
         return;
     } //trim transactions to 30
-    console.log("transactions ===>", transactions);
+    // console.log("transactions ===>", transactions);
 
     transactions = transactions?.slice(0, 10).reverse();
     // check for previous chart and destroy it if any
@@ -246,7 +246,7 @@ function prepareGraphValues() {
     accountsPie.xValues = pageData?.accounts?.map((account) =>
         String(account.accountNumber)
     );
-    console.log("prepareGraphValue===>", pageData);
+    // console.log("prepareGraphValue===>", pageData);
 
     //accounts
     let accountsTotal = 0;
@@ -453,7 +453,7 @@ $(() => {
     });
     blockUi({ block: "#nav-tabContent" });
     // return;
-    Promise.allSettled([
+    Promise.all([
         getData({ url: "fixed-deposit-account-api", name: "investments" }),
         // getData({ url: "get-loan-accounts-api", name: "loans" }),
         // getData({ url: "get-accounts-api", name: "accounts" }),
@@ -461,8 +461,8 @@ $(() => {
         .then((value) => {
             // siteLoading("hide");
             // pageData.accounts = @json(session()->get('userId'));
-            console.log("VALUES ==>", value);
-            console.log("promise.AllSetteled ==>", pageData);
+            // console.log("VALUES ==>", value);
+            // console.log("promise.AllSetteled ==>", pageData);
             // return false
 
             prepareGraphValues();
@@ -475,12 +475,12 @@ $(() => {
         })
         .catch(function (err) {
             // dispatch a failure and throw error
-            console.log("error==>", err.responseText);
+            // console.log("error==>", err.responseText);
         });
 
     $(".canvas-tab").on("click", (e) => {
         const selectedTab = $(e.currentTarget).attr("data-target");
-        console.log(pageData.pieValues[selectedTab]?.yValues?.length);
+        // console.log(pageData.pieValues[selectedTab]?.yValues?.length);
         if (!pageData.pieValues[selectedTab]?.yValues?.length) {
         }
         $(".chart-no-data").attr(
@@ -504,7 +504,7 @@ $(() => {
         const target = $("#chart_account option:selected");
         const accountNumber = target.attr("data-account-number");
         const accountCurrency = target.attr("data-account-currency");
-        console.log("A", { target, accountCurrency, accountNumber });
+        // console.log("A", { target, accountCurrency, accountNumber });
         const today = new Date();
         let startDate = new Date(today.setMonth(today.getMonth() - 300))
             .toISOString()
@@ -523,10 +523,10 @@ $(() => {
                 transLimit,
             },
         }).then((data) => {
-            // $("account-transaction-history", data);
+            $("account-transaction-history", data);
             unblockUi("#acc_history");
             transactionsBarChart(pageData.transactions);
-            console.log("trans", pageData);
+            // console.log("trans", pageData);
         });
     });
     $("#chart_account").trigger("change");

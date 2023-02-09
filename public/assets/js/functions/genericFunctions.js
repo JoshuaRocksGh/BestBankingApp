@@ -149,7 +149,7 @@ function getCurrencies() {
                         ${data[index].isoCode} </option>`
                 );
             });
-            console.log("here");
+            // console.log("here");
             $(".currency_select").trigger("change").select2({
                 minimumResultsForSearch: Infinity,
             });
@@ -182,7 +182,7 @@ function getFx() {
         retryLimit: 5,
         success: function (response) {
             pageData.fxRate = response.data;
-            console.log("data", response.data);
+            // console.log("data", response.data);
         },
         error: function (xhr, textStatus, errorThrown) {
             if (textStatus == "timeout") {
@@ -215,7 +215,7 @@ function getAccounts(account_data) {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         success: function (response) {
-            console.log("getAccounts called ==>", response);
+            // console.log("getAccounts called ==>", response);
 
             if (response.responseCode !== "000") {
                 // Swal.fire({
@@ -329,7 +329,7 @@ function blockUi(data) {
     });
 }
 function unblockUi(block = "#body") {
-    console.log(block);
+    // console.log(block);
     $(block).unblock();
 }
 

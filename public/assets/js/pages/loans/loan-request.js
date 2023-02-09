@@ -5,7 +5,7 @@ function getOptions(optionUrl, optionId, incomingData) {
         url: optionUrl,
         datatype: "application/json",
         success: (response) => {
-            let data = response.data;
+            let data = response?.data;
             pageData[`${optionId.slice(1)}`] = data;
             data?.forEach((e) => {
                 if (!e.code || !e.name) return;
@@ -563,7 +563,7 @@ $(function () {
     // getBranches();
 
     $("#loan_product").on("change", (e) => {
-        pageData.currentLoanProduct = pageData["loan_product"].find(
+        pageData.currentLoanProduct = pageData?["loan_product"].find(
             (f) => f.PROD_CODE === e.currentTarget.value
         );
         if (!pageData.currentLoanProduct) return;

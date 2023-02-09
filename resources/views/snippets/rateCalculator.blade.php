@@ -93,7 +93,7 @@
 </style>
 <script defer>
     $(() => {
-        console.log("pageData ==>", pageData);
+        // console.log("pageData ==>", pageData);
 
         (async () => {
             await Promise.all([getCurrencies(), getFx()])
@@ -175,12 +175,12 @@
                 const conversion2 = document.getElementById('conversion2')
                 const currency1 = document.getElementById('currency1').value
                 const currency2 = document.getElementById('currency2').value
-                console.log({
-                    currency1,
-                    currency2,
-                    conversion1,
-                    conversion2
-                })
+                // console.log({
+                //     currency1,
+                //     currency2,
+                //     conversion1,
+                //     conversion2
+                // })
                 conversion1.innerHTML =
                     `1 ${currency1} = ${currency2} ${formatToCurrency(currencyConvertor(pageData.fxRate, 1.00, currency1, currency2)?.convertedAmount)}`
                 conversion2.innerHTML =

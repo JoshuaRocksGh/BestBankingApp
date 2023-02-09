@@ -128,7 +128,7 @@
         Cookies.set("customerName", customerName)
         const getCookieName = Cookies.get("customerName")
         if (getCookieName) {
-            console.log("get cookie==>", Cookies.get("customerName"))
+            // console.log("get cookie==>", Cookies.get("customerName"))
 
             //return;
         } else {

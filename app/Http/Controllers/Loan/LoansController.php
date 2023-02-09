@@ -139,18 +139,49 @@ class LoansController extends Controller
     //method to return the interest types
     public function get_loan_frequencies()
     {
+
+        $base_response = new BaseResponse();
+
+        try {
         $response = Http::get(env('API_BASE_URL') . "/loans/loanFrequencies");
 
-        $result = new ApiBaseResponse();
-        return $result->api_response($response);
+            // $response = Http::get(env('API_BASE_URL') . "/loans/loanTypes");
+
+            // $response = Http::retry(20, 100)->post(env('API_BASE_URL') . "loans/getLoans", $data);
+            // $response = Http::post(env('API_BASE_URL') . "loans/getLoans", $data);
+
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $error) {
+            // Log::alert($error);
+            return $base_response->api_response('500', $error,  NULL); // return API BASERESPONSE
+        }
+
+
+        // $result = new ApiBaseResponse();
+        // return $result->api_response($response);
     }
 
     public function getLoanTypes()
     {
-        $response = Http::get(env('API_BASE_URL') . "/loans/loanTypes");
+        $base_response = new BaseResponse();
 
-        $result = new ApiBaseResponse();
-        return $result->api_response($response);
+
+        try {
+            $response = Http::get(env('API_BASE_URL') . "/loans/loanTypes");
+
+            // $response = Http::retry(20, 100)->post(env('API_BASE_URL') . "loans/getLoans", $data);
+            // $response = Http::post(env('API_BASE_URL') . "loans/getLoans", $data);
+
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $error) {
+            // Log::alert($error);
+            return $base_response->api_response('500', $error,  NULL); // return API BASERESPONSE
+        }
+
+        // $result = new ApiBaseResponse();
+        // return $result->api_response($response);
     }
     public function get_my_loans_accounts()
     {
