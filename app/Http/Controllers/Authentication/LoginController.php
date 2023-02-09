@@ -55,6 +55,7 @@ class LoginController extends Controller
 
     public function loginApi(Request $req)
     {
+        return $req;
         // Get Location
         $res = Http::get('http://ip-api.com/json');
         $base_response = new BaseResponse();
@@ -108,7 +109,9 @@ class LoginController extends Controller
             if ($userDetail->customerType == "C") {
                 $mandateRes = Http::post(env('CIB_API_BASE_URL') . "get-mandate/$user_id");
                 // return $mandateRes['data'][0]['panel'];
+                // return $mandateRes['data'][0]['panel'];
                 $userMandate = $mandateRes['data'][0]['panel'];
+                // $userMandate = "A";
             } else {
                 $userMandate = "";
             }

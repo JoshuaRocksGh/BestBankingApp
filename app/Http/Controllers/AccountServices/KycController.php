@@ -87,7 +87,7 @@ class KycController extends Controller
 
         ]);
 
-        return $request;
+        // return $request;
 
         $base_response = new BaseResponse();
 
@@ -107,6 +107,10 @@ class KycController extends Controller
 
         // return $userID ;
         // $firstname = $request->firstname;
+
+        $countryResidence = $request->country_of_residence;
+        $getCountryCode = explode("~", $countryResidence);
+        $countryCode = $getCountryCode[1];
 
         $data = [
             "accountSign" => null,
@@ -148,7 +152,7 @@ class KycController extends Controller
             "postalAddress" => $request->postal_address,
             "proofAddressDocId" => $request->prove_of_address,
             "relationNumber" => null,
-            "residenceCountry" => $request->country_of_residence,
+            "residenceCountry" => $countryCode,
             "residenceOfCountry" => null,
             "residenceYears" => $request->years_at_residence,
             "residentialAddress" => $request->residential_address,
