@@ -19,12 +19,12 @@
                     <tr>
                         <th colspan="3" style="height: 150px"> <img src="{{ asset('assets/images/logoSLCB.png') }}">
                         </th>
-                        <th><span class="h3">Sierra Leone Commerical Bank Ltd</span><br>
-                            <span class="h5"> Christian Smith Building</span><br>
-                            <span class="h5"> 29/31 Siaka Stevens Street</span><br>
-                            <span class="h5"> Freetown, Sierra Leone</span><br>
-                            <span class="h5"> slcb@slcb.com</span><br>
-                            <span class="h5"> (+232) - 22 -225264</span>
+                        <th><span class="h3">Public Bank Ltd</span><br>
+                            {{--  <span class="h5"> Christian Smith Building</span><br>  --}}
+                            {{--  <span class="h5"> 29/31 Siaka Stevens Street</span><br>  --}}
+                            <span class="h5"> Hong Kong, China</span><br>
+                            <span class="h5"> customersupport@publicbank.com.my</span><br>
+                            <span class="h5"> 603-2170 8000</span>
                         </th>
                     </tr>
                     <tr bgcolor='#87AFC6' style="background-color: #dce0e1!important;">

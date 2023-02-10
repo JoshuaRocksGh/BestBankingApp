@@ -83,14 +83,14 @@
                 <div>
                     <div class="float-left">
                         <br>
-                        <h5 class="address-title">SIERRA LEONE COMMERCIAL BANK</h5>
+                        <h5 class="address-title">PUBLIC BANK LTD</h5>
                         <div class="address">
                             {{--  <small>9/31 Siaka Stevens Street</small><br>  --}}
                             {{--  <small>Freetown, Sierra Leone</small><br>  --}}
-                            <small>+232 88 225225</small><br>
-                            <small>+232 79 211121</small><br>
+                            <small>+603-2170 8000</small><br>
+                            <small>+603-2176 8555</small><br>
                             <small>+232 31 464541</small><br>
-                            <small>customercare@slcb.com</small><br>
+                            <small>customerservice@publicbank.com.my</small><br>
                         </div>
 
                     </div>
