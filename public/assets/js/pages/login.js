@@ -2,7 +2,7 @@ const deviceType = getDeviceType();
 const deviceOS = getDeviceOS();
 const deviceID = getGPU();
 function login(email, password) {
-    // console.log(email, password);
+    console.log(email, password,deviceType, deviceOS,deviceID);
     // return false;
     $.ajax({
         type: "POST",

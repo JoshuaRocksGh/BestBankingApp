@@ -272,7 +272,8 @@ function validateFormInputs() {
     //same bank beneficiary checks
 
     if (type === "SAB") {
-        bankName = "SIERRA LEONE COMMERCIAL BANK";
+        // bankName = "SIERRA LEONE COMMERCIAL BANK";
+        bankName = "PUBLIC BANK LTD";
         if (!accountName) {
             toaster("Invalid Account Information", "warning");
             return false;

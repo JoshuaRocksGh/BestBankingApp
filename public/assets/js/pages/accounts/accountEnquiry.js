@@ -45,7 +45,7 @@ const pdfHeader = (pdfData) => {
     <div class="d-flex justify-content-between px-3 items-center">
         <div style="height: 150px"> <img src='assets/images/slcb-bg-logo.png'>
         </div>
-        <div class="font-14 font-weight-bold"> SIERRA LEONE COMMERCIAL BANK<br>
+        <div class="font-14 font-weight-bold">PUBLIC BANK<br>
             9/31 Siaka Stevens Street<br>
             Freetown, Sierra Leone<br>
             slcb@slcb.com<br>
@@ -272,7 +272,7 @@ $(function () {
                         <div class="d-flex justify-content-between px-3 items-center">
                             <div style="height: 150px"> <img src='assets/images/slcb-bg-logo.png'>
                             </div>
-                            <div class="font-14 font-weight-bold"> SIERRA LEONE COMMERCIAL BANK<br>
+                            <div class="font-14 font-weight-bold"> PUBLIC BANK<br>
                                 9/31 Siaka Stevens Street<br>
                                 Freetown, Sierra Leone<br>
                                 slcb@slcb.com<br>

@@ -55,7 +55,7 @@ class LoginController extends Controller
 
     public function loginApi(Request $req)
     {
-        return $req;
+        // return $req;
         // Get Location
         $res = Http::get('http://ip-api.com/json');
         $base_response = new BaseResponse();

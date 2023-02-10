@@ -42,7 +42,7 @@
                                 Our internet banking is easy to use. All you need is: <br><br>
                                 > A personal computer that is connected to the internet. <br>
                                 > Any browser of your choice. <br>
-                                > Open your browser and log on to Sierra Leone Commercial Bank Internet Banking.
+                                > Open your browser and log on to Public Bank Internet Banking.
 
                             </p>
                         </div>
@@ -55,7 +55,7 @@
                                 The information you provide is kept strictly confidential. The latest electronic
                                 encryption technology ensures the secure transfer of information over the
                                 internet. As account security is important to us, we have built safety measures
-                                into Sierra Leone Commercial Bank which reflect the importance of this issue.
+                                into PUBLIC Bank which reflect the importance of this issue.
 
                             </p>
                         </div>
@@ -141,7 +141,7 @@
                         <div id="collapseFive" class="collapse" aria-labelledby="headingFive"
                             data-parent="#custom-accordion-one">
                             <div class="card-body">
-                                The Sierra Leone Commercial Bank Inter-Account Transfer approval process consists of
+                                The Public Bank Inter-Account Transfer approval process consists of
                                 basic
                                 verification of the information that you provided. The ‘To Account’ of the
                                 beneficiary account will be checked against the database for the validity of the
@@ -168,7 +168,7 @@
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                             data-parent="#accordion">
                             <div class="card-body">
-                                If you are already a customer with Sierra Leone Commercial Bank, click <a
+                                If you are already a customer with Public Bank, click <a
                                     href="{{ url('/') }}">Here</a> to enroll.
 
                             </div>
@@ -185,11 +185,11 @@
                         </div>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                             <div class="card-body">
-                                Contact the Sierra Leone Commercial Bank Customer Centre via email:slcb@slcb.com
+                                Contact the Public Bank Customer Centre via email:customerservice@publicbank.com.my
                                 or during normal working hours, Mon-Fri 8:00 A.M to 3:00 PM <br>
                                 call: <br>
-                                (+232) - 22 -2252646 <br>
-                                (+232) - 22-225-292
+                                603-2170 8000<br>
+                                603-2176 8168
                             </div>
                         </div>
                     </div>

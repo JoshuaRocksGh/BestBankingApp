@@ -153,10 +153,10 @@ Route::group(['middleware' => ['userAuth']], function () {
     Route::get('/standing-order', [StandingOrderController::class, 'display_standing_order']);
     Route::get('/standing-order-status', [StandingOrderController::class, 'display_standing_order_status']);
     Route::get('/bulk-transfer', [BulkUploadBulkUploadsController::class, 'index']);
-    Route::post('/update-upload', [BulkUploadBulkUploadsController::class, 'update_upload']);
+    Route::post('/update-upload', [BulkUploadBulkUploadsController::class, 'updaate_upload']);
     Route::post('bollore-tranfer', [BollorieController::class, 'bollore_transfer']);
-    Route::get('/swift_mt101', [SwiftMT101Controller::class, 'view_swift'])->name('swift_mt101');
-    Route::post('/swift_mt101', [SwiftMT101Controller::class, 'upload_mt101'])->name('swift_mt101');
+    // Route::get('/swift_mt101', [SwiftMT101Controller::class, 'view_swift'])->name('swift_mt101');
+    // Route::post('/swift_mt101', [SwiftMT101Controller::class, 'upload_mt101'])->name('swift_mt101');
 
 
     // --- PAYMENTS
@@ -372,7 +372,7 @@ Route::post('block-card-request-api', [AtmCardRequestController::class, 'block_c
 
 //SALARY ADVANCE
 Route::post('get-salary-advance-fee', [SalaryAdvanceController::class, 'salary_advance_fee'])->name('get-salary-advance-fee');
-Route::post('salary-advance', [SalaryAdvanceController::class, 'salary_advance'])->name('salary-advance');
+// Route::post('salary-advance', [SalaryAdvanceController::class, 'salary_advance'])->name('salary-advance');
 Route::get('corportate-salary-advance', [SalaryAdvanceController::class, 'salary_advance_deposit'])->name('corportate-salary-advance');
 
 
