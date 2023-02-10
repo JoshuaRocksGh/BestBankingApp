@@ -5,7 +5,7 @@
 
 
     <meta charset="utf-8" />
-    <title>SLCB BANKING</title>
+    <title>PB BANKING</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Internet Banking Application" name="Internet Banking Portal for Sierra Leone Commerical Bank Ltd." />
     <meta content="Banking Application" name="Union Systems Global" />

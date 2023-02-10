@@ -789,7 +789,14 @@ $(document).ready(function () {
                 console.log(response);
                 // return false;
                 if (response.responseCode == "000") {
-                    toaster(response.message, "success", 10000);
+                    swal.fire({
+                        // title: "Transfer successful!",
+                        html: response.message,
+                        icon: "success",
+                        // showConfirmButton: "false",
+                        confirmButtonColor: "green",
+                    });
+                    // toaster(response.message, "success", 10000);
                 } else {
                     toaster(response.message, "error", 6000);
                 }

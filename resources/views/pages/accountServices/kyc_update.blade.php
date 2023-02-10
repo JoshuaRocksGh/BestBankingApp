@@ -486,10 +486,10 @@
             aria-labelledby="fullWidthModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-full-width">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-danger">
                         <h4 class="modal-title text-white" id="myLargeModalLabel">KYC Summary</h4>
                         <button type="button" class="close text-white" data-dismiss="modal"
-                            aria-hidden="true">×</button>
+                            aria-hidden="true">x</button>
                     </div>
                     <div class="modal-body">
                         <div class="row">

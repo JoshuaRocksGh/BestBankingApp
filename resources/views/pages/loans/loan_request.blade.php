@@ -51,9 +51,9 @@
                     </div>
                     <div id="loan_balances" class="table-responsive" style="display: none">
                         <table id="loan_balances_table"
-                            class="table table-sm table-striped table-hover table-centered table-bordered">
-                            <thead class="bg-primary text-white font-weight-bold">
-                                <tr class="text-center">
+                            class="table table-bordered  table-striped display responsive nowrap   w-100">
+                            <thead >
+                                <tr class="table-background">
                                     <th>Loan Description</th>
                                     <th>Amount Granted</th>
                                     <th>Loan Balance</th>
@@ -167,15 +167,17 @@
                         style="display: flex;">
                         {!! $noDataAvailable !!}
                     </div>
-                    <div id="loan_tracking" class="table-responsive" style="display: none">
+                    <div id="loan_tracking" class="table-responsive" style="display: none" >
                         <table id="loan_tracking_table"
-                            class="table table-sm table-striped table-hover table-centered table-bordered">
-                            <thead class="bg-primary text-white font-weight-bold">
-                                <tr class="text-center">
-                                    <th>Loan Description</th>
-                                    <th>Amount Granted</th>
-                                    <th>Loan Balance</th>
-                                    <th> View Details </th>
+                            class="table table-bordered  table-striped display responsive nowrap   w-100  loan_tracking_table">
+                            <thead>
+                                <tr class="table-background">
+                                    <th class="all">Loan Description</th>
+                                    <th class="all">Interest Type</th>
+                                    <th class="all">Currency</th>
+                                    <th class="all">Amount Granted</th>
+                                    <th class="none">Rate </th>
+                                    <th class="none">Loan Stage </th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -23,6 +23,13 @@ function getOptions(optionUrl, optionId, incomingData) {
     });
 }
 
+
+function renderCurrency(data, row) {
+    return `<div class="table-cur text-right"><span class="font-weight-bold">${formatToCurrency(
+        parseFloat(data)
+    )}</span></div>`;
+}
+
 function validateKyc() {
     return $.ajax({
         type: "GET",
@@ -341,7 +348,58 @@ function getLoantracking() {
         },
     }).done((response) => {
         console.log("get-loan-tracking-api", response);
-        if (response.responseCode !== "000") {
+        console.log("get-loan-tracking-api", response.data.length);
+        if (response.responseCode === "000") {
+            $("#loan_tracking").show()
+            $("#loan_tracking_no_data").hide()
+            const tableOptions = {
+                lengthChange: false,
+                pageLength: 5,
+            };
+            if (response.data.length > 0) {
+                let trackingTable = $(".loan_tracking_table").DataTable();
+
+                response.data.forEach((data) => {
+                    console.log("for each ==>", data.product)
+                    // const {
+                    //     product,
+                    //     currency,
+                    //     interestType,
+                    //     loanAmount,
+                    //     rate,
+                    //     loanStage
+                    // } = data;
+
+                    const formattedAmount = formatToCurrency(data.loanAmount);
+
+                    trackingTable.row.add([
+                        data.product,
+                        data.interestType,
+                        data.currency,
+                        formattedAmount,
+                        data.rate,
+                        data.loanStage
+                    ]).order([0, "desc"]).draw();
+
+                    // trackingTable.column(0).visible(false);
+                })
+
+
+            } else {
+                $("#loan_tracking").hide();
+                $("#loan_tracking_no_data")
+                    .show()
+                    .html(
+                        noDataAvailable.replace(
+                            "No Data Available",
+                            response.message
+                        )
+                    );
+                // toaster(res.message, "warning");
+                return;
+            }
+
+        }else {
             $("#loan_tracking").hide();
             $("#loan_tracking_no_data")
                 .show()
@@ -393,9 +451,8 @@ function getLoans() {
                         targets: [1, 2],
                         render: (data) => {
                             const d = data.split("~");
-                            return `<div class="float-right"><span>${
-                                d[0]
-                            }&nbsp${formatToCurrency(d[1])} </span></div>`;
+                            return `<div class="float-right"><span>${d[0]
+                                }&nbsp${formatToCurrency(d[1])} </span></div>`;
                         },
                     },
                 ],
@@ -463,7 +520,7 @@ function getLoanDetails(facilityNo) {
             $("#next_review_date").text(loan.NEXT_REVIEW_DATE);
             $("#loan_detail_modal").modal("show");
         })
-        .fail((res) => {});
+        .fail((res) => { });
 }
 
 $(function () {

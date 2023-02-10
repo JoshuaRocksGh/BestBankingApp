@@ -283,7 +283,7 @@ ${accountDesc} || ${accountNumber} || ${currency} ${availableBalance}
 
 function siteLoading(state) {
     if (state === "show") {
-        $("#site_loader").css("background-color", "#f7eeee");
+        $("#site_loader").css("background-color", "#ddd1ac");
         $("#site_loader").fadeIn(500, "linear");
         return;
     }
