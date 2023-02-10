@@ -82,11 +82,11 @@ class LoginController extends Controller
             "channel" => env('APP_CHANNEL')
 
         ];
-        return $data;
+        // return $data;
 
         try {
             $response = Http::post(env('API_BASE_URL') . "/user/login", $data);
-            // return $response;
+            return $response;
             if (!$response->ok()) { // API response status code is 200
                 return $base_response->api_response('500', 'API SERVER ERROR',  NULL); // return API BASERESPONSE
             }
