@@ -6,7 +6,7 @@
     </a>
 
     <a href="{{ url('home') }}" class="d-none d-md-block">
-        <img src="{{ asset('assets/images/slcb-bg-logo.png') }}" height="40" alt="company logo">
+        <img src="{{ asset('assets/images/slcb-bg-logo.png') }}" height="80" alt="company logo">
     </a>
 
 

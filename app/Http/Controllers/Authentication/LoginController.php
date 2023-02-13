@@ -83,7 +83,7 @@ class LoginController extends Controller
             "channel" => env('APP_CHANNEL')
 
         ];
-        // return $data;
+        return $data;
 
         try {
             $response = Http::post(env('API_BASE_URL') . "/user/login", $data);
