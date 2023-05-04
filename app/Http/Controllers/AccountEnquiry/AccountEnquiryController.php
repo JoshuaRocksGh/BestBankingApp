@@ -194,6 +194,12 @@ class AccountEnquiryController extends Controller
         $amount = $request->query('amount');
         $contraAccount = $request->query('contraAccount');
         $channel = $request->query('channel');
+        $approval1 = $request->query('approval1');
+        $approval2 = $request->query('approval2');
+        $approval3 = $request->query('approval3');
+        $approval4 = $request->query('approval4');
+        $approval5 = $request->query('approval5');
+        $originator = $request->query('originator');
 
 
         // return json_decode($request);
@@ -216,6 +222,12 @@ class AccountEnquiryController extends Controller
             "amount" => $amount,
             "contraAccount" => $contraAccount,
             "channel" => $channel,
+            "originator" => $originator,
+            "approval1" => $approval1,
+            "approval2" => $approval2,
+            "approval3" => $approval3,
+            "approval4" => $approval4,
+            "approval5" => $approval5,
         ]);
     }
 }

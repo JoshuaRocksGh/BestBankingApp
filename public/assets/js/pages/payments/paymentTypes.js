@@ -390,6 +390,16 @@ $(() => {
         var getMomoTransferType = $("input[name='AcctToMomo']:checked").val();
         console.log("getMomoTransferType=>",getMomoTransferType)
 
+        // var getMomoTransferType = $("input[name='AcctToMomo']:checked").val();
+        // pageData.paymentInfo.MomoTransferType = getMomoTransferType
+
+        pageData.paymentInfo = {
+            MomoTransferType: getMomoTransferType,
+            // fileUploaded: "",
+        };
+
+        console.log("getMomoTransferType=>",pageData)
+
 
     })
 
@@ -501,8 +511,7 @@ $(() => {
     $("#confirm_transfer_button").on("click", (e) => {
         e.preventDefault();
 
-        var getMomoTransferType = $("input[name='AcctToMomo']:checked").val();
-        pageData.paymentInfo.MomoTransferType = getMomoTransferType
+
 
         if (ISCORPORATE) {
             var file = document.getElementById("invoice_file").files[0];
@@ -606,6 +615,8 @@ $(() => {
             toaster("all fields required", "warning");
             return;
         }
+
+        var getMomoTransferType = $("input[name='AcctToMomo']:checked").val();
         pageData.paymentInfo = {
             amount,
             accountCurrCode,
@@ -616,6 +627,7 @@ $(() => {
             beneficiaryAccount,
             payeeName,
             paymentType,
+            momoTransferType: getMomoTransferType,
         };
         // if (ISCORPORATE) {
         //     getRecipientName(pageData.paymentInfo);

@@ -447,7 +447,9 @@ $(function () {
                     data: "batchNumber",
                     render: (data, type, row) => {
                         return `<a href="transaction-receipt?debitAccount=${pdfData?.details?.pdfAccountNumber}&batchNo=${row.batchNumber}&postingDate=${row.postingSysDate}&transNumber=${row.transactionNumber}&valueDate=${row.valueDate}&branch=${row.branch}
-                        &narration=${row.transactionDetails}&amount=${row.amount}&contraAccount=${row.contraAccount}&channel=${row.channel}&accountName=${pdfData?.details?.pdfAccountName}&accountCurrency=${pdfData?.details?.pdfAccountCurrency}" target='_blank' type="button" class="btn btn-outline-info">Details</a>`;
+                        &narration=${row.transactionDetails}&originator=${row.originator}&approval1=${row.approval1}&approval2=${row.approval2}&approval3=${row.approval3}&approval4=${row.approval4}&approval5=${row.approval5}
+                        &amount=${row.amount}&contraAccount=${row.contraAccount}&channel=${row.channel}&accountName=${pdfData?.details?.pdfAccountName}&accountCurrency=${pdfData?.details?.pdfAccountCurrency}"
+                        target='_blank' type="button" class="btn btn-outline-info">Details</a>`;
                     },
                 },
                 // {

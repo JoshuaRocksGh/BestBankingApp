@@ -131,7 +131,7 @@ class PaymentsController extends Controller
                 "accountNumber" => $req->account,
                 "amount" => $req->amount,
                 "authToken" =>  $authToken,
-                "brand" =>$deviceInfo['deviceBrand'],
+                "brand" => $deviceInfo['deviceBrand'],
                 "channel" => "MOB",
                 "country" => $deviceInfo['deviceCountry'],
                 "deviceId" => $deviceInfo['deviceId'],
@@ -146,7 +146,7 @@ class PaymentsController extends Controller
             ];
 
             $url = "http://10.1.1.45:5908/ibank/api/v1.0/africel/africelTopup";
-        }else if($req->payeeName == "AFRI" &&  $req->paymentType == "MOM"){
+        } else if ($req->payeeName == "AFRI" &&  $req->paymentType == "MOM") {
 
             $data = [
                 "accountNumber" => $req->account,
@@ -169,7 +169,12 @@ class PaymentsController extends Controller
                 "userName" => $req->recipientName
             ];
 
-            $url = "http://10.1.1.45:5908/ibank/api/v1.0/africel/creditMomo";
+
+            if ($req->momoTransferType == "AcctToMomo") {
+                $url = "http://10.1.1.45:5908/ibank/api/v1.0/africel/creditMomo";
+            } else {
+                $url = "http://10.1.1.45:5908/ibank/api/v1.0/africel/debitMomo";
+            }
         } else {
 
             $data = [
@@ -216,16 +221,13 @@ class PaymentsController extends Controller
         $base_response = new BaseResponse();
 
         $authToken = session()->get('userToken');
-        try{
+        try {
             $response = Http::get("http://10.1.1.45:5908/ibank/api/v1.0/africel/getLinkedAccount/${authToken}");
-        // return $response;
-        $result = new ApiBaseResponse();
-        return $result->api_response($response);
-
-        }catch (\Exception $e) {
+            // return $response;
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $e) {
             return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
         }
-
-
     }
 }

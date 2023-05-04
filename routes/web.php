@@ -97,7 +97,7 @@ Route::get('/change-password', [ResetPasswordController::class, 'change_password
 
 
 Route::get('/multiple-transfers', [MultipleTransfersController::class, 'index'])->name('multiple-transfers');
-Route::post('upload_', [BulkUploadBulkUploadsController::class, 'upload_'])->name('upload_');
+Route::post('/upload_', [BulkUploadBulkUploadsController::class, 'upload_'])->name('upload_');
 // Route::post('/bulk-file-upload', [BulkUploadBulkUploadsController::class, 'bulk_file_upload']);
 Route::post('/submit-kyc', [KycController::class, 'submit_kyc'])->name('submit-kyc');
 

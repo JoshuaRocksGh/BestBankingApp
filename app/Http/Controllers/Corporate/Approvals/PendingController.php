@@ -36,7 +36,7 @@ class PendingController extends Controller
         $userID = session()->get('userId');
         $mandate = session()->get('userMandate');
 
-        // return $userID;
+        // return $customer_no;
         try {
             $response = Http::post(env('CIB_API_BASE_URL') . "check-mandate/$customer_no/$userID");
             // dd(env('CIB_API_BASE_URL') . "check-mandate/$customer_no/$userID");
@@ -52,7 +52,7 @@ class PendingController extends Controller
             // $result = new ApiBaseResponse();
             // return $result->api_response($response);
         } catch (\Exception $e) {
-            return $base_response->api_response('500', "Internal Server Error",  NuLL); // return API BASERESPONSE
+            return $base_response->api_response('500', "Internal Server Error",  $e->getMessage()); // return API BASERESPONSE
 
         }
         die();

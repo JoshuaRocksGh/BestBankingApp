@@ -105,12 +105,12 @@
             <div class="transaction-receipt">
                 <div class="side-2"></div>
                 <div class="transaction-header">
-                    @if($amount < 0)
-                    <h2>
-                        Debit Transaction Advice
-                    </h2>
+                    @if ($amount < 0)
+                        <h2>
+                            Debit Transaction Advice
+                        </h2>
                     @else
-                    Credit Transaction Advice
+                        Credit Transaction Advice
                     @endif
                 </div>
                 <div class="side-2"></div>
@@ -127,52 +127,99 @@
                             <tbody>
                                 <tr>
                                     <td class="text-dark">Transaction Type</td>
-                                    <td class="text-bold">{{ $batchNo }}</td>
+                                    <td class="text-bold">{{ $batchNo ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-dark">Transaction Date</td>
-                                    <td class="text-bold formatDate" value="{{ $postingDate }}" this-date="{{ $postingDate }}" id="formatDate"></td>
+                                    <td class="text-bold formatDate" value="{{ $postingDate }}"
+                                        this-date="{{ $postingDate }}" id="formatDate"></td>
                                 </tr>
 
-                                <tr>
+                                {{-- <tr>
                                     <td class="text-dark">Transaction Number</td>
-                                    <td class="text-bold">{{ $transNumber }}</td>
-                                </tr>
+                                    <td class="text-bold">{{ $transNumber ?? '' }}</td>
+                                </tr> --}}
 
                                 <tr>
                                     <td class="text-dark">Account Name</td>
-                                    <td class="text-bold">{{ $debitAccountName }}</td>
+                                    <td class="text-bold">{{ $debitAccountName ?? '' }}</td>
                                 </tr>
 
                                 <tr>
                                     <td class="text-dark">Transferred From</td>
-                                    <td class="text-bold">{{ $debitAccount }}</td>
+                                    <td class="text-bold">{{ $debitAccount ?? '' }}</td>
                                 </tr>
 
                                 <tr>
                                     <td class="text-dark">Transferred To</td>
-                                    <td class="text-bold">{{ $contraAccount }}</td>
+                                    <td class="text-bold">{{ $contraAccount ?? '' }}</td>
                                 </tr>
 
                                 <tr>
                                     <td class="text-dark">Narration</td>
-                                    <td class="text-bold">{{ $narration }}</td>
+                                    <td class="text-bold">{{ $narration ?? '' }}</td>
                                 </tr>
 
                                 <tr>
                                     <td class="text-dark">Amount</td>
-                                    <td class="text-bold display_transfer_amount">{{ $debitAccountCUrrency }} {{ number_format($amount, 2) }} </td>
+                                    <td class="text-bold display_transfer_amount">{{ $debitAccountCUrrency }}
+                                        {{ number_format($amount, 2) }} </td>
                                 </tr>
 
                                 <tr>
                                     <td class="text-dark">Channel</td>
-                                    <td class="text-bold">{{ $channel }}</td>
+                                    <td class="text-bold">{{ $channel ?? '' }}</td>
                                 </tr>
 
-                                {{--  <tr>
-                                    <td class="text-dark">Branch</td>
-                                    <td class="text-bold"></td>
-                                </tr>  --}}
+                                @if (config('app.corporate'))
+
+                                    <tr>
+                                        <td class="text-dark">Originator</td>
+                                        <td class="text-bold">{{ $originator ?? '' }}</td>
+                                    </tr>
+
+                                    @if ($approval1 != '' || $approval1 != null || $approval1 != 'N/A')
+                                        <tr>
+                                            <td class="text-dark">First Approver</td>
+                                            <td class="text-bold">{{ $approval1 ?? '' }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($approval2 != '' || $approval2 != null || $approval2 != 'N/A')
+                                        <tr>
+                                            <td class="text-dark">Second Approver</td>
+                                            <td class="text-bold">{{ $approval2 ?? '' }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($approval3 == '' || $approval3 == null || $approval3 == 'N/A')
+
+                                    @else
+                                    <tr>
+                                        <td class="text-dark">Third Approver</td>
+                                        {{-- <td class="text-dark">Tyes</td> --}}
+                                        <td class="text-bold">{{ $approval3 ?? '' }}</td>
+                                    </tr>
+                                    @endif
+                                    @if ($approval4 == '' || $approval4 == null || $approval4 == 'N/A')
+
+                                    @else
+                                    <tr>
+                                        <td class="text-dark">Fourth Approver</td>
+                                        {{-- <td class="text-dark">Tyes</td> --}}
+                                        <td class="text-bold">{{ $approval4 ?? '' }}</td>
+                                    </tr>
+                                    @endif
+
+                                    @if ($approval5 == '' || $approval5 == null || $approval5 == 'N/A')
+
+                                    @else
+                                    <tr>
+                                        <td class="text-dark">Fifth Approver</td>
+                                        {{-- <td class="text-dark">Tyes</td> --}}
+                                        <td class="text-bold">{{ $approval5 ?? '' }}</td>
+                                    </tr>
+                                    @endif
+
+                                @endif
                             </tbody>
 
                         </table>
@@ -180,16 +227,18 @@
                     </div>
                     {{--  <button type="button" class="btn btn-primary"id="print_button"
                         onclick="window.print()">click</button>  --}}
-                        <br><br>
+                    <br><br>
 
-                        <div>
-                            <h3 class="text-danger">Disclaimer</h1>
-                                <p>Your transfer has been successful and beneficiary`s account has been credited. However,
-                                    this does not serve as the confirmation of the credit on the beneficiary`s account. Due to
-                                    the nature of the internet, transaction delays are possible. We recommend youmake an enquiry on
-                                    the beneficiary`s account after 24 hours. The bank will not be responsible for any
-                                    transaction delays.</p>
-                        </div>
+                    <div>
+                        <h3 class="text-danger">Disclaimer</h1>
+                            <p>Your transfer has been successful and beneficiary`s account has been credited. However,
+                                this does not serve as the confirmation of the credit on the beneficiary`s account. Due
+                                to
+                                the nature of the internet, transaction delays are possible. We recommend youmake an
+                                enquiry on
+                                the beneficiary`s account after 24 hours. The bank will not be responsible for any
+                                transaction delays.</p>
+                    </div>
 
                 </div>
 
@@ -207,17 +256,17 @@
     <script src="{{ asset('assets\plugins\jquery\jquery-3.6.0.min.js') }}"></script>
 
 
-     {{-- <script src="jquery-3.6.0.min.js">
+    {{-- <script src="jquery-3.6.0.min.js">
         alert('calleds')
     </script> --}}
     <script>
         var thisDate = $("#formatDate").attr("this-date");
-        currentDate =     new Date(thisDate).toLocaleString("en", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                        }),
-        console.log("formatDate ==>", currentDate)
+        currentDate = new Date(thisDate).toLocaleString("en", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            }),
+            console.log("formatDate ==>", currentDate)
         $("#formatDate").text(currentDate)
         $("#formatDate").attr("this-date");
 
