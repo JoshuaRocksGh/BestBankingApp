@@ -52,6 +52,7 @@ function getCorporateRequests(customerNumber, requestStatus) {
                 MOM: "Mobile Money Payment",
                 BOL: "Bollore Transfer",
                 CARDR: "ATM Card Request",
+                CNO: "Create New Originator",
             };
             data.forEach((data) => {
                 const {
