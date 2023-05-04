@@ -1,6 +1,6 @@
-// var deviceType = getDeviceType();
-// var deviceOS = getDeviceOS();
-// var deviceID = getGPU();
+var deviceType = getDeviceType();
+var deviceOS = getDeviceOS();
+var deviceID = getGPU();
 function login(email, password) {
     console.log(email, password);
     // return false;
