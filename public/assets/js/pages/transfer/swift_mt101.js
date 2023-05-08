@@ -1,6 +1,10 @@
-// alert("connect");
+alert("connect");
+console.log("batchNumber ==>", customeNumber);
+// return;
 
 $(document).ready(function () {
+    // console.log("batchNumber ==>", batchNumber);
+
     // let account = $("#my_account").val();
 
     $("#my_account").change(function () {

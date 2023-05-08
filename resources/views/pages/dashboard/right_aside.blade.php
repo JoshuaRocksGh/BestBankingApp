@@ -25,11 +25,11 @@
 
                 <div class=" font-weight-bold ml-2 font-12">MAKE TRANSFER</div>
             </a>
-            <a href="card-services"
-                class="site-card-body px-2 d-flex align-items-center justify-content-center grad-blue-pink  w-100 border-0  grad-gray-blue grad "
+            <a href="account-enquiry"
+                class="site-card-body px-2 d-flex align-items-center justify-content-center grad-yellow-pink  w-100 border-0 green-yellow grad-gray-blue grad "
                 style="min-height: 75px">
                 <div class=""><i class="fas font-18 fa-credit-card"></i> </div>
-                <div class=" font-weight-bold ml-2 font-12">Card Services</div>
+                <div class=" font-weight-bold ml-2 font-12">My Accounts</div>
             </a>
         </div>
     </div>

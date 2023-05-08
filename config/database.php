@@ -91,7 +91,30 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'oracle' => [
+            'driver'         => 'oracle',
+            // 'tns'            => env('DB_TNS', ''),
+            'host'           => '192.168.1.60',
+            // 'host'           => env('DB_HOST', ''),
+            'port'           => '9534',
+            // 'port'           => env('DB_PORT', ''),
+            'database'       => 'UNSGP',
+            // 'database'       => env('DB_DATABASE', ''),
+            'username'       => 'BANKOWNER',
+            // 'username'       => env('DB_USERNAME', ''),
+            'password'       => 'pass1234',
+            // 'password'       => env('DB_PASSWORD', ''),
+            'charset'        => env('DB_CHARSET', 'AL32UTF8'),
+            'prefix'         => env('DB_PREFIX', ''),
+            'prefix_schema'  => env('DB_SCHEMA_PREFIX', ''),
+            'edition'        => env('DB_EDITION', 'ora$base'),
+            'server_version' => env('DB_SERVER_VERSION', '12c'),
+        ],
+
+
     ],
+
+
 
     /*
     |--------------------------------------------------------------------------

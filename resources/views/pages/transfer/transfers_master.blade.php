@@ -26,3 +26,18 @@
 </script>
 <script src="{{ asset('assets/js/pages/transfer/transfersMaster.js') }}" defer></script>
 <script src="{{ asset('assets/js/pages/transfer/beneficiary/beneficiaryForm.js') }}"></script>
+<script>
+    function get_file_name(file_name, file_label) {
+        console.log(file_name);
+        console.log(file_label);
+        $(`#${file_name}`).change(function() {
+            console.log("on chnge ==>", $(`#${file_name}`).val())
+
+            var filename = $(`#${file_name}`)
+                .val()
+                .replace(/C:\\fakepath\\/i, "");
+            console.log(filename);
+            $(`#${file_label}`).empty().append(filename);
+        });
+    }
+</script>

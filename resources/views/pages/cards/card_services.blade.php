@@ -80,18 +80,18 @@
                         class=" transition-all py-md-2  text-sm-center mb-1 mb-md-2  mx-2 font-weight-bold bg-white rounded-pill border text-dark border-gray knav nav-link "
                         id="block_card" href="#tab_block_card">Block Card</button>
 
-                    <button id="activate_card" data-toggle="pill" {{-- data-toggle="pill" data-value="reversed" --}}
+                    <button id="activate_card" data-toggle="pill"
                         class="  transition-all py-md-2 text-sm-center mb-1  mb-md-2 mx-2 font-weight-bold bg-white rounded-pill border text-dark border-gray knav nav-link"
                         href="#tab_activate_card">Activate Card</button>
-                    <button id="card_limits" {{-- data-toggle="pill" data-value="reversed" --}}
+                    {{--  <button id="card_limits"
                         class="  transition-all coming-soon py-md-2 text-sm-center mb-1  mb-md-2 mx-2 font-weight-bold bg-white rounded-pill border text-dark border-gray knav nav-link"
-                        href="#tab_card_limit">Card Limits</button>
-                    <button id="card_limits" {{-- data-toggle="pill" data-value="reversed" --}}
+                        href="#tab_card_limit">Card Limits</button>  --}}
+                    {{--  <button id="card_limits"
                         class="  transition-all coming-soon py-md-2 text-sm-center mb-1  mb-md-2 mx-2 font-weight-bold bg-white rounded-pill border text-dark border-gray knav nav-link"
-                        href="#tab_card_limit">Change Card Pin</button>
-                    <button id="card_limits" {{-- data-toggle="pill" data-value="reversed" --}}
+                        href="#tab_card_limit">Change Card Pin</button>  --}}
+                    {{--  <button id="card_limits"
                         class="  transition-all coming-soon py-md-2 text-sm-center mb-1  mb-md-2 mx-2 font-weight-bold bg-white rounded-pill border text-dark border-gray knav nav-link"
-                        href="#tab_card_limit">Report Stolen Card</button>
+                        href="#tab_card_limit">Report Stolen Card</button>  --}}
                 </nav>
                 <hr>
             </div>
@@ -116,11 +116,11 @@
                         <div class="tab-pane fade show active bg-white" id="tab_card_request" role="tabpanel">
                             @include('pages.cards.card_request')
                         </div>
-                        <div class="tab-pane fade" id="tab_block_card" role="tabpanel">
+                        <div class="tab-pane fade bg-white" id="tab_block_card" role="tabpanel">
                             @include('pages.cards.block_card')
 
                         </div>
-                        <div class="tab-pane fade" id="tab_activate_card" role="tabpanel">
+                        <div class="tab-pane fade bg-white" id="tab_activate_card" role="tabpanel">
                             @include('pages.cards.activate_card')
                         </div>
                         <div class="tab-pane fade" id="tab_card_limit" role="tabpanel">.x..</div>

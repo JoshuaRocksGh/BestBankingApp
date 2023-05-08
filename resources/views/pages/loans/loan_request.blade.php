@@ -30,16 +30,16 @@
 
     @include('snippets.pinCodeModal')
 
-    <div class="mt-md-4 py-3  container">
-        <div class="dashboard site-card p-4">
-            <nav class="dashboard-header ">
-                <div class="nav nav-tabs border-0" id="pills-tab" role="tablist">
-                    <a id="Balance_Tab" class="flex-sm-fill text-sm-center nav-link active" data-toggle="pill" role="tab"
-                        href="#Balances_Pill">BALANCES</a>
-                    <a id="Request_Tab" class="flex-sm-fill text-sm-center nav-link" data-toggle="pill" role="tab"
-                        href="#Requests_Pill">REQUEST</a>
-                    <a id="Tracking_Tab" class="flex-sm-fill text-sm-center nav-link" data-toggle="pill" role="tab"
-                        href="#Tracking_Pill">TRACKING</a>
+    <div class=" px-2">
+        <div class="dashboard site-card overflow-hidden">
+            <nav class="dashboard-header " data-title="Loan Tabs" data-intro="Click to view form">
+                <div class="nav nav-tabs justify-content-center border-0" id="nav-tab" role="tablist">
+                    <a id="Balance_Tab" class="nav-link w-100 text-center active" data-toggle="tab" href="#Balances_Pill"
+                        style="max-width: 175px">BALANCES</a>
+                    {{-- <a id="Request_Tab" class="nav-link w-100 text-center" data-toggle="tab" href="#Requests_Pill"
+                        style="max-width: 175px">REQUEST</a> --}}
+                    {{-- <a id="Tracking_Tab" class="nav-link w-100 text-center" data-toggle="tab" href="#Tracking_Pill"
+                        style="max-width: 175px">TRACKING</a> --}}
                 </div>
             </nav>
             <div class="tab-content dashboard-body border-danger borders" id="pills-tabContent">
@@ -51,8 +51,8 @@
                     </div>
                     <div id="loan_balances" class="table-responsive" style="display: none">
                         <table id="loan_balances_table"
-                            class="table table-bordered  table-striped display responsive nowrap   w-100">
-                            <thead >
+                            class="table table-sm table-striped table-hover table-centered table-bordered">
+                            <thead class="bg-info">
                                 <tr class="table-background">
                                     <th>Loan Description</th>
                                     <th>Amount Granted</th>
@@ -167,17 +167,15 @@
                         style="display: flex;">
                         {!! $noDataAvailable !!}
                     </div>
-                    <div id="loan_tracking" class="table-responsive" style="display: none" >
+                    <div id="loan_tracking" class="table-responsive" style="display: none">
                         <table id="loan_tracking_table"
-                            class="table table-bordered  table-striped display responsive nowrap   w-100  loan_tracking_table">
+                            class="table nowrap display border dt-responsive table-hover rounded mb-0 ">
                             <thead>
                                 <tr class="table-background">
-                                    <th class="all">Loan Description</th>
-                                    <th class="all">Interest Type</th>
-                                    <th class="all">Currency</th>
-                                    <th class="all">Amount Granted</th>
-                                    <th class="none">Rate </th>
-                                    <th class="none">Loan Stage </th>
+                                    <th>Loan Description</th>
+                                    <th>Amount Granted</th>
+                                    <th>Loan Balance</th>
+                                    <th> View Details </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -193,8 +191,7 @@
     <!-- LOAN DETAIL MODAL -->
     <div id="loan_detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="transfer_status"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered
-    ">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div id="loan_details_content" class="loan-details-content">
                     <div class="modal-header bg-danger">
@@ -211,8 +208,8 @@
                             style="height: 200px; width: 200px">
                             <div class="text-white ">
                                 <span class="d-block font-14">Amount Outstanding</span>
-                                <span class="d-block font-16">0.00</span>
-                                <span class="d-block font-16">SLL</span>
+                                <span class="d-block font-16"><span class="d-block font-16">SLE</span>0.00</span>
+
                             </div>
                         </div>
                         <div class="d-flex px-2 my-4 justify-content-between">
@@ -271,27 +268,30 @@
                             id="transfer_status_title"> LOAN SCHEDULE</h3>
                         <div class="px-2">
                             <div class="d-flex justify-content-between ">
-                                <span class="font-12 text-dark">Facility No.</span>
-                                <span class="font-weight-bold  text-white">998832</span>
+                                <span class="font-12 text-primary">Facility No.</span>
+                                <span class="font-weight-bold  text-white display_facility_number"></span>
                             </div>
                             <hr class="my-1">
                             <div class="d-flex justify-content-between text-white">
                                 <div>
-                                    <span class="d-block font-12 text-dark">Current Balance</span>
-                                    <span class="d-block font-weight-bold">998832</span>
+                                    <span class="d-block font-12 text-primary">Current Balance</span>
+                                    <span class="d-block font-weight-bold ">SLE <span
+                                            class="display_current_balance"></span></span>
 
                                 </div>
                                 <div>
-                                    <span class="d-block font-12 text-right text-dark">Areas</span>
-                                    <span class="d-block font-weight-bold text-right">LL 14,998,832.00</span>
+                                    <span class="d-block font-12 text-right text-primary">Areas</span>
+                                    <span class="d-block font-weight-bold text-right ">SLE <span
+                                            class="display_current_areas"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div style="min-height: 50vh">
                         <div class="card m-2 shadow" style="border-radius: 2px">
-                            <div>
-                                <a href="#s" class="repayment" data-toggle="collapse">
+                            <div class="display_loan_repayment_plan">
+                                {{--  <a href="#s" class="repayment" >
                                     <div class="d-flex justify-content-between pl-3 py-2">
                                         <span> Repayment #1</span>
                                         <span class="menu-arrow"></span>
@@ -303,29 +303,29 @@
                                         <span class="text-info">SLL 09347538</span>
                                     </div>
                                     <div class="d-flex border-top justify-content-between px-3 py-2">
-                                        <span class="text-dark"> Interest Amount</span>
+                                        <span class="text-dark"> Prncipal Amount</span>
                                         <span class="text-info">SLL 09347538</span>
                                     </div>
                                     <div class="d-flex border-top justify-content-between px-3 py-2">
-                                        <span class="text-dark"> Interest Amount</span>
+                                        <span class="text-dark"> Installment Amount</span>
                                         <span class="text-info">SLL 09347538</span>
                                     </div>
                                     <div class="d-flex border-top justify-content-between px-3 py-2">
-                                        <span class="text-dark"> Interest Amount</span>
+                                        <span class="text-dark"> Interest Paid</span>
                                         <span class="text-info">SLL 09347538</span>
                                     </div>
                                     <div class="d-flex border-top justify-content-between px-3 py-2">
-                                        <span class="text-dark"> Interest Amount</span>
+                                        <span class="text-dark"> Principal Paid</span>
                                         <span class="text-info">SLL 09347538</span>
                                     </div>
 
                                 </div>
                                 <div class="bg-info">
                                     <div class="d-flex border-top justify-content-between px-3 py-2">
-                                        <span class="text-dark"> Interest Amount</span>
-                                        <span class="text-info">SLL 09347538</span>
+                                        <span class="text-dark"> Repayment Date</span>
+                                        <span class="text-white">SLL 09347538</span>
                                     </div>
-                                </div>
+                                </div>  --}}
                             </div>
 
                         </div>
@@ -771,5 +771,6 @@
     <script>
         let noDataAvailable = {!! json_encode($noDataAvailable) !!}
         const pageData = new Object()
+        pageData.myLoans = @json(session()->get('customerLoans'));
     </script>
 @endsection

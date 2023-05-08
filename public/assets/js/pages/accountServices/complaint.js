@@ -1,26 +1,43 @@
 function getServiceType() {
-    return $.ajax({
+    $.ajax({
         type: "get",
         url: "get-service-type-api",
         datatype: "application/json",
-    })
-        .done(({ data }) => {
-            if (!data) {
-                toaster("Couldn't get service type", "warning");
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        success: function (response) {
+            if (response.responseCode == "000") {
+                const { data } = response;
+                const select = document.getElementById("service_type");
+                data.forEach((service) => {
+                    const option = document.createElement("option");
+                    option.text = service.description;
+                    option.value = service.actualCode;
+                    select.appendChild(option);
+                });
+            } else {
+                getServiceType();
+
+                // setTimeout(function () {
+                // }, $.ajaxSetup().retryAfter);
             }
-            const select = document.getElementById("service_type");
-            data.forEach((service) => {
-                const option = document.createElement("option");
-                option.text = service.description;
-                option.value = service.actualCode;
-                select.appendChild(option);
-            });
-        })
-        .fail((err) => console.log(err.message));
+        },
+        error: function(){
+            getServiceType();
+
+        }
+    });
+    // .done(({ data }) => {
+    //     if (!data) {
+    //         toaster("Couldn't get service type", "warning");
+    //     }
+    // })
+    // .fail((err) => console.log(err.message));
 }
 
 function submitComplaint(accountNumber, serviceType, description) {
-    return $.ajax({
+    $.ajax({
         type: "POST",
         url: "complaint-api",
         datatype: "application/json",
@@ -32,14 +49,24 @@ function submitComplaint(accountNumber, serviceType, description) {
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
+        success: function (response) {
+            siteLoading("hide");
+            // console.log("response=>", response);
+            if (response.responseCode == "000") {
+                toaster(response.message, "success");
+            } else {
+                toaster(response.message, "error");
+            }
+        },
     })
         .done((res) => console.log(res))
         .fail((err) => console.log(err.message));
 }
 
 $(function () {
-    siteLoading("show");
-    getServiceType().always(siteLoading("hide"));
+    // siteLoading("show");
+    // getServiceType().always(siteLoading("hide"));
+    getServiceType();
     $(".accounts-select").select2({
         minimumResultsForSearch: Infinity,
         templateResult: accountTemplate,

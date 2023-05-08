@@ -142,7 +142,7 @@ class SelfEnrollController extends Controller
             'authToken' => 'required',
             'oneTimePin' => 'required'
         ]);
-        // return $req ;
+        // return $req;
 
         $base_response = new BaseResponse();
 
@@ -159,6 +159,7 @@ class SelfEnrollController extends Controller
             'authToken' => $req->authToken,
             'oneTimePin' => $req->oneTimePin
         ];
+        // return $data;
 
         try {
 

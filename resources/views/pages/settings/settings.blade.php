@@ -63,8 +63,55 @@
     @include('pages.settings.contact_us')
     @include('pages.settings.terms_condition')
     @include('pages.settings.change_password')
+    @include('pages.settings.create_originator')
 @endsection
 @section('scripts')
     <script src="{{ asset('assets/js/pages/settings/settings.js') }}"></script>
     <script defer src="{{ asset('assets/plugins/bootstrap-pincode-input/bootstrap-pincode-input.js') }}"></script>
+    <script>
+        function getSecurityQuestions(user) {
+            {{--  alert("called")  --}}
+
+            return $.ajax({
+                    type: 'get',
+                    url: `post-security-question-api/${user}`,
+                    datatype: "application/json",
+                })
+                .done(({
+                    data
+                }) => {
+                    if (!data) {
+                        toaster("Couldn't get security questions", "warning");
+                    }
+                    // console.log("change transaction question=>", data);
+                    if(data){
+                        $(".change_pin_sec_question_code").val(data[0]?.code)
+                    $(".security_question").text(data[0]?.description)
+                    }
+
+                    {{--  const input = document.getElementById("security_question");
+                input.value = data[0].question.code;
+                input.innerHTML = data[0].question.description;  --}}
+                    /* data.forEach((question) => {
+
+
+                         document.getElementById("security_question")
+                         input.value = question.code;
+                         input.value = "question.code";
+                         input.innerHTML = "hello";
+                     }) */
+                })
+        }
+        var user = @json(session()->get('userId'));
+        console.log("useruseruseruseruser", user)
+
+        $(function() {
+
+
+            var user = @json(session()->get('userId'));
+
+            getSecurityQuestions(user)
+
+        })
+    </script>
 @endsection

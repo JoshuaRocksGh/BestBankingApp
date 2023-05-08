@@ -100,6 +100,12 @@ class LocalBankController extends Controller
         $customerNumber = session()->get('customerNumber');
         $userMandate = session()->get('userMandate');
 
+        if ($request->fileUploaded == "Y") {
+            $transVoucher = file_get_contents($request->voucher);
+        } else {
+            $transVoucher = $request->voucher;
+        }
+
         if ($mode == "ACH") {
             $url_endpoint = 'ach-bank-gone-for-pending';
         } else if ($mode == "RTGS") {
@@ -109,6 +115,15 @@ class LocalBankController extends Controller
         } else {
             $url_endpoint = '';
         }
+
+        if ($request->fileUploaded == "Y") {
+            $getInvoice = file_get_contents($request->voucher);
+            $transVoucher = base64_encode($getInvoice);
+        } else {
+            $transVoucher = $request->voucher;
+        }
+
+
         $data = [
             "customer_no" => $customerNumber,
             "user_id" => $userID,
@@ -127,6 +142,8 @@ class LocalBankController extends Controller
             "currency_iso" => $request->accountCurrencyCode,
             "narration" => $request->transferPurpose,
             "expense_type" => $request->transferCategory,
+            "transaction_voucher" => $transVoucher,
+            "file_uploaded" => $request->fileUploaded,
         ];
 
         // return $data;

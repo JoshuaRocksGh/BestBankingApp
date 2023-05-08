@@ -72,9 +72,9 @@
                             <th class="all">Account No</th>
                             <th class="all">Amount</th>
                             <th class="all">Transfer Purpose</th>
-                            <th class="none">Posted Date</th>
-                            <th class="none">Initiated By</th>
-                            <th class="none">Action</th>
+                            {{--  <th class="none">Posted Date</th>  --}}
+                            {{--  <th class="none">Initiated By</th>  --}}
+                            <th class="all">Action</th>
                         </tr>
                     </thead>
                     <tbody class="rquest_table">
@@ -323,4 +323,5 @@
 
     {{-- <script src="{{ asset('assets/js/pages/approvals/pending_approval.js') }}"></script> --}}
     <script src="{{ asset('assets/js/pages/approvals/pending_approvals.js') }}"></script>
+    {{--  alert("hello")  --}}
 @endsection

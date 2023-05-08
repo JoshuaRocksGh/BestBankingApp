@@ -1,4 +1,13 @@
 // alert("bulk transfer");
+// $(".bulk-summary-card").css("background-color", "#2AFF5F");
+// var imageUrl = "{{asset('assets/images/success-wave.png')}}";
+var imageUrl = "./assets/images/wavy-2.png";
+// var imageUrl = "./assets/images/success-wave.png";
+$(".bulk-summary-card").css("background-image", "url(" + imageUrl + ")");
+$(".bulk-summary-card").css("background-color", "#fffff").show();
+// $(".bulk-summary-card").css("background-repeat", "no-repeat");
+
+$(".bulk-summary-card").css("height", "10%");
 
 function my_account() {
     $.ajax({
@@ -167,9 +176,10 @@ function bulk_upload_list(fileBatch, upload_response) {
                 //             .draw(false);
                 const { valid, invalid } = group;
                 if (invalid.length < 1) {
-                    var action_button = `<a href="view-bulk-transfer?batch_no=${fileBatch}" type="button" class="btn btn-success btn-sm waves-effect waves-light text-center">
-                <i class="mdi mdi-check-all"></i>&nbsp;<b>Upload</b>
-            </a>`;
+                    window.location = `view-bulk-transfer?batch_no=${fileBatch}`;
+                    //         var action_button = `<a href="view-bulk-transfer?batch_no=${fileBatch}" type="button" class="btn btn-success btn-sm waves-effect waves-light text-center">
+                    //     <i class="mdi mdi-check-all"></i>&nbsp;<b>Upload</b>
+                    // </a>`;
                 } else {
                     var action_button = `<a href="delete-bulk-transfer?batch_no=${fileBatch}"  type="button" class="btn btn-danger btn-sm waves-effect waves-light text-center delete_bulk_transfer_upload" batch_no="${fileBatch}">
                 <i class="mdi mdi-close-circle-outline"></i>&nbsp;<b>Delete & Upload</b>
@@ -185,8 +195,8 @@ function bulk_upload_list(fileBatch, upload_response) {
                         )}</b>`,
                         `<b>${value_date}</b>`,
                         // `<b class="text-success">${uploadAcctValid}</b>`,
-                        `<td><button type="button" class="btn btn-sm btn-primary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >&emsp;<b>View (${total_upload})</b>&emsp;</button></td>`,
-                        `<td><button type="button" class="btn btn-sm btn-secondary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >&emsp;<b>View (${invalid.length})</b>&emsp;</button></td>`,
+                        // `<td><button type="button" class="btn btn-sm btn-primary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >&emsp;<b>View (${total_upload})</b>&emsp;</button></td>`,
+                        // `<td><button type="button" class="btn btn-sm btn-secondary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >&emsp;<b>View (${invalid.length})</b>&emsp;</button></td>`,
                         ` <td>${action_button}</td>`,
                     ])
                     .draw(false);
@@ -434,21 +444,6 @@ function bulk_upload_list(fileBatch, upload_response) {
                 //     .draw(false);
                 console.log("invalid_uploads_count=>", invalid_uploads);
 
-                // $(".all_bulk_upload_summary").append(
-                //     `
-                //             <tr>
-                //                 <td><b>${uploadDetails.referenceNumber}</b></td>
-                //                 <td><b>${uploadDetails.debitAccount}</b></td>
-                //                 <td><b>${formatToCurrency(
-                //                     parseFloat(uploadDetails.totalAmount)
-                //                 )}</b></td>
-                //                 <td><b>${value_date}</b></td>
-                //                 <td><button type="button" class="btn btn-sm btn-soft-success waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#full-width-modal" data="">&emsp;<b>${total_upload}</b>&emsp;</button></td>
-                //                 <td><button type="button" class="btn btn-sm btn-soft-danger waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#full-width-modal" data="">&emsp;<b>${invalid_uploads}</b>&emsp;</button></td>
-                //                 <td>${action_button}</td>
-                //             </tr>
-                //         `
-                // );
                 siteLoading("hide");
 
                 toaster(upload_response, "success", 3000);
@@ -472,19 +467,67 @@ function formatToCurrency(amount) {
     return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
 }
 
-// $("#value_date").datetimepicker({
-//     format: "DD-MM-YYYY",
-//     minDate: Date(),
-// });
-
-// $("#value_date").attr("min", maxDate);
-
 $(document).ready(function () {
+    function successful_modal_data() {
+        console.log("successful_modal_data");
+        $("#home").attr("class", "active show");
+    }
+
+    function error_modal_data() {
+        console.log("error_modal_data");
+        $("#profile").attr("class", "active show");
+    }
     window.total_bulk_upload = $("#bulk_upload_list").DataTable();
-    // new $.fn.dataTable.Responsive(total_bulk_upload);
-    // total_bulk_upload = $("#bulk_upload_list").DataTable({
-    //     dom: "Bfrtip",
-    //     buttons: ["colvis"],
+
+    // $(".choose_upload_file").click(function () {
+    //     $("#excel_file").change(function () {
+    //         var filename = $("input[type=file]")
+    //             .val()
+    //             .replace(/C:\\fakepath\\/i, "");
+    //         console.log(filename);
+    //         $(".choose_upload_file_name").empty().append(filename);
+    //     });
+    // });
+
+    // ONCHENAGE OF ACCOUNT SELECT CURRENCY
+    $("#my_account").change(function () {
+        let accountInfo = $(this).val();
+
+        if (!accountInfo) {
+            // $(".display_from_account").val("").text("");
+            $(".account_currency").text("SLL");
+            return false;
+        }
+
+        const accountData = accountInfo.split("~");
+        let accountCurrency = accountData[3].trim();
+        $(".account_currency").text(accountCurrency).val(accountCurrency);
+    });
+
+    $(".bulk_amount").on("keyup", null, function () {
+        var $input = $(this),
+            value = $input.val(),
+            num = parseFloat(value)
+                .toFixed(2)
+                .replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+
+        // console.log($input.siblings(".add-on"));
+
+        $input.siblings(".add-on").value("$" + num);
+    });
+
+    $(".accounts-select").change(function () {
+        console.log("chnaged");
+    });
+
+    // $("#my_account").change(function (e) {
+    //     e.preventDefault();
+    //     var data = $(this).val();
+    //     var details = data.split("~");
+    //     console.log(details);
+    //     $(".account-desc-name").text(details[1]);
+    //     $(".account-desc-number").text(details[2]);
+    //     $(".account-desc-balance").text(details[3] + "" + details[4], 2);
     // });
 
     $(".accounts-select").select2({
@@ -532,6 +575,18 @@ $(document).ready(function () {
     //////////////////////////////
     //// BULK EXCEL VALIDATION ////
     ///////////////////////////
+    $("#invoice_file").change(function () {
+        var file = document.getElementById("invoice_file").files[0];
+        console.log("file ==>", file);
+
+        if (file.size > 5000000) {
+            toaster(
+                "The file size is too large. Max file size of 5MB!",
+                "error"
+            );
+            return;
+        }
+    });
 
     $("#bulk_upload_form").submit(function (e) {
         e.preventDefault();
@@ -539,9 +594,22 @@ $(document).ready(function () {
 
         // FILE UPLOAD
         var file = document.getElementById("excel_file").files[0];
-        //console.log(file);
-        //return false;
+        var trans_invoice = document.getElementById("invoice_file").files[0];
+        // if (file.size > 5000000) {
+        //     toaster(
+        //         "The file size is too large. Max file size of 5MB!",
+        //         "error"
+        //     );
+        //     return;
+        // }
+        if (trans_invoice) {
+            var fileUploaded = "Y";
+        } else {
+            var fileUploaded = "";
+        }
         if (file) {
+            //console.log(file);
+            //return false;
             var file_name = file.name;
             var file_extension = file_name.split(".").pop().toLowerCase();
 
@@ -560,8 +628,7 @@ $(document).ready(function () {
                 // check if image size is less than 20MB
                 toaster(
                     "The file size is too large. The max file size 20MB!",
-                    "error",
-                    3000
+                    "error"
                 );
             } else {
                 var form_data = new FormData();
@@ -579,6 +646,8 @@ $(document).ready(function () {
                 form_data.append("bulk_amount", bulk_amount);
                 form_data.append("reference_no", reference_no);
                 form_data.append("value_date", value_date);
+                form_data.append("voucher", trans_invoice);
+                form_data.append("invoiceFileUploaded", fileUploaded);
                 form_data.append("excel_file", file_);
                 form_data.append("file_name", file_name);
                 form_data.append("file_extension", file_extension);
@@ -608,7 +677,7 @@ $(document).ready(function () {
                     ),
                 },
                 success: function (response) {
-                    console.log(response);
+                    console.log("upload_==>",response);
                     siteLoading("hide");
                     // return false;
                     let data = response?.data;
@@ -674,11 +743,11 @@ $(document).ready(function () {
                             // console.log("e=>", e);
                             // return false;
                             if (
-                                e.valid === "Y" &&
-                                e.name !== null &&
-                                e.refValid === "Valid Ref" &&
-                                e.transDescription !== null &&
-                                e.amountValid === "Y"
+                                e.valid == "Y"
+                                // e.name != null &&
+                                // e.refValid != null &&
+                                // e.transDescription != null &&
+                                // e.amountValid == "Y"
                             ) {
                                 group.valid.push(e);
                                 console.log("acctValid => ", acctValid);
@@ -699,11 +768,11 @@ $(document).ready(function () {
                             all_failed_uploads.row
                                 .add([
                                     // `<b>${valid_uploads_count}</b>`,
-                                    `<b>${name}</b>`,
+                                    name != null? `<b>${name}</b>` :'',
                                     `<b>${accountNumber}</b>`,
                                     `<b>${amount}</b>`,
-                                    `<b>${refNumber}</b>`,
-                                    `<b class="text-danger">${acctValid} <br> Name is ${name} <br> Transaction description is ${transDescription} <br> Amount is ${amount} <br> ${refValid}</b>`,
+                                    refNumber != null? `<b>${refNumber}</b>`:'',
+                                    `<b class="text-danger">${!acctValid? "":acctValid} <br> Name is ${!name?"":name} <br> Transaction description is ${!transDescription ? "": transDescription} <br> Amount is ${!amount? "":amount} <br> ${!refValid?"":refValid}</b>`,
                                 ])
                                 .draw(false);
                             return;
@@ -712,13 +781,21 @@ $(document).ready(function () {
 
                         const { valid, invalid } = group;
                         if (invalid.length < 1) {
-                            var action_button = `<a href="view-bulk-transfer?batch_no=${fileBatch}" type="button" class="btn btn-success btn-sm waves-effect waves-light text-center">
-                <i class="mdi mdi-check-all"></i>&nbsp;<b>Upload</b>
-            </a>`;
+                            toaster(response.message, "success", 2000);
+
+                            setTimeout(() => {
+                                window.location = `view-bulk-transfer?batch_no=${fileBatch}`;
+                            }, 2000);
+                            // "post-bulk-transaction-api?batch_no=" + batch_no,
+                            // "view-bulk-transfer?batch_no=${fileBatch}";
+                            //                 var action_button = `<a href="view-bulk-transfer?batch_no=${fileBatch}" type="button" class="btn btn-success btn-sm waves-effect waves-light text-center">
+                            //     <i class="mdi mdi-check-all"></i>&nbsp;<b>Upload File</b>
+                            // </a>`;
+                            return;
                         } else {
-                            var action_button = `<a href="delete-bulk-transfer?batch_no=${fileBatch}"  type="button" class="btn btn-danger btn-sm waves-effect waves-light text-center delete_bulk_transfer_upload" batch_no="${fileBatch}">
-                <i class="mdi mdi-close-circle-outline"></i>&nbsp;<b>Delete</b>
-            </a>`;
+                            var action_button = `<a href="delete-bulk-transfer?batch_no=${fileBatch}" class=" waves-effect waves-light text-center delete_bulk_transfer_upload" batch_no="${fileBatch}">
+                                <i class="mdi mdi-delete-forever-outline mdi-36px text-danger" style="width:50px; height:80px"></i>
+                            </a>`;
                         }
                         total_bulk_upload.row
                             .add([
@@ -730,11 +807,36 @@ $(document).ready(function () {
                                 )}</b>`,
                                 `<b>${value_date}</b>`,
                                 // `<b class="text-success">${uploadAcctValid}</b>`,
-                                `<td><button type="button" class="btn btn-sm btn-primary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >&emsp;<b>View (${total_upload})</b>&emsp;</button></td>`,
-                                `<td><button type="button" class="btn btn-sm btn-secondary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >&emsp;<b>View (${invalid.length})</b>&emsp;</button></td>`,
+                                // `<td><button type="button" class="btn btn-sm btn-primary btn-block waves-effect waves-light successful_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" onClick="successful_modal_data()" >&emsp;View (${total_upload})&emsp;</button></td>`,
+                                `<td><button type="button" class="btn btn-sm btn-primary btn-block waves-effect waves-light successful_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" onClick="successful_modal_data()" >View</button></td>`,
+                                // `<td><button type="button" class="btn btn-sm btn-secondary btn-block waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" onClick="error_modal_data()" >&emsp;View (${invalid.length})&emsp;</button></td>`,
+                                `<td><button type="button" class="btn btn-sm btn-secondary btn-block waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" onClick="error_modal_data()" >View </button></td>`,
                                 ` <td>${action_button}</td>`,
                             ])
                             .draw(false);
+
+                        $(".upload_reference").text(
+                            uploadDetails.referenceNumber
+                        );
+                        $(".upload_debit_account").text(
+                            uploadDetails.debitAccount
+                        );
+                        $(".upload_total_amount").text(
+                            formatToCurrency(
+                                parseFloat(uploadDetails.totalAmount)
+                            )
+                        );
+                        $(".failed_badge_display").text(invalid.length);
+                        $(".success_badge_display").text(valid.length);
+                        $(".upload_total").text(total_upload);
+                        $(".upload_successful").append(
+                            `<button type="button" class="btn btn-xs btn-outline-primary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >View</button>`
+                        );
+                        $(".upload_failed").append(
+                            `<button type="button" class="btn btn-xs btn-outline-secondary waves-effect waves-light error_modal_data" data-toggle="modal" data-target="#bs-example-modal-lg" >View </button>`
+                        );
+
+                        $(".upload_action").append(action_button);
 
                         let editButtons = document.querySelectorAll(
                             ".edit_record_uploaded"
@@ -794,14 +896,15 @@ $(document).ready(function () {
                         //     });
                         // });
 
-                        console.log(
-                            "valid_uploads_count=>",
-                            valid_uploads_count
-                        );
+                        // console.log(
+                        //     "valid_uploads_count=>",
+                        //     valid_uploads_count
+                        // );
 
-                        console.log("invalid_uploads_count=>", invalid_uploads);
+                        // console.log("invalid_uploads_count=>", invalid_uploads);
 
                         // siteLoading("hide");
+                        $(".display-upload-summary").removeAttr("style");
                         toaster(response.message, "success", 3000);
                     } else {
                         // USE THE BATCH GENERATE TO DELETE === WRITE A JAVASCRIPT API CALL
@@ -842,13 +945,17 @@ $(document).ready(function () {
                 },
             });
         } else {
-            swal({
-                text: "Something went wrong. Upload was unsuccessful!",
-                icon: "warning",
-                dangerMode: true,
-            }).then(function () {
+            toaster(
+                "Something went wrong. Upload was unsuccessful!",
+                "warning"
+            ).then(function () {
                 document.getElementById("file").value = "";
             });
+            // swal({
+            //     text: "Something went wrong. Upload was unsuccessful!",
+            //     icon: "warning",
+            //     dangerMode: true,
+            // })
         }
     });
 

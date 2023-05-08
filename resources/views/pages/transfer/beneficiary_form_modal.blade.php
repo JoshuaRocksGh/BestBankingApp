@@ -35,7 +35,7 @@
                     Beneficiary Form</h5>
                 <button type="button" class="close align-self-center text-white" data-dismiss="modal"
                     aria-label="Close">
-                    <span aria-hidden="true">x</span>
+                    <span aria-hidden="true">X</span>
                 </button>
             </div>
             {{-- <div id="edit_modal_content"> --}}
@@ -116,6 +116,15 @@
                                 <div class="col-8">
                                     <input type="text" class="form-control" id="beneficiary_address"
                                         placeholder="Enter Beneficiary Address" minlength="3" maxlength="30">
+                                </div>
+                            </div>
+                            <div class="form-group row  ">
+                                <h4 class="col-4 text-danger">Enter Otp:</h4>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="beneficiary_otp"
+                                        placeholder="Enter Otp" minlength="1" maxlength="4"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
+                                        required>
                                 </div>
                             </div>
                         </fieldset>

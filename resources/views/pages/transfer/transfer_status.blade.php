@@ -18,12 +18,13 @@
                 <thead>
                     <tr class="table-background ">
                         <th class="all"> Date </th>
-                        <th class="all"> Beneficiary Name </th>
-                        <th class="all"> Amount </th>
-                        <th class="all"> Account Description </th>
                         <th class="all"> Account Number </th>
-                        <th class="none"> Status </th>
-                        <th class="none"> Action </th>
+
+                        <th class="all"> Beneficiary Account </th>
+                        <th class="all"> Amount </th>
+                        {{--  <th class="all"> Account Description </th>  --}}
+                        <th class="all"> Status </th>
+                        <th class="all"> Action </th>
                     </tr>
                 </thead>
                 <tbody id="transfer_status_body">

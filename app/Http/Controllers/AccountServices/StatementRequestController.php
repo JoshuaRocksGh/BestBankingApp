@@ -39,6 +39,11 @@ class StatementRequestController extends Controller
         $authToken = session()->get('userToken');
         $userID = session()->get('userAlias');
         $customerNumber = session()->get('customerNumber');
+        $deviceBrand = session()->get('deviceInfo')['deviceBrand'];
+        $deviceCountry = session()->get('deviceInfo')['deviceCountry'];
+        $deviceId = session()->get('deviceInfo')['deviceId'];
+        $deviceManufacturer = session()->get('deviceInfo')['deviceManufacturer'];
+        $deviceOs = session()->get('deviceInfo')['deviceOs'];
         // return $authToken;
 
         // $base_response = new BaseResponse();
@@ -58,19 +63,38 @@ class StatementRequestController extends Controller
 
         $data = [
 
-            "accountNumber" => $accountNumber,
+            // "accountNumber" => $accountNumber,
             // "medium" => $medium,
-            "channel" => $channel,
-            "branch" => $branchCode,
-            "deviceIP" => $deviceIp,
-            "endDate" => $endDate,
+            // "channel" => $channel,
+            // "branch" => $branchCode,
+            // "deviceIP" => $deviceIp,
+            // "endDate" => $endDate,
             // "entrySource" => $entrySource,
+            // "pinCode" => $pincode,
+            // "startDate" => $startDate,
+            // "statementType" => $statementType,
+            // "tokenID" => $authToken,
+            // "userID" => $userID,
+            // "customer_num" => $customerNumber
+
+            "accountNumber" => $accountNumber,
+            "authToken" => $authToken,
+            "branch" => $branchCode,
+            "brand" => $deviceBrand,
+            "channel" => $channel,
+            "country" => $deviceCountry,
+            "deviceIP" => $deviceIp,
+            "deviceId" => $deviceId,
+            "deviceIp" => $deviceIp,
+            "deviceName" => $deviceOs,
+            "endDate" => $endDate,
+            "entrySource" => $entrySource,
+            "manufacturer" => $deviceManufacturer,
             "pinCode" => $pincode,
             "startDate" => $startDate,
             "statementType" => $statementType,
             "tokenID" => $authToken,
-            // "userID" => $userID,
-            // "customer_num" => $customerNumber
+            "userName" => $userID
 
         ];
 

@@ -143,7 +143,7 @@ class LoansController extends Controller
         $base_response = new BaseResponse();
 
         try {
-        $response = Http::get(env('API_BASE_URL') . "/loans/loanFrequencies");
+            $response = Http::get(env('API_BASE_URL') . "/loans/loanFrequencies");
 
             // $response = Http::get(env('API_BASE_URL') . "/loans/loanTypes");
 
@@ -224,7 +224,7 @@ class LoansController extends Controller
         $customerNumber = session()->get('customerNumber');
 
         try {
-            $response = Http::retry(20, 100)->get(env('API_BASE_URL') . "loans/loanTrack/" . $customerNumber);
+            $response = Http::get(env('API_BASE_URL') . "loans/loanTrack/" . $customerNumber);
             // $response = Http::post(env('API_BASE_URL') . "loans/getLoans", $data);
 
             $result = new ApiBaseResponse();
@@ -304,5 +304,41 @@ class LoansController extends Controller
         $result = new ApiBaseResponse();
 
         return $result->api_response($response);
+    }
+
+    public function getLoanRepaySchedule(Request $request)
+    {
+        // return $request;
+        $base_response = new BaseResponse();
+
+
+        $authToken = session()->get('userToken');
+        $userID = session()->get('userId');
+        $api_headers = session()->get('headers');
+        $facility_number = $request->facilityNumber;
+
+        // $data = [
+        //     "token" => $authToken,
+        // ];
+
+        // $res = retry(3, function ($api_headers, $data) {
+        //     $response = Http::withHeaders($api_headers)->post(env('API_BASE_URL') . "loans/getLoans", $data);
+        //     $result = new ApiBaseResponse();
+        //     return $result->api_response($response);
+        // });
+
+        // $response = Http::get(env('API_BASE_URL') . "/account/accountFD/$customerNumber");
+        // dd(env('API_BASE_URL') . "loans/loanrepayschedule/$facility_number");
+        try {
+            $response = Http::get(env('API_BASE_URL') . "loans/loanrepayschedule/$facility_number");
+            // $response = Http::post(env('API_BASE_URL') . "loans/getLoans", $data);
+            return $response;
+
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $error) {
+            // Log::alert($error);
+            return $base_response->api_response('500', $error,  NULL); // return API BASERESPONSE
+        }
     }
 }

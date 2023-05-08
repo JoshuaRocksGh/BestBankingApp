@@ -109,6 +109,13 @@ class InternationalBankController extends Controller
         $userMandate = session()->get('userMandate');
         $customerPhone = session()->get('customerPhone');
 
+        if ($request->fileUploaded == "Y") {
+            $getInvoice = file_get_contents($request->voucher);
+            $transVoucher = base64_encode($getInvoice);
+        } else {
+            $transVoucher = $request->voucher;
+        }
+
 
         $data = [
             "authToken" => $authToken,
@@ -135,7 +142,8 @@ class InternationalBankController extends Controller
             "postBy" => $userID,
             "user_mandate" => $userMandate,
             "documentRef" => strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 2) . time()),
-
+            "transaction_voucher" => $transVoucher,
+            "file_uploaded" => $request->fileUploaded,
 
         ];
 

@@ -1,6 +1,8 @@
 <!-- ========== Left Sidebar Start ========== -->
 
-<div id="sidebar-menu" class=" overflow-hidden p-0 text-xs  bg-danger site-card text-white">
+<div id="sidebar-menu" class=" overflow-hidden p-0 text-xs  bg-danger site-card text-white"
+    style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
+
     <ul id="side-menu" class="accordion ">
         <li class="menu-item">
             <a class="menu-item-header" href="{{ url('home') }}">
@@ -42,9 +44,9 @@
                     <li>
                         <a href="{{ url('international-bank') }}">International Bank</a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{ url('bollore-link') }}">Bollore Link</a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ url('standing-order') }}">Create Standing Order</a>
                     </li>
@@ -65,11 +67,12 @@
                         <li>
                             <a href="{{ url('bulk-transfer') }}">Bulk Transfer </a>
                         </li>
+
+                        {{-- <li>
+                            <a href="{{ url('swift_mt101') }}">Sierra Rutile </a>
+                        </li> --}}
                     @endif
 
-                    <li>
-                        <a href="{{ url('swift_mt101') }}">MT101 </a>
-                    </li>
                     <li>
                         <a href="{{ url('transfer-status') }}">Transfer Status</a>
                     </li>
@@ -91,14 +94,25 @@
                     <li>
                         <a href="{{ url('payments') }}">Make Payment</a>
                     </li>
+                    {{-- @if (!config('app.corporate')) --}}
+                        <li>
+                            <a href="{{ url('airport-tax') }}">Airport Tax</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('national-id') }}">National ID</a>
+                        </li>
+                    {{-- @endif --}}
 
                     <li>
                         <a href="{{ url('salone-link') }}">Salone-Link</a>
                     </li>
+                    {{--  <li>
+                        <a href="{{ url('blink-pay') }}">Blink Pay</a>
+                    </li>  --}}
 
-                    <li>
+                    {{--  <li>
                         <a href="{{ url('cardless-payment') }}">Cardless</a>
-                    </li>
+                    </li>  --}}
                     <li>
                         <a href="{{ url('qr-payment') }}">
                             <span> QR Payment</span>
@@ -137,9 +151,9 @@
             </a>
             <div class="collapse menu-item-body" id="sidebarAccountServices">
                 <ul class="nav-second-level">
-                    <li>
+                    {{--  <li>
                         <a href="{{ url('fixed-deposit') }}">Fixed Deposit</a>
-                    </li>
+                    </li>  --}}
                     @if (!config('app.corporate'))
                         <li>
                             <a href="{{ url('salary-advance') }}">Salary Advance</a>
@@ -153,19 +167,19 @@
                     <li>
                         <a href="{{ url('requests') }}">Requests</a>
                     </li>
-                    <li>
+                    {{--  <li>
                         <a href="{{ url('kyc-update') }}">Update KYC</a>
-                    </li>
+                    </li>  --}}
 
-                    <li>
+                    {{--  <li>
                         <a href="{{ url('open-additional-account') }}">Open additional account</a>
-                    </li>
-                    <li>
+                    </li>  --}}
+                    {{--  <li>
                         <a href="#">Close Account</a>
-                    </li>
-                    <li>
+                    </li>  --}}
+                    {{--  <li>
                         <a href="#">Update Account Signature</a>
-                    </li>
+                    </li>  --}}
                     <li>
                         <a href="{{ url('complaint') }}">
                             <span>Make Complaint</span>
@@ -175,14 +189,14 @@
                 </ul>
             </div>
         </li>
-        {{--  @if (!config('app.corporate'))  --}}
+         @if (!config('app.corporate'))
         <li class="menu-item">
             <a class="menu-item-header" href="{{ url('card-services') }}">
                 <i class="fas fa-credit-card"></i>
                 <span> Card Services </span>
             </a>
         </li>
-        {{--  @endif  --}}
+         @endif
 
         @if (config('app.corporate'))
             <li class="menu-item">

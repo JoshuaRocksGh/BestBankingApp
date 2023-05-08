@@ -40,6 +40,8 @@ use App\Http\Controllers\Loan\LoanRequestController;
 use App\Http\Controllers\Loan\LoansController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MaileController;
+use App\Http\Controllers\MobileMoneyController;
+use App\Http\Controllers\Payments\BlinkPayController;
 use App\Http\Controllers\Payments\Bulk\BulkKorporController;
 use App\Http\Controllers\Payments\BulkUpload\BulkUploadsController;
 use App\Http\Controllers\Payments\BulkUpload\CorporateKorporController as BulkUploadCorporateKorporController;
@@ -64,6 +66,7 @@ use App\Http\Controllers\Transfers\TransferStatusController;
 use App\Http\Controllers\SelfEnrollController;
 use App\Http\Controllers\Transfers\BollorieController;
 use App\Http\Controllers\Transfers\SwiftMT101Controller;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,9 +80,15 @@ use App\Http\Controllers\Transfers\SwiftMT101Controller;
 */
 
 // --- AUTHENTICATION
+
+// $currenturl = URL::current();
+
+// dd($currenturl);
 Route::get('/', [AuthenticationLoginController::class, 'login']);
 Route::post('/login-api', [AuthenticationLoginController::class, 'loginApi']);
 Route::get('/login', [AuthenticationLoginController::class, 'login']);
+Route::post('/get-otp-api', [AuthenticationLoginController::class, 'get_otp']);
+Route::post('/verify-otp-api', [AuthenticationLoginController::class, 'verify_otp']);
 Route::post('/validate-customer', [SelfEnrollController::class, 'validateCustomer']);
 Route::post('/confirm-customer', [SelfEnrollController::class, 'confirmCustomer']);
 Route::post('/register-customer', [SelfEnrollController::class, 'registerCustomer']);
@@ -88,7 +97,7 @@ Route::get('/change-password', [ResetPasswordController::class, 'change_password
 
 
 Route::get('/multiple-transfers', [MultipleTransfersController::class, 'index'])->name('multiple-transfers');
-Route::post('upload_', [BulkUploadBulkUploadsController::class, 'upload_'])->name('upload_');
+Route::post('/upload_', [BulkUploadBulkUploadsController::class, 'upload_'])->name('upload_');
 // Route::post('/bulk-file-upload', [BulkUploadBulkUploadsController::class, 'bulk_file_upload']);
 Route::post('/submit-kyc', [KycController::class, 'submit_kyc'])->name('submit-kyc');
 
@@ -105,6 +114,7 @@ Route::get('/account-creation/savings-account-creation', [accountCreationControl
 Route::get('/branches', [BranchesController::class, 'branches'])->name('branches');
 Route::get('/faq', [FAQController::class, 'index'])->name('faq');
 Route::get('/enquiry', [EnquiryController::class, 'index'])->name('enquiry');
+// Route:: post('/get-users-approval-status', [ApprovedRequestController::class, 'user_approval_status'])->name('approved-pending-request');
 
 //route to control the accountEnquiry screen
 Route::get('print-account-statement', [AccountEnquiryController::class, 'print_account_statement'])->name('print-account-statement');
@@ -155,9 +165,10 @@ Route::group(['middleware' => ['userAuth']], function () {
     Route::get('/bulk-transfer', [BulkUploadBulkUploadsController::class, 'index']);
     Route::post('/update-upload', [BulkUploadBulkUploadsController::class, 'updaate_upload']);
     Route::post('bollore-tranfer', [BollorieController::class, 'bollore_transfer']);
-    // Route::get('/swift_mt101', [SwiftMT101Controller::class, 'view_swift'])->name('swift_mt101');
-    // Route::post('/swift_mt101', [SwiftMT101Controller::class, 'upload_mt101'])->name('swift_mt101');
-
+    Route::get('/swift_mt101', [SwiftMT101Controller::class, 'view_swift'])->name('swift_mt101');
+    Route::post('/submit-swift-approval', [SwiftMT101Controller::class, 'submit_swift_for_approval'])->name('submit-swift-approval');
+    Route::post('/get-swift-rutile-detail-list-for-approval', [SwiftMT101Controller::class, 'get_swift_details'])->name('get-swift-rutile-detail-list-for-approval');
+    Route::post('/get-transaction-invoice-api', [TransferStatusController::class, 'transaction_invoice']);
 
     // --- PAYMENTS
     Route::get('/payments', [PaymentsController::class, 'paymentTypes'])->name('payment-type');
@@ -167,7 +178,12 @@ Route::group(['middleware' => ['userAuth']], function () {
     Route::get('airtime-payment', [paymentController::class, 'airtime_payment'])->name('airtime-payment');
     Route::get('/bulk-salone-link', [KorporController::class, 'bulk_korpor'])->name('bulk-salone-link');
     Route::get('/utility-payment', [paymentController::class, 'utilities'])->name('utility-payment');
-    Route::get('salone-link', [paymentController::class, 'e_korpor'])->name('salone-link');
+    Route::get('salone-link', [paymentController::class, 'salone_link'])->name('salone-link');
+    Route::get('airport-tax', [paymentController::class, 'airport_tax'])->name('airport-tax');
+    Route::post('airport-tax-payment-api', [paymentController::class, 'airport_tax_payment'])->name('airport-tax-payment-api');
+    Route::get('get-airport-tax-amount', [paymentController::class, 'get_airport_tax_amount'])->name('get-airport-tax-amount');
+    Route::get('national-id', [paymentController::class, 'national_id'])->name('national-id');
+
     Route::get('bulk-upload-payment', [paymentController::class, 'bulk_upload_payment'])->name('bulk-upload-payment');
     Route::get('payment-beneficiary', [paymentController::class, 'payment_beneficiary_list'])->name('payment-beneficiary');
     Route::get('payment-beneficiary-list', [paymentController::class, 'beneficiary_list'])->name('payment-beneficiary-list');
@@ -200,6 +216,7 @@ Route::group(['middleware' => ['userAuth']], function () {
     Route::post('/corporate-initiate-korpor', [BulkUploadCorporateKorporController::class, 'corporate_initiate_korpor'])->name('corporate-initiate-korpor');
     Route::post('/get-bulk-detail-list-for-approval', [PendingController::class, 'get_bulk_detail_list_for_approval'])->name('get-bulk-detail-list-for-approval');
     Route::post('/corporate-initiate-cardless', [CardlessController::class, 'corporate_cardless_transfer'])->name('corporate-initiate-cardless');
+    Route::get('/get-blink-pay', [BlinkPayController::class, 'get_blink_pay'])->name('get-blink-pay');
 
 
 
@@ -218,7 +235,7 @@ Route::group(['middleware' => ['userAuth']], function () {
     Route::get('lc-origination', [TradeFinanceController::class, 'lc_origination'])->name('lc-origination');
     Route::get('cheque-services', [AccountServicesController::class, 'chequeServices']);
     Route::get('activate-cheque-book', [AccountServicesController::class, 'activate_cheque_book'])->name('activate-cheque-book');
-    // Route::get('salary-advance', [AccountServicesController::class, 'salary_advance'])->name('salary-advance');
+    Route::get('salary-advance', [AccountServicesController::class, 'salary_advance'])->name('salary-advance');
     // Route::get('cheque-approvals-approved', [ChequesApprovedController::class, 'cheques_approved'])->name('cheque-approval-approved');
     // Route::get('cheque-approvals-rejected', [ChequesRejectedController::class, 'cheques_rejected'])->name('cheques-approvals-rejected');
     Route::get('stop-cheque', [AccountServicesController::class, 'stop_cheque'])->name('stop-cheque');
@@ -247,6 +264,7 @@ Route::group(['middleware' => ['userAuth']], function () {
     // SETTINGS
     Route::get('/settings', [settingsController::class, 'settings'])->name('settings');
     Route::post('post-change-password', [ChangePasswordController::class, 'post_chnage_password']);
+    Route::post('initial-pin-setup', [ChangePasswordController::class, 'initial_pin_setup']);
 });
 
 // Route::get('/get-expenses', [HomeController::class, 'get_expenses'])->name('get-expenses');
@@ -308,7 +326,6 @@ Route::post('get-transaction-fees', [FunctionsController::class, 'get_transactio
 Route::get('get-fx-rate-api', [FunctionsController::class, 'get_fx_rate'])->name('get-fx-rate-api');
 Route::get('get-correct-fx-rate-api', [FunctionsController::class, 'get_correct_fx_rate'])->name('get-correct-fx-rate-api');
 Route::get('get-lovs-list-api', [FunctionsController::class, 'lovs_list'])->name('get-lovs-list-api');
-Route::post('corporate-international-bank-transfer-api', [InternationalBankController::class, 'corporate_international_bank']);
 
 
 Route::get('/get-my-account', [OwnAccountController::class, 'get_my_accounts']);
@@ -328,6 +345,7 @@ Route::post('/corporate-own-account-transfer-api', [OwnAccountController::class,
 Route::post('/corporate-same-bank-transfer-api', [SameBankController::class, 'corporate_same_bank']);
 Route::post('/corporate-local-bank-transfer-api', [LocalBankController::class, 'corporateLocalBankTransfer']);
 Route::post('/corporate-onetime-local-bank-transfer-api', [APITransferLocalBankController::class, 'corporate_onetime_beneficiary']);
+Route::post('corporate-international-bank-transfer-api', [InternationalBankController::class, 'corporate_international_bank']);
 Route::post('corporate-standing-order-transfer-api', [StandingOrderController::class, 'corporate_standing_order_request']);
 // Transfers Add Beneficiary
 Route::post('save-transfer-beneficiary-api', [TransferBeneficiaryController::class, 'saveBeneficiary']);
@@ -342,6 +360,7 @@ Route::post('schedule-payment-api', [SchedulePaymentController::class, 'schedule
 Route::get('get-payment-types-api', [FunctionsController::class, 'payment_types']);
 Route::post('payment-name-enquiry-api', [FunctionsController::class, 'recipientNameEnquiry']);
 Route::post('make-payment-api', [PaymentsController::class, 'makePayment']);
+Route::get('get-account-link', [PaymentsController::class, 'get_link_status']);
 
 
 //route for cheque book request api
@@ -362,6 +381,7 @@ Route::get('validate-kyc-api', [KycController::class, 'validateKyc']);
 //route for atm card
 Route::post('atm-card-request-api', [AtmCardRequestController::class, 'atm_card_request'])->name('atm-card-request-api');
 Route::post('atm-card-block-api', [AtmCardRequestController::class, 'atm_card_block'])->name('atm-card-block-api');
+Route::post('atm-card-activate-api', [AtmCardRequestController::class, 'atm_card_activate'])->name('atm-card-activate-api');
 Route::post('corporate-atm-card-request-api', [AtmCardRequestController::class, 'corporate_atm_card_request'])->name('corporate-atm-card-request-api');
 Route::post('corporate-block-card-request-api', [AtmCardRequestController::class, 'corporate_bloack_card_request'])->name('corporate-block-card-request-api');
 //Activate  Card
@@ -372,8 +392,9 @@ Route::post('block-card-request-api', [AtmCardRequestController::class, 'block_c
 
 //SALARY ADVANCE
 Route::post('get-salary-advance-fee', [SalaryAdvanceController::class, 'salary_advance_fee'])->name('get-salary-advance-fee');
-// Route::post('salary-advance', [SalaryAdvanceController::class, 'salary_advance'])->name('salary-advance');
-Route::get('corportate-salary-advance', [SalaryAdvanceController::class, 'salary_advance_deposit'])->name('corportate-salary-advance');
+// Route::post('salary-advance-api', [SalaryAdvanceController::class, 'salary_advance'])->name('salary-advance-api');
+// Route::get('corportate-salary-advance', [SalaryAdvanceController::class, 'salary_advance_deposit'])->name('corportate-salary-advance');
+Route::post('salary-advance-api', [SalaryAdvanceController::class, 'salary_advance_deposit'])->name('salary-advance-api');
 
 
 
@@ -397,6 +418,8 @@ Route::post('change-pin-api', [ChangePinController::class, 'change_pin'])->name(
 //Route for change-password-api
 Route::post('change-password-api', [ChangePasswordController::class, 'change_password'])->name('change-password-api');
 
+// Route for originator creation
+Route::post('create-new-originator', [settingsController::class, 'create_originator'])->name('create-new-originator');
 
 
 Route::get('get-card-types-api', [CardsController::class, 'getCardTypes']);
@@ -421,6 +444,7 @@ Route::get('get-loan-accounts-api', [LoansController::class, 'get_my_loans_accou
 Route::get("get-loan-details-api", [LoansController::class, 'getLoanDetails']);
 Route::get("get-loan-types-api", [LoansController::class, 'getLoanTypes']);
 Route::get("get-loan-tracking-api", [LoansController::class, 'getLoanTracking']);
+Route::get("get-loan-repay-schedule-api", [LoansController::class, 'getLoanRepaySchedule']);
 
 //route to return standing order frequencies
 Route::get('get-standing-order-frequencies-api', [FunctionsController::class, 'get_standing_order_frequencies'])->name('get-standing-order-frequencies-api');

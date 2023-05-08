@@ -26,7 +26,7 @@ function get_corporate_requests(customerNumber, requestStatus) {
             if (response.responseCode == "000") {
                 $(".rquest_table tr").remove();
                 let data = response.data;
-                //console.log(data);
+                console.log("get-pending-requests =>", data);
                 // $(".pending_transaction_request tbody").empty();
                 var table = $(".pending_transaction_request").DataTable();
                 // .clear();
@@ -87,7 +87,9 @@ function get_corporate_requests(customerNumber, requestStatus) {
                         request_type = "Card Request";
                     } else if (data[index].request_type == "CARDB") {
                         request_type = "Card Block";
-                    } else if (data[index].request_type == "CARD") {
+                    } else if(data[index].request_type == "CNO"){
+                        request_type = "Create New Originator";
+                    }else if (data[index].request_type == "CARD") {
                         request_type = "Cardless";
                     } else if (data[index].request_type == "BKORP") {
                         amount =
@@ -119,8 +121,8 @@ function get_corporate_requests(customerNumber, requestStatus) {
                             data[index].account_no,
                             (amount = null ? " " : amount),
                             data[index].narration,
-                            dd + "/" + mm + "/" + yyyy,
-                            data[index].postedby,
+                            // dd + "/" + mm + "/" + yyyy,
+                            // data[index].postedby,
                             `<a onclick="window.open('approvals-pending-transfer-details/${request_id}/${customer_no}'), '_blank', 'location=yes,height=670,width=1200,scrollbars=yes,status=yes'">
                                         <button type="button" class=" btn btn-xs btn-outline-info waves-effect waves-light"> View Details</button>
                                     </a>

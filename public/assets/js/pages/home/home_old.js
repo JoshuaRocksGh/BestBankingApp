@@ -1156,7 +1156,7 @@
                                         $("#line_chart_no_data").hide()
 
 
-                                        let data_ = response.data;
+                                        let data_ = response?.data;
                                         //console.log(data_);
                                         //console.log("========")
                                         //console.log(data_)
@@ -1166,11 +1166,11 @@
                                         let acc_run_balances = []
                                         empty(cus_accounts);
 
-                                        cus_accounts.push(response.data)
+                                        cus_accounts?.push(response.data)
                                         empty(acc_run_balances);
                                         $.each(data_, function(index) {
 
-                                            acc_run_balances.push(data_[index].runningBalance)
+                                            acc_run_balances?.push(data_[index].runningBalance)
 
                                         })
 
@@ -1184,7 +1184,7 @@
 
 
                                         var limit = 10;
-                                        let data = response.data.slice(0, limit);
+                                        let data = response?.data?.slice(0, limit);
 
 
                                         account_line_chart(cus_accounts, acc_line_details)
@@ -1298,7 +1298,7 @@
 
                             // show_chart(account_data.i_have_total, account_data.i_owe_total, account_data.i_invest_total)
                             setTimeout(function() {
-                                getAccountTransactions(acc_num, acc_cur, start_date, end_date, transLimit)
+                                // getAccountTransactions(acc_num, acc_cur, start_date, end_date, transLimit)
                                 //line_graph()
                                 account_line_chart(cus_accounts, acc_line_details)
                             }, 500)
@@ -1312,10 +1312,10 @@
                         var my_account = account_details.split("~")
                         //console.log("my_account:", my_account)
 
-                        getAccountTransactions(my_account[2], my_account[3],
-                            start_date,
-                            end_date,
-                            transLimit)
+                        // getAccountTransactions(my_account[2], my_account[3],
+                        //     start_date,
+                        //     end_date,
+                        //     transLimit)
                     })
 
 

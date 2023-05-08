@@ -20,17 +20,43 @@ class ChequeBookRequestController extends Controller
 
         $authToken = session()->get('userToken');
         $deviceIP = $request->ip();
+        $userID = session()->get('userId');
+
+
+        $client_ip = request()->ip();
+        $api_headers = session()->get('headers');
+        $deviceInfo = session()->get('deviceInfo');
+
+        $entrySource = env('APP_ENTRYSOURCE');
+        $channel = env('APP_CHANNEL');
 
 
         $data = [
 
+            // "accountNumber" => $request->accountNumber,
+            // "branch" => $request->branchCode,
+            // "deviceIP" => $deviceIP,
+            // "Channel" => "NET",
+            // "numberOfLeaves" => $request->leaflets,
+            // "pinCode" => $request->pinCode,
+            // "tokenID" => $authToken,
+
             "accountNumber" => $request->accountNumber,
+            "authToken" => $authToken,
             "branch" => $request->branchCode,
-            "deviceIP" => $deviceIP,
-            "Channel" => "NET",
+            "brand" => $deviceInfo['deviceBrand'],
+            "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $client_ip,
+            "deviceName" => $deviceInfo['deviceOs'],
+            "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
             "numberOfLeaves" => $request->leaflets,
+            "phoneNumber" => "",
             "pinCode" => $request->pinCode,
             "tokenID" => $authToken,
+            "userName" => $userID
 
 
 

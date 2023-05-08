@@ -80,6 +80,11 @@ function initiatePayment(url, data) {
             console.log("response");
             // return false;
             if (response.responseCode == "000") {
+                // getAccounts();
+                // $("#success-message").text(response.message);
+                // $("#spinner").hide();
+                // $("#spinner-text").hide();
+                // $("#back_button").hide();
                 Swal.fire({
                     width: 400,
                     title: `<h2 class='text-success font-16 font-weight-bold'>${response.message}</h2>`,
@@ -207,7 +212,7 @@ function getPaymentHistory(type, accountNumber) {
         },
         success: function (response) {
             const data = response.data;
-            console.log("renderedHistoryItems ==>", renderedHistoryItems);
+            // console.log("renderedHistoryItems ==>", renderedHistoryItems);
             $(`#${paymentType}_history_display`).pagination({
                 dataSource: data,
                 pageSize: 5,
@@ -358,6 +363,7 @@ $(function () {
     $("#transfer_to_self").on("click", function () {
         console.log("self");
         const { userAlias, userPhone, userEmail } = customerInfo;
+        // console.log("customerInfo ==>", customerInfo);
         $(".hide-if-self-transfer").hide(500);
         $("#receiver_address").val("Self");
         $("#receiver_name")
@@ -368,7 +374,10 @@ $(function () {
             .val(userPhone)
             .attr("disabled", true)
             .trigger("keyup");
-        $(".display_receiver_address").text("");
+        // $(".display_receiver_name").text("");
+        $(".display_receiver_name").text(userAlias);
+        $(".display_receiver_telephone").text(userPhone);
+        $(".display_receiver_Adddress").text(userEmail);
         // $("#receiver_address").val(userEmail).trigger("keyup");
     });
 
@@ -389,17 +398,29 @@ $(function () {
 
     $("#receiver_phoneNum").on("keyup", function () {
         let phone = $("#receiver_phoneNum").val();
-        $(".display_receiver_phoneNum").text(phone);
+        $(".display_receiver_telephone").text(phone);
     });
 
     $("#receiver_address").on("keyup", function () {
         let address = $("#receiver_address").val();
-        $(".display_receiver_address").text(address);
+        $(".display_receiver_Adddress").text(address);
     });
 
-    $("#amount").on("change", function () {
+    $("#amount").on("keyup", function () {
+        // console.log($(this).val())
         let amount = $("#amount").val();
-        $(".display_amount").text(formatToCurrency(amount));
+        $(".display_transfer_amount").text(formatToCurrency(amount));
+
+        $(".key_transfer_amount").val(
+            formatToCurrency(amount)
+        );
+    });
+
+    $(".display_purpose").text($("#narration").val())
+
+    $("#narration").on("change", function () {
+        let purpose = $(this).val();
+        $(".display_purpose").text(purpose);
     });
 
     $("#confirm_next_button").on("click", (e) => {
@@ -440,28 +461,146 @@ $(function () {
             toaster("Insufficient Account Balance", "warning");
             return;
         }
+        siteLoading("show");
+
+        // console.log("paymentType ==>", paymentType);
+        // return;
+        // SHOW SUMMARY HERE
+        if (!ISCORPORATE) {
+            if (paymentType == "cardless") {
+                getOTP(301).then((data) => {
+                    // console.log(data);
+                    if (data.responseCode == "000") {
+                        siteLoading("hide");
+
+                        $("#request_form_div").hide(500);
+                        $("#transaction_summary").show(500);
+                    } else {
+                        siteLoading("hide");
+                        toaster(data.message, "warning");
+                    }
+                });
+            } else {
+                getOTP(310).then((data) => {
+                    // console.log(data);
+                    if (data.responseCode == "000") {
+                        siteLoading("hide");
+                        $("#request_form_div").hide(500);
+                        $("#transaction_summary").show(500);
+                    } else {
+                        siteLoading("hide");
+                        toaster(data.message, "warning");
+                    }
+                });
+            }
+        }
+
+        siteLoading("hide");
+        $("#request_form_div").hide(500);
+        $("#transaction_summary").show(500);
+
+        return;
+    });
+
+    // SUBMIT SALONE LINK FOR TRANSFER
+
+    $("#confirm_transfer_button").click(function (e) {
+        e.preventDefault();
+        console.log("transferInfo ==>", transferInfo);
+
+        if (!$("#terms_and_conditions").is(":checked")) {
+            toaster("Accept Terms & Conditions to continue", "warning");
+            return false;
+        }
+
         if (ISCORPORATE) {
             corporateInitiatePayment(transferInfo);
             return;
         }
-        transferInfo.type = "transfer";
-        $("#pin_code_modal").modal("show");
-        $("#transfer_pin").on("click", (e) => {
-            e.preventDefault();
-            if (transferInfo.type !== "transfer") {
+
+        if (!$("#transfer_otp").val()) {
+            toaster("Enter OTP to continue", "warning");
+            return false;
+        }
+
+        var otp = $("#transfer_otp").val();
+        //
+        siteLoading("show");
+
+        if (paymentType == "cardless") {
+            validateOTP(otp, 301).then((data) => {
+                console.log("verifyOTP==>", data);
+                if (data.responseCode == "000") {
+                    // $("#pin_code_modal").modal("show");
+                    siteLoading("hide");
+                    transferInfo.type = "transfer";
+                    $("#pin_code_modal").modal("show");
+                    $("#transfer_pin").on("click", (e) => {
+                        e.preventDefault();
+                        if (transferInfo.type !== "transfer") {
+                            return;
+                        }
+                        const pinCode = $("#user_pin").val();
+                        if (!pinCode || pinCode.length !== 4) {
+                            toaster("Invalid Pin Code", "warning");
+                            return;
+                        }
+                        transferInfo.pinCode = pinCode;
+                        initiatePayment(
+                            `initiate-${paymentType}`,
+                            transferInfo
+                        );
+                        transferInfo.pinCode = "";
+                        $("#user_pin").val("");
+                        transferInfo.type = "";
+                    });
+                } else {
+                    siteLoading("hide");
+                    toaster(data.message, "error");
+                }
                 return;
-            }
-            const pinCode = $("#user_pin").val();
-            if (!pinCode || pinCode.length !== 4) {
-                toaster("Invalid Pin Code", "warning");
+            });
+        } else {
+            validateOTP(otp, 310).then((data) => {
+                console.log("verifyOTP==>", data);
+                if (data.responseCode == "000") {
+                    // $("#pin_code_modal").modal("show");
+                    siteLoading("hide");
+                    transferInfo.type = "transfer";
+                    $("#pin_code_modal").modal("show");
+                    $("#transfer_pin").on("click", (e) => {
+                        e.preventDefault();
+                        if (transferInfo.type !== "transfer") {
+                            return;
+                        }
+                        const pinCode = $("#user_pin").val();
+                        if (!pinCode || pinCode.length !== 4) {
+                            toaster("Invalid Pin Code", "warning");
+                            return;
+                        }
+                        transferInfo.pinCode = pinCode;
+                        initiatePayment(
+                            `initiate-${paymentType}`,
+                            transferInfo
+                        );
+                        transferInfo.pinCode = "";
+                        $("#user_pin").val("");
+                        transferInfo.type = "";
+                    });
+                } else {
+                    siteLoading("hide");
+                    toaster(data.message, "error");
+                }
                 return;
-            }
-            transferInfo.pinCode = pinCode;
-            initiatePayment(`initiate-${paymentType}`, transferInfo);
-            transferInfo.pinCode = "";
-            $("#user_pin").val("");
-            transferInfo.type = "";
-        });
+            });
+        }
+    });
+
+    $("#back_button").on("click", (e) => {
+        e.preventDefault();
+        $("#request_form_div").show(500);
+        $("#transaction_summary").hide(500);
+        // validationsCompleted = false;
     });
     function corporateInitiatePayment(transferInfo) {
         const endPoint = `corporate-initiate-${paymentType}`;

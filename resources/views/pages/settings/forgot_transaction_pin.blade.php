@@ -27,6 +27,9 @@
                         </div>
                         <div class="form-group" id="security_question_form">
                             <label for="security_question_answer" id="security_question">Security Question</label>
+                            <br>
+
+                            <span class=" security_question text-danger"></span>
                             <input type="text" id="security_question_answer" name="security_question_answer"
                                 class="form-control" autocomplete="off" aria-autocomplete="off">
                             <input type="text" id="security_question_code" autocomplete="new-pin" hidden>

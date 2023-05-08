@@ -5,7 +5,10 @@ namespace App\Http\Controllers\AccountEnquiry;
 use App\Http\classes\API\BaseResponse;
 use App\Http\classes\WEB\ApiBaseResponse;
 use App\Http\Controllers\Controller;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -61,26 +64,48 @@ class AccountEnquiryController extends Controller
         $userID = session()->get('userId');
         $entrySource = env('APP_ENTRYSOURCE');
         $channel = env('APP_CHANNEL');
+        $deviceInfo = session()->get('deviceInfo');
+        $client_ip = request()->ip();
 
 
         $data = [
             // "authToken" => $authToken,
             // "userId"    => $userID
+
             "accountNumber" => $accountNumber,
-            "authToken" =>  $authToken,
+            "authToken" => $authToken ,
+            "brand" => $deviceInfo['deviceBrand'],
+            "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $client_ip,
+            "deviceName" => $deviceInfo['deviceOs'],
             "endDate" => $endDate,
             "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
             "startDate" => $startDate,
-            "transLimit" => $transLimit,
-            "channel" => $channel
+            "transLimit" =>  $transLimit,
+            "userName" => $userID
+
+
+            // "accountNumber" => $accountNumber,
+            // "authToken" =>  $authToken,
+            // "endDate" => $endDate,
+            // "entrySource" => $entrySource,
+            // "startDate" => $startDate,
+            // "transLimit" => $transLimit,
+            // "channel" => $channel
 
 
         ];
-        // return $data;
+        //  return $data;
         // return env('API_BASE_URL') . "account/getTransactions";
+        // account/ministatement
         try {
-            $response = Http::post(env('API_BASE_URL') . "account/getTransactions", $data);
-
+            // $response = Http::post(env('API_BASE_URL') . "account/getTransactions", $data);
+            $response = Http::post(env('API_BASE_URL') . "/account/ministatement", $data);
+            // return response()->json($response);
 
             return $result->api_response($response);
         } catch (\Exception $error) {
@@ -158,6 +183,8 @@ class AccountEnquiryController extends Controller
         // return $request;
 
         $debitAccount = $request->query('debitAccount');
+        $debitAccountName = $request->query('accountName');
+        $debitAccountCUrrency = $request->query('accountCurrency');
         $batchNo = $request->query('batchNo');
         $postingDate = $request->query('postingDate');
         $transNumber = $request->query('transNumber');
@@ -167,13 +194,27 @@ class AccountEnquiryController extends Controller
         $amount = $request->query('amount');
         $contraAccount = $request->query('contraAccount');
         $channel = $request->query('channel');
+        $approval1 = $request->query('approval1');
+        $approval2 = $request->query('approval2');
+        $approval3 = $request->query('approval3');
+        $approval4 = $request->query('approval4');
+        $approval5 = $request->query('approval5');
+        $originator = $request->query('originator');
 
 
         // return json_decode($request);
+        // return  date($postingDate);
+        $currentDateTime = date($postingDate);
+		$newDateTime = new DateTime($currentDateTime);
+		$newDateTime->setTimezone(new DateTimeZone("UTC"));
+		$dateTimeUTC = $newDateTime->format("Y-m-d h:i A");
+		// return $dateTimeUTC;
         return view('pages.accountEnquiry.transaction_receipt', [
             "debitAccount" => $debitAccount,
+            "debitAccountName" => $debitAccountName,
+            "debitAccountCUrrency" => $debitAccountCUrrency,
             "batchNo" => $batchNo,
-            "postingDate" => $postingDate,
+            "postingDate" => $dateTimeUTC,
             "transNumber" => $transNumber,
             "valueDate" => $valueDate,
             "branch" => $branch,
@@ -181,6 +222,12 @@ class AccountEnquiryController extends Controller
             "amount" => $amount,
             "contraAccount" => $contraAccount,
             "channel" => $channel,
+            "originator" => $originator,
+            "approval1" => $approval1,
+            "approval2" => $approval2,
+            "approval3" => $approval3,
+            "approval4" => $approval4,
+            "approval5" => $approval5,
         ]);
     }
 }

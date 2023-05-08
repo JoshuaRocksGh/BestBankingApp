@@ -81,9 +81,9 @@
                             <th class="all">Req-Type</th>
                             <th class="all">Account No</th>
                             <th class="all">Amount</th>
-                            <th class="all">Posted Date</th>
-                            <th class="none">Initiated By</th>
-                            <th class="none">Action</th>
+                            {{--  <th class="all">Posted Date</th>  --}}
+                            {{--  <th class="none">Initiated By</th>  --}}
+                            <th class="all">Action</th>
                         </tr>
                     </thead>
                     {{-- <tbody class="">
@@ -403,12 +403,13 @@
                                 request_type,
                                 data[index].account_no,
                                 amount,
-                                dd + '/' + mm + '/' + yyyy,
-                                data[index].postedby,
+                                {{--  dd + '/' + mm + '/' + yyyy,  --}}
+                                {{--  data[index].postedby,  --}}
 
 
                                 `
-                                    <a href="{{ url('approvals-pending-transfer-details/${request_id}/${customer_no}') }} " target="_blank">
+                                    {{--  <a href="{{ url('approvals-pending-transfer-details/${request_id}/${customer_no}') }} " target="_blank">  --}}
+                                    <a href="approvals-pending-transfer-details/${request_id}/${customer_no} ">
                                     <button type="button" class=" btn btn-xs btn-outline-success waves-effect waves-light"> View Details</button>
                                 </a>
                                 `

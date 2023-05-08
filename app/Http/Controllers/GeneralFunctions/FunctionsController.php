@@ -55,6 +55,8 @@ class FunctionsController extends Controller
     public function get_fx_rate(Request $request)
     {
 
+        $base_response = new BaseResponse();
+
         if ($request->has("rateType")) {
             $rateType = $request->query("rateType");
         }
@@ -74,7 +76,7 @@ class FunctionsController extends Controller
         ];
 
         try {
-            $response = Http::post(env('API_BASE_URL') . "utilities/getFxRates", $data);
+            $response = Http::post(\config('base_urls.api_base_url') . "utilities/getFxRates", $data);
 
             $result = new ApiBaseResponse();
             return $result->api_response($response);
@@ -91,7 +93,7 @@ class FunctionsController extends Controller
 
 
         try {
-            $response = Http::get(env('API_BASE_URL') . "utilities/getCorrectFxRates");
+            $response = Http::get(\config('base_urls.api_base_url') . "utilities/getCorrectFxRates");
 
             $result = new ApiBaseResponse();
             return $result->api_response($response);
@@ -119,7 +121,7 @@ class FunctionsController extends Controller
         ];
 
         try {
-            $response = Http::post(env('API_BASE_URL') . "/account/getAccounts", $data);
+            $response = Http::post(\config('base_urls.api_base_url') . "account/getAccounts", $data);
             if ($response->ok()) { // API response status code is 200
 
                 $res = json_decode($response->body());
@@ -152,7 +154,7 @@ class FunctionsController extends Controller
         ];
 
         try {
-            $response = Http::get(env('API_BASE_URL') . "/utilities/getCurrencies");
+            $response = Http::get(\config('base_urls.api_base_url') . "utilities/getCurrencies");
 
             //return $response;
             // return $response->status();
@@ -180,7 +182,7 @@ class FunctionsController extends Controller
         ];
 
         try {
-            $response = Http::get(env('API_BASE_URL') . "/utilities/getSecQuestions");
+            $response = Http::get(\config('base_urls.api_base_url') . "utilities/getSecQuestions");
 
             //return $response;
             // return $response->status();
@@ -224,7 +226,7 @@ class FunctionsController extends Controller
 
         // return $data;
         try {
-            $response = Http::post(env('API_BASE_URL') . "/account/validateBBAN", $data);
+            $response = Http::post(\config('base_urls.api_base_url') . "account/validateBBAN", $data);
 
             // return $response->body();
 
@@ -254,7 +256,7 @@ class FunctionsController extends Controller
         ];
         // return env('API_BASE_URL') . "/beneficiary/getTransferBeneficiariestype}?userID=$customerNumber&bankType=$beneType";
 
-        $response = Http::get(env('API_BASE_URL') . "/beneficiary/getTransferBeneficiariestype}?userID=$customerNumber&bankType=$beneType");
+        $response = Http::get(\config('base_urls.api_base_url') . "beneficiary/getTransferBeneficiariestype}?userID=$customerNumber&bankType=$beneType");
         // $response = Http::get(env('API_BASE_URL') . "/beneficiary/getTransferBeneficiaries/$customerNumber");
 
         // return $response;
@@ -265,7 +267,7 @@ class FunctionsController extends Controller
     public function getCountries()
     {
 
-        $response = Http::get(env('API_BASE_URL') . "/utilities/getCountries");
+        $response = Http::get(\config('base_urls.api_base_url') . "utilities/getCountries");
 
         //return $response;
         // return $response->status();
@@ -277,10 +279,14 @@ class FunctionsController extends Controller
     {
 
 
+        $base_response = new BaseResponse();
+
         //return $response;
         // return $response->status();
+
         try {
-            $response = Http::get(env('API_BASE_URL') . "/utilities/getBanks");
+            // dd(\config('base_urls.api_base_url') . "utilities/getBanks");
+            $response = Http::get(\config('base_urls.api_base_url') . "utilities/getBanks");
 
             $result = new ApiBaseResponse();
             return $result->api_response($response);
@@ -291,8 +297,10 @@ class FunctionsController extends Controller
     public function international_bank_list(Request $req)
     {
 
+        $base_response = new BaseResponse();
+
         try {
-            $response = Http::get(env('API_BASE_URL') . "/utilities/getInternationalBanks/$req->countryCode");
+            $response = Http::get(\config('base_urls.api_base_url') . "utilities/getInternationalBanks/$req->countryCode");
             // Log::alert($response);
 
             //return $response;
@@ -308,7 +316,7 @@ class FunctionsController extends Controller
     {
 
         // Log::critical("message");
-        $response = Http::get(env('API_BASE_URL') . "account/lovs");
+        $response = Http::get(\config('base_urls.api_base_url') . "account/lovs");
         $base_response = new BaseResponse();
 
         if ($response->ok()) {    // API response status code is 200
@@ -436,12 +444,25 @@ class FunctionsController extends Controller
 
     public function recipientNameEnquiry(Request $req)
     {
+        // return $req;
         $data = [
             'payNumber' => $req->beneficiaryAccount,
             'paymentCode' => $req->payeeName,
             'paymentType' => $req->paymentType
         ];
         // return $data;
+        if ($req->payeeName == "DYCAR") {
+
+            // http://197.157.233.214:5908/integrator/dycar/verifyMeter?meterNumber=54120004053
+
+            $response = Http::get("http://197.157.233.214:5908/integrator/dycar/verifyMeter?meterNumber=$req->beneficiaryAccount");
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        }
+
+
+
+
         $response = Http::post(env('API_BASE_URL') . "/payment/nameEnquiry", $data);
         // return $response;
         $result = new ApiBaseResponse();

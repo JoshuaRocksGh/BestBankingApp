@@ -15,49 +15,138 @@ class AtmCardRequestController extends Controller
     //
     public function atm_card_request(Request $request)
     {
+        // return $request;
+        $base_response = new BaseResponse();
 
+        $authToken = session()->get('userToken');
+        $userID = session()->get('userId');
+
+        $client_ip = request()->ip();
+
+        $deviceInfo = session()->get('deviceInfo');
         $authToken = session()->get('userToken');
         $entrySource = env('APP_ENTRYSOURCE');
         $channel = env('APP_CHANNEL');
 
 
         $data = [
+            // "accountNumber" => $request->accountNumber,
+            // "branch" => $request->pickUpBranch,
+            // "cardNumber" => null,
+            // "channel" => $channel,
+            // "entrySource" => $entrySource,
+            // "pinCode" => $request->pinCode,
+            // "tokenID" => $authToken,
+            // "secondaryAccounts" => [""],
+
             "accountNumber" => $request->accountNumber,
+            "authToken" => $authToken,
             "branch" => $request->pickUpBranch,
-            "cardNumber" => null,
+            "brand" => $deviceInfo['deviceBrand'],
             "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $client_ip,
+            "deviceName" => $deviceInfo['deviceOs'],
             "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
             "pinCode" => $request->pinCode,
+            "cardNumber" => "",
+            "cardType" => $request->cardType,
+            "secondaryAccounts" => [
+                ""
+            ],
             "tokenID" => $authToken,
-            "secondaryAccounts" => [""]
+            "userName" => $userID
         ];
-        $response = Http::post(env('API_BASE_URL') . "/request/atmCard", $data);
-        $result = new ApiBaseResponse();
-        return  $result->api_response($response);
+        // return $data;
+
+
+        try {
+            $response = Http::post(env('API_BASE_URL') . "/request/atmCard", $data);
+            $result = new ApiBaseResponse();
+            return  $result->api_response($response);
+        } catch (\Exception $e) {
+
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+
+            return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
+
+        }
     }
 
     // PIB card Block
     public function atm_card_block(Request $request)
     {
         // return $request;
+
+        $base_response = new BaseResponse();
+
         $authToken = session()->get('userToken');
+        $userID = session()->get('userId');
+
+        $client_ip = request()->ip();
+        $deviceInfo = session()->get('deviceInfo');
         $entrySource = env('APP_ENTRYSOURCE');
         $channel = env('APP_CHANNEL');
 
 
         $data = [
+            // "accountNumber" => $request->accountNumber,
+            // "branch" => $request->cardBranch,
+            // "cardNumber" => $request->cardNumber,
+            // "channel" => $channel,
+            // "entrySource" => $entrySource,
+            // "pinCode" => $request->pinCode,
+            // "tokenID" => $authToken,
+            // "secondaryAccounts" => [""]
+
             "accountNumber" => $request->accountNumber,
+            "authToken" => $authToken,
             "branch" => $request->cardBranch,
-            "cardNumber" => $request->cardNumber,
+            "brand" => $deviceInfo['deviceBrand'],
             "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $client_ip,
+            "deviceName" => $deviceInfo['deviceOs'],
             "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
+            "cardNumber" => $request->cardNumber,
+            "cardType" => $request->cardType,
             "pinCode" => $request->pinCode,
+            "secondaryAccounts" => [
+                ""
+            ],
             "tokenID" => $authToken,
-            "secondaryAccounts" => [""]
+            "userName" => $userID
         ];
-        $response = Http::post(env('API_BASE_URL') . "request/blockCard", $data);
-        $result = new ApiBaseResponse();
-        return  $result->api_response($response);
+
+        // return $data;
+
+        try {
+            $response = Http::post(env('API_BASE_URL') . "request/blockCard", $data);
+            $result = new ApiBaseResponse();
+            return  $result->api_response($response);
+        } catch (\Exception $e) {
+
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+
+            return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
+
+        }
     }
 
 
@@ -184,6 +273,73 @@ class AtmCardRequestController extends Controller
                 'message' => (string) $e->getMessage()
             ]);
             return $base_response->api_response('500', "Internal Server Error",  NULL); // return API BASERESPONSE
+
+        }
+    }
+
+    public function atm_card_activate(Request $request)
+    {
+        // return $request;
+
+        $base_response = new BaseResponse();
+
+
+        $authToken = session()->get('userToken');
+        $userID = session()->get('userId');
+
+        $client_ip = request()->ip();
+        $deviceInfo = session()->get('deviceInfo');
+        $entrySource = env('APP_ENTRYSOURCE');
+        $channel = env('APP_CHANNEL');
+
+        $data = [
+            // "accountNumber" => $request->accountNumber,
+            // "branch" => $request->cardBranch,
+            // "cardNumber" => $request->cardNumber,
+            // "channel" => $channel,
+            // "entrySource" => $entrySource,
+            // "pinCode" => $request->pinCode,
+            // "tokenID" => $authToken,
+            // "secondaryAccounts" => [""]
+
+            "accountNumber" => $request->accountNumber,
+            "authToken" => $authToken,
+            "branch" => $request->cardBranch,
+            "brand" => $deviceInfo['deviceBrand'],
+            "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $client_ip,
+            "deviceName" => $deviceInfo['deviceOs'],
+            "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
+            "cardNumber" => $request->cardNumber,
+            "cardType" => $request->cardType,
+            "pinCode" => $request->pinCode,
+            "secondaryAccounts" => [
+                ""
+            ],
+            "tokenID" => $authToken,
+            "userName" => $userID
+        ];
+
+        // return $data;
+
+        try {
+            $response = Http::post(env('API_BASE_URL') . "request/activateCard", $data);
+            $result = new ApiBaseResponse();
+            return  $result->api_response($response);
+        } catch (\Exception $e) {
+
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+
+            return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
 
         }
     }

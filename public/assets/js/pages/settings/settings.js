@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // console.log("dong");
     if (ISCORPORATE) {
         var settingsList = [
-            // {
-            //     title: "change transaction pin",
-            //     icon: "unlock-alt",
-            //     bgClass: "grad-gray-blue",
-            //     dataTarget: "#change_transaction_pin_modal",
-            // },
+            {
+                title: "create originator",
+                icon: "user-plus",
+                bgClass: "green-yellow",
+                dataTarget: "#create_originator",
+            },
             {
                 title: "change password",
                 icon: "user-lock",
@@ -26,16 +26,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 bgClass: "pink-cyan",
                 dataTarget: "#enquiry_modal",
             },
-            {
-                title: "Tarrif List",
-                icon: "chart-bar",
-                bgClass: "cyan-green",
-            },
-            {
-                title: "Agent List",
-                icon: "users",
-                bgClass: "yellow-yellow",
-            },
+            // {
+            //     title: "Tarrif List",
+            //     icon: "chart-bar",
+            //     bgClass: "cyan-green",
+            // },
+            // {
+            //     title: "Agent List",
+            //     icon: "users",
+            //     bgClass: "yellow-yellow",
+            // },
             {
                 title: "Help (FAQs)",
                 icon: "question-circle",
@@ -81,16 +81,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 bgClass: "pink-cyan",
                 dataTarget: "#enquiry_modal",
             },
-            {
-                title: "Tarrif List",
-                icon: "chart-bar",
-                bgClass: "cyan-green",
-            },
-            {
-                title: "Agent List",
-                icon: "users",
-                bgClass: "yellow-yellow",
-            },
+            // {
+            //     title: "Tarrif List",
+            //     icon: "chart-bar",
+            //     bgClass: "cyan-green",
+            // },
+            // {
+            //     title: "Agent List",
+            //     icon: "users",
+            //     bgClass: "yellow-yellow",
+            // },
             {
                 title: "Help (FAQs)",
                 icon: "question-circle",

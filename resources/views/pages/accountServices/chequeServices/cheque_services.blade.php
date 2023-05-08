@@ -55,7 +55,7 @@
             {{-- <div class=" form-group mb-3 justify-content-center d-md-flex mx-md-auto"
                 style="max-width: 750px; min-height: 70px;">
             </div> --}}
-            <div class="col-lg-8 " style="max-width: 50rem">
+            <div class="col-lg-8  card_request_form" style="max-width: 50rem; border-radius: 5px; padding:10px;">
                 <div class=" align-self-center" style="min-width: 100px">
                     <label class="d-block f-18 font-weight-bold mb-1 text-dark">Select Account</label>
                 </div>
@@ -70,7 +70,7 @@
                     <div class="tab-content pt-0" id="tabContent_cheque_services">
                         <div class="tab-pane fade show active bg-white" id="tab_cheque_book_request" role="tabpanel">
                             @include('pages.accountServices.chequeServices.cheque_book_request')</div>
-                        <div class="tab-pane fade" id="tab_block_cheque" role="tabpanel">
+                        <div class="tab-pane fade bg-white" id="tab_block_cheque" role="tabpanel">
                             @include('pages.accountServices.chequeServices.block_cheque')
                         </div>
                         <div class="tab-pane fade" id="tab_confirm_cheque" role="tabpanel">...
@@ -81,6 +81,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     @include('snippets.pinCodeModal')

@@ -17,11 +17,19 @@
                 <option value="100">100</option>select
             </select>
         </div>
+        {{--  {{ $branches['data'] }}  --}}
+        {{--  @if ($branches as $key => $value)
+            {{ $branches['data'] }}
+        @endif  --}}
+
         <div class="form-group ">
             <label class="text-dark"> Pick Up Branch</label>
             <select class="form-control" required name="pickUpBranch" id="pick_up_branch"
                 placeholder="Select Pick Up Branch" required>
                 <option disabled selected value="">Select Pick Up Branch</option>
+                {{--  @foreach (json_encode($branches['data']) as $branch)
+                    {{ $branch }}
+                @endforeach  --}}
             </select>
         </div>
         <div class="form-group text-right mt-4">

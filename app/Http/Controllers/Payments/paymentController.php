@@ -6,6 +6,7 @@ use App\Http\classes\API\BaseResponse;
 use App\Http\classes\WEB\ApiBaseResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class paymentController extends Controller
@@ -27,7 +28,7 @@ class paymentController extends Controller
     }
 
     //method to return the korpone loane payment screen
-    public function e_korpor()
+    public function salone_link()
     {
 
         return view("pages.payments.e_korpor");
@@ -69,6 +70,16 @@ class paymentController extends Controller
         return view('pages.payments.payments_beneficiary_list');
     }
 
+    public function airport_tax()
+    {
+        return view('pages.payments.airport_tax_payment');
+    }
+
+    public function national_id()
+    {
+        return view('pages.payments.national_id_payment');
+    }
+
     public function paymentBeneficiaries()
     {
         // $userID = session()->get('userId');
@@ -76,5 +87,99 @@ class paymentController extends Controller
         $response = Http::get(env('API_BASE_URL') . "/beneficiary/getPaymentBeneficiaries/$customerNumber");
         $result = new ApiBaseResponse();
         return $result->api_response($response);
+    }
+
+    public function get_airport_tax_amount()
+    {
+        $base_response = new BaseResponse();
+
+        try {
+
+            $response = Http::get(env('API_BASE_URL') . "payment/airportTaxAmount");
+            return $response;
+            $result = new ApiBaseResponse();
+            // Log::alert($response);
+            return $result->api_response($response);
+            // return json_decode($response->body();
+
+        } catch (\Exception $e) {
+
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+
+            return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
+
+        }
+    }
+
+    public function airport_tax_payment(Request $request)
+    {
+
+        // return $request;
+        $base_response = new BaseResponse();
+        $authToken = session()->get('userToken');
+        $userID = session()->get('userId');
+        $client_ip = request()->ip();
+        $api_headers = session()->get('headers');
+        $deviceInfo = session()->get('deviceInfo');
+        // return $deviceInfo;
+        $entrySource = env('APP_ENTRYSOURCE');
+        $channel = env('APP_CHANNEL');
+        // return $userAlias;
+
+
+        $accountDetails = $request->accountDetails;
+        $getAccountDetails = explode("~", $accountDetails);
+        // return $getAccountDetails;
+        $accountName = $getAccountDetails[1];
+        $accountNumber = $getAccountDetails[2];
+        $accountCurrency = $getAccountDetails[3];
+        $accountCurrencyIsoCode = $getAccountDetails[5];
+        $accountMandate = $getAccountDetails[6];
+
+        $data = [
+            "accountNumber" => $accountNumber,
+            "amount" => $request->transferAmount,
+            "authToken" => $authToken,
+            "currency" => $accountCurrency,
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $client_ip,
+            "entrySource" => $entrySource,
+            "flightDate" => $request->flightDate,
+            "flightNumber" => $request->flightNumber,
+            "passportNumber" => $request->passportNumber,
+            "phoneNumber" => "",
+            "pinCode" => $request->userPin,
+            "userName" => $userID
+        ];
+
+        // return $api_headers;
+        // {"x-api-key":"123","x-api-secret":"123","x-api-source":"123","x-api-token":"123"}
+
+        try {
+
+            $response = Http::withHeaders($api_headers)->post(env('API_BASE_URL') . "payment/airportTax", $data);
+            // return $response;
+            $result = new ApiBaseResponse();
+            // Log::alert($response);
+            return $result->api_response($response);
+            // return json_decode($response->body();
+
+        } catch (\Exception $e) {
+
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+
+            return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
+
+        }
     }
 }

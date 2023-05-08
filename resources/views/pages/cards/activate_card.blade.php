@@ -3,8 +3,8 @@
     <div class="container mx-auto" style="max-width: 550px">
         <div class="form-group ">
             <label class=" text-dark">Card Number</label>
-            <input class="form-control text-input" placeholder="Card Display Name" id="card_number" type="text"
-                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+            <input class="form-control text-input" placeholder="Card Display Name" id="activate_card_number"
+                type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
         </div>
         <div class="form-group" id="pay_from_account">
 

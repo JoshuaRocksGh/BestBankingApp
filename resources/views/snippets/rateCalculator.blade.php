@@ -39,7 +39,7 @@
             </div>
             {{--  style="
             background: linear-gradient(90deg, var(--primary) 0%, var(--teal) 87%); "  --}}
-            <div class="bg-danger p-2 ">
+            <div class="bg-light p-2 ">
                 <div class="justify-content-around d-flex">
                     <div class="col-5 font-weight-bold">
                         <div class="text-center mb-2" id="abbr1"> cur1 </div>
@@ -182,12 +182,12 @@
                 //     conversion2
                 // })
                 conversion1.innerHTML =
-                    `1 ${currency1} = ${currency2} ${formatToCurrency(currencyConvertor(pageData.fxRate, 1.00, currency1, currency2)?.convertedAmount)}`
+                    `1 ${currency1} = ${currency2} ${formatToCurrency(currencyConvertor(pageData?.fxRate, 1.00, currency1, currency2)?.convertedAmount)}`
                 conversion2.innerHTML =
-                    `1 ${currency2} = ${currency1} ${formatToCurrency(currencyConvertor(pageData.fxRate, 1.00, currency2, currency1)?.convertedAmount)}`
+                    `1 ${currency2} = ${currency1} ${formatToCurrency(currencyConvertor(pageData?.fxRate, 1.00, currency2, currency1)?.convertedAmount)}`
                 const keyup = new Event('keyup')
                 document.getElementById('amount_to_convert').dispatchEvent(keyup)
-                console.log(currencyConvertor(pageData.fxRate, 1.00, currency1, currency2))
+                // console.log(currencyConvertor(pageData?.fxRate, 1.00, currency1, currency2))
             })
 
             $(".rate_button").on("click", (e) => {

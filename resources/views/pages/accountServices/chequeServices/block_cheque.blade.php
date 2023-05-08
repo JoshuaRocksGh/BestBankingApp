@@ -10,6 +10,25 @@
             <label class=" text-dark"> Cheque Amount</label>
             <input class="form-control text-input" placeholder="Cheque Amount" type="text" id="chequeAmount" />
         </div>
+        <div class="form-group align-items-center ">
+
+            <label class=" text-dark">Salary Advance Amount</label>
+
+            {{--  <div class="input-group mb-1" style="padding: 0px;">
+                <div class="input-group-prepend">
+                    <input type="text" placeholder="" value="SLE" class="input-group-text account_currency "
+                        style="width: 40%;" disabled>
+                </div>
+
+                &nbsp;&nbsp;
+                <input class="form-control  text-input key_transfer_amount" type="text"  disabled>
+
+                <input type="text" class="form-control text-input  " placeholder="Enter Amount " id="amount"
+                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
+                     required>
+
+            </div>  --}}
+        </div>
         <div class="form-group  mb-3" id="pay_from_account">
 
             <label class=" text-dark">Date Issued</label>

@@ -22,13 +22,28 @@ class PaymentBeneficiaryController extends Controller
         $entrySource = env('APP_ENTRYSOURCE');
         $channel = env('APP_CHANNEL');
         $customerNumber = session()->get('customerNumber');
+        $authToken = session()->get('userToken');
+        $userId = session()->get('userId');
+        $deviceInfo = session()->get('deviceInfo');
+        $channel = \config('otp.channel');
+        $entrySource = \config('otp.entry_source');
 
         $data = [
             "account" => $request->account,
+            'authToken' => $authToken,
             "beneID" => $request->Id,
             "nickname" => $request->nickname,
             "payeeName" => $request->payeeName,
             "paymentType" => $request->paymentType,
+            "brand" => $deviceInfo['deviceBrand'],
+            "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $deviceInfo['deviceIp'],
+            "deviceName" => $deviceInfo['deviceBrand'],
+            "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
             "securityDetails" =>
             [
                 "approvedBy" => $request->approvedBy,
@@ -41,19 +56,21 @@ class PaymentBeneficiaryController extends Controller
                 "modifyDateTime" => date('Y-m-d')
 
             ],
-            "userID" => $customerNumber
+            "userID" => $customerNumber,
+            "userName" => $userID,
         ];
         // Log::alert($data);
-        // return $data ;
+        // return $data;
         // dd(env('API_BASE_URL') . "beneficiary/addPaymentBeneficiary");
 
         try {
             if ($request->mode === "EDIT") {
-                $response = Http::put(env('API_BASE_URL') . "/beneficiary/updatePaymentBeneficiary", $data);
+                $response = Http::put(env('API_BASE_URL') . "beneficiary/updatePaymentBeneficiary", $data);
             } else {
-                $response = Http::post(env('API_BASE_URL') . "/beneficiary/addPaymentBeneficiary", $data);
+                $response = Http::post(env('API_BASE_URL') . "beneficiary/addPaymentBeneficiary", $data);
             }
 
+            // dd($response);
             // return json_decode($response->body());
 
             $result = new ApiBaseResponse();

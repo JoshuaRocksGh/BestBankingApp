@@ -74,7 +74,7 @@ class BollorieController extends Controller
 
         try {
 
-            // dd((env('API_BASE_URL') . "request/saladFees"));
+            // return (env('CIB_API_BASE_URL') . "bollore-transfer-pending");
 
             $response = Http::post(env('CIB_API_BASE_URL') . "bollore-transfer-pending", $data);
             // return $response;

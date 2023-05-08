@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Http\classes\API\BaseResponse;
 use App\Http\classes\WEB\ApiBaseResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -51,6 +52,8 @@ class settingsController extends Controller
 
     public function create_originator_api(Request $request)
     {
+        // return $request;
+        $base_response = new BaseResponse();
         $authToken = session()->get('userToken');
         $userID = session()->get('userId');
         $api_headers = session()->get("headers");
@@ -58,12 +61,18 @@ class settingsController extends Controller
 
         // $base_response = new BaseResponse();
 
+        $authToken = session()->get('userToken');
+        $userID = session()->get('userId');
+        $userAlias = session()->get('userAlias');
+        $customerPhone = session()->get('customerPhone');
+        $customerNumber = session()->get('customerNumber');
+        $userMandate = session()->get('userMandate');
 
 
         $accountNumber = $request->accountNo;
-        $firstName = $request->first_name;
-        $otherName = $request->other_name;
-        $lastName = $request->last_name;
+        $firstName = $request->firstName;
+        $telephone = $request->telephone;
+        $lastName = $request->lastName;
         $email = $request->email;
         // $accountNumber = "004001100241700194";
         // $beneficiaryMobileNo = $request->receiver_phoneNo;
@@ -72,19 +81,48 @@ class settingsController extends Controller
         // $referenceNo = $request->reference_no;
         // $pinCode = $request->pin;
 
+        $getAccount = $request->accountDetails;
+        $allAccDetails = explode("~", $getAccount);
+        // return $allAccDetails;
+        $accountType = $allAccDetails[0];
+        $accountName = $allAccDetails[1];
+        $accountNumber = $allAccDetails[2];
+        $accountCurrency = $allAccDetails[3];
+        $accountCurrencyIsoCode = $allAccDetails[5];
+        $accountMandate = $allAccDetails[6];
+
 
         $data = [
 
+            "accountName" => $accountName,
             "accountNumber" => $accountNumber,
             "firstName" => $firstName,
-            "otherName" => $otherName,
+            "telephone" => $telephone,
             "lastName" => $lastName,
-            "email" => $email
+            "email" => $email,
+            "authToken" => $authToken,
+            "userID" => $userID,
+            "userAlias" => $userAlias,
+            "customerPhone" => $customerPhone,
+            "customerNumber" => $customerNumber,
+            "userMandate" => $userMandate,
+            "accountMandate" => $accountMandate,
 
         ];
         // for debugging purposes
-        return $data;
+        // return $data;
 
+        try {
+            $response = Http::post(env('CIB_API_BASE_URL') . "create-originator-gone-for-pending", $data);
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+
+        }catch(\Exception $e){
+
+
+            return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
+        }
 
         // $response = Http::withHeaders($api_headers)->post(env('API_BASE_URL') . "payment/reverseCardless", $data);
         // return $response;
@@ -151,4 +189,9 @@ class settingsController extends Controller
 
         // return $result->api_response($response);
     }
+
+    // public function create_originator(Request $request)
+    // {
+    //     return $request;
+    // }
 }

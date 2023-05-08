@@ -4,7 +4,7 @@ function getBeneficiaryList() {
         url: "payment-beneficiary-list-api",
         datatype: "application/json",
         success: function (response) {
-            console.log("paymentBeneficiaryList==>", response)
+            console.log("paymentBeneficiaryList==>", response);
             if (response.responseCode == "000") {
                 const data = response.data;
 
@@ -19,7 +19,7 @@ function getBeneficiaryList() {
                     return;
                 }
                 siteLoading("hide");
-            }else{
+            } else {
                 setTimeout(function () {
                     getBeneficiaryList();
                 }, $.ajaxSetup().retryAfter);
@@ -39,7 +39,7 @@ function getPaymentTypes() {
         url: "get-payment-types-api",
         datatype: "application/json",
         success: function (response) {
-            console.log("paymentTypesAPi==>", response)
+            console.log("paymentTypesAPi==>", response);
             if (response.responseCode == "000") {
                 const data = response.data;
                 pageData.payTypes = [];
@@ -59,18 +59,17 @@ function getPaymentTypes() {
                     $(".payment-tabs").append(paymentCard);
                 });
                 initPaymentTabs();
-            getBeneficiaryList();
-
-            }else{
+                getBeneficiaryList();
+            } else {
                 setTimeout(function () {
                     getPaymentTypes();
-                }, $.ajaxSetup().retryAfter);
+                }, 1000);
             }
         },
         error: function (xhr, status, error) {
             setTimeout(function () {
-                // getPaymentTypes();
-            }, $.ajaxSetup().retryAfter);
+                getPaymentTypes();
+            }, 1000);
         },
     });
 }
@@ -144,7 +143,17 @@ function drawBeneficiaryTable() {
             const beneficiaryData = JSON.parse(
                 $(editButton).attr("data-value")
             );
-            editPaymentBeneficiary(beneficiaryData, currentType);
+
+            getOTP(503).then((data) => {
+                // console.log(data);
+                if (data.responseCode == "000") {
+                    editPaymentBeneficiary(beneficiaryData, currentType);
+
+                    // editBankBeneficiary(beneficiaryData, currentType);
+                } else {
+                    toaster(data.message, "warning");
+                }
+            });
         });
     });
     siteLoading("hide");
@@ -179,6 +188,20 @@ $(() => {
     siteLoading("show");
     getPaymentTypes();
     $("#add_beneficiary").on("click", () => {
-        addPaymentBeneficiary($(".current-type").attr("data-value"));
+        siteLoading("show");
+
+        getOTP(502).then((data) => {
+            console.log(data.responseCode);
+            if (data.responseCode == "000") {
+                // editBankBeneficiary(beneficiaryData, currentType);
+                siteLoading("hide");
+
+                addPaymentBeneficiary($(".current-type").attr("data-value"));
+            } else {
+                siteLoading("hide");
+
+                toaster(data.message, "warning");
+            }
+        });
     });
 });

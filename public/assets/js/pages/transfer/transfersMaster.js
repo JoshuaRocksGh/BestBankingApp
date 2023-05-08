@@ -1,16 +1,22 @@
+const formData = new FormData();
+
 function makeTransfer(url, data) {
+    // console.log("makeTransfer===>, ", data);
     siteLoading("show");
     $.ajax({
         type: "POST",
         url: url,
         datatype: "application/json",
         data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         success: function (response) {
             siteLoading("hide");
-            console.log(response);
+            console.log("makeTransfer ==>", response);
             if (response.responseCode == "000") {
                 swal.fire({
                     // title: "Transfer successful!",
@@ -47,11 +53,16 @@ function makeTransfer(url, data) {
 }
 
 function corporateSpecific(transferInfo) {
-    const endPoint =
+    console.log("transferInfo ==>", transferInfo);
+
+    const corporateEndPoint =
         "corporate-" +
         transferType.toLowerCase().trim().replace(" ", "-") +
         "-transfer-api";
-    makeTransfer(endPoint, transferInfo);
+    // console.log("endPoint ==>", corporateEndPoint);
+    // return;
+
+    makeTransfer(corporateEndPoint, transferInfo);
 }
 
 function getToAccount(endPoint) {
@@ -107,12 +118,25 @@ function getCountries() {
         success: function (response) {
             let data = response.data;
             if (data.length > 1) {
+                let myCOuntriesArray = data;
+                // console.log("getCountries==>",myCOuntriesArray )
+                myCOuntriesArray.sort(function (a, b) {
+                    let nameA = a.description.toUpperCase(); // convert name to uppercase
+                    let nameB = b.description.toUpperCase(); // convert name to uppercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 $("#onetime_select_country").empty();
                 $("#onetime_select_country").append(
                     `<option selected disabled value=""> --- Select Country ---</option>`
                 );
                 $.each(data, (i) => {
-                    let { actualCode, codeType, description } = data[i];
+                    let { actualCode, codeType, description } = myCOuntriesArray[i];
                     option = `<option value="${codeType}"  data-country-code="${actualCode}">${description}</option>`;
                     $("#onetime_select_country").append(option);
                 });
@@ -141,12 +165,24 @@ function getInternationalBanks(countryCode) {
             // console.log("get-international-bank-list-api =>", response)
             let data = response.data;
             if (data.length > 1) {
+                let myInternationalBanksArray = data;
+                myInternationalBanksArray.sort(function (a, b) {
+                    let nameA = a.BANK_DESC.toUpperCase(); // convert name to uppercase
+                    let nameB = b.BANK_DESC.toUpperCase(); // convert name to uppercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 $("#onetime_select_bank").empty();
                 $("#onetime_select_bank").append(
                     `<option selected disabled value=""> --- Select Bank ---</option>`
                 );
                 $.each(data, (i) => {
-                    let { BICODE, BANK_DESC, COUNTRY } = data[i];
+                    let { BICODE, BANK_DESC, COUNTRY } = myInternationalBanksArray[i];
                     option = `<option value="${BICODE}" data-bank-country="${COUNTRY}" >${BANK_DESC}</option>`;
                     $("#onetime_select_bank").append(option);
                 });
@@ -171,12 +207,25 @@ function getLocalBanks() {
         success: function (response) {
             let data = response.data;
             if (data.length > 1) {
+                let myBanksArray = data;
+                myBanksArray.sort(function (a, b) {
+                    let nameA = a.bankDescription.toUpperCase(); // convert name to uppercase
+                    let nameB = b.bankDescription.toUpperCase(); // convert name to uppercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 $("#onetime_select_bank").empty();
                 $("#onetime_select_bank").append(
                     `<option selected disabled value=""> --- Select Bank ---</option>`
                 );
                 $.each(data, (i) => {
-                    let { bankCode, bankDescription, bankSwiftCode } = data[i];
+                    let { bankCode, bankDescription, bankSwiftCode } =
+                        myBanksArray[i];
                     option = `<option value="${bankCode}" data-bank-swift-code="${bankSwiftCode}">${bankDescription}</option>`;
                     $("#onetime_select_bank").append(option);
                 });
@@ -301,7 +350,25 @@ function handleToAccount(account) {
     $(".display_to_account_no").text(account.beneficiaryAccountNumber);
 }
 
+function getTransType() {
+    var transType = $("input[name='trans_type']:checked").val();
+    $("#display_voucher_attachment").text("No");
+    // transferInfo.voucher = null;
+    // transferInfo.fileUploaded = null;
+
+    console.log(transType);
+}
+
 $(() => {
+    // CONVERT TO BASE 64
+    const toBase64 = (file) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+
     let transferInfo = {};
     let fromAccount = {};
     $(".account_currency").text("SLL");
@@ -318,6 +385,33 @@ $(() => {
         minimumResultsForSearch: Infinity,
         templateResult: accountTemplate,
         templateSelection: accountTemplate,
+    });
+
+    // NORMAL OR INVOICE PAYMENT
+    getTransType();
+
+    $("input[name='trans_type']").click(function () {
+        // $("input[name='trans_type']:checked").val();
+        var transType = $("input[name='trans_type']:checked").val();
+        // console.log(transType);
+
+        if (transType == "invoice") {
+            console.log("invoice===");
+            $(".display_upload_input").toggle(500);
+            $("#display_voucher_attachment").text("Yes");
+
+            return;
+        }
+        if (transType == "normal") {
+            console.log("===normal");
+
+            transferInfo.voucher = "";
+            transferInfo.fileUploaded = "";
+            $(".display_upload_input").hide();
+            $("#display_voucher_attachment").text("No");
+
+            return;
+        }
     });
 
     function renderOwnAccounts() {
@@ -523,6 +617,7 @@ $(() => {
 
     $("#amount").on("keyup", function () {
         transferInfo.transferAmount = $(this).val();
+        console.log("#amount==>", transferInfo.transferAmount);
         if (!transferInfo.transferAmount) {
             $(".display_transfer_amount").text("");
             $(".display_transfer_currency").text("");
@@ -538,9 +633,19 @@ $(() => {
         $(".display_transfer_amount").text(
             formatToCurrency(transferInfo.transferAmount)
         );
+
         if (transferType === "International Bank") {
             convertToLocalCurrency();
         }
+        if (
+            transferInfo.transferAmount == "" ||
+            transferInfo.transferAmount == null
+        ) {
+            formatToCurrency("");
+        }
+        $(".key_transfer_amount").val(
+            formatToCurrency(transferInfo.transferAmount)
+        );
     });
     // ===================================================
     //  isOnetimeTransfer
@@ -611,6 +716,7 @@ $(() => {
                 );
             }
             $("#transfer_currency").on("change", () => {
+                console.log("transfer_currency ==>", $(this).val());
                 transferInfo.transferCurrency = $(
                     "#transfer_currency option:selected"
                 ).val();
@@ -625,10 +731,15 @@ $(() => {
                 onetimeToAccount.bankCountryCode = $(
                     "#onetime_select_country"
                 ).val();
+                // console.log(" onetime_select_country=>", onetimeToAccount.bankCountryCode )
                 getInternationalBanks(onetimeToAccount.bankCountryCode);
                 $("#onetime_select_bank").prop("selectedIndex", -1);
             });
+
+
         }
+
+
     }
     // =========================================================
     //Other Checks
@@ -682,6 +793,7 @@ $(() => {
                     $(".email-div").hide(500);
             }
         });
+        $("#standing_other_type").trigger("change");
 
         //standing order frequency
         $("#beneficiary_frequency").on("change", function () {
@@ -692,6 +804,26 @@ $(() => {
             $(".display_frequency_so").text(standing_order[1]);
         });
     }
+
+    // adding invoice file
+    transferInfo.voucher = "";
+    transferInfo.fileUploaded = "";
+
+    $("#invoice_file").change(function () {
+        var file = document.getElementById("invoice_file").files[0];
+        console.log("file ==>", file);
+
+        if (file.size > 5000000) {
+            toaster(
+                "The file size is too large. Max file size of 5MB!",
+                "error"
+            );
+            return;
+        }
+
+        transferInfo.voucher = file;
+        transferInfo.fileUploaded = "Y";
+    });
 
     //  {{-- ---------------- --}}
     // conclusions
@@ -704,9 +836,9 @@ $(() => {
                 : $("#purpose").val();
         $(".display_purpose").text(transferInfo.transferPurpose);
         transferInfo.transferCategory = $("#category").val();
-        if (transferInfo.transferCategory !== "Others") {
-            transferInfo.transferCategory = $("#category").val().split("~")[1];
-        }
+        // if (transferInfo.transferCategory !== "Others") {
+        //     transferInfo.transferCategory = $("#category").val().split("~")[1];
+        // }
         $(".display_category").text(transferInfo.transferCategory);
 
         e.preventDefault();
@@ -733,7 +865,7 @@ $(() => {
             !transferInfo.accountNumber ||
             !transferInfo.beneficiaryAccountNumber ||
             !transferInfo.transferAmount ||
-            !transferInfo.transferCategory ||
+            // !transferInfo.transferCategory ||
             !transferInfo.transferPurpose
         ) {
             toaster("complete all fields", "warning");
@@ -776,15 +908,100 @@ $(() => {
         $("#standing_other_type").on("change", () => {
             const type = $("#standing_other_type").val();
         });
-        $("#transaction_form").hide();
-        $("#transaction_summary").show();
+
+        // CALL GET OTP FUNCTION
+        console.log(pageData.transferType);
+
+        if (!ISCORPORATE) {
+            if (pageData.transferType == "Own Account") {
+                getOTP(204).then((data) => {
+                    // console.log(data);
+                    if (data.responseCode == "000") {
+                        $("#transaction_form").hide(500);
+                        $("#transaction_summary").show(500);
+                    } else {
+                        toaster(data.message, "warning");
+                    }
+                });
+            } else if (pageData.transferType == "Same Bank") {
+                getOTP(201).then((data) => {
+                    // console.log(data);
+                    if (data.responseCode == "000") {
+                        $("#transaction_form").hide(500);
+                        $("#transaction_summary").show(500);
+                    } else {
+                        toaster(data.message, "warning");
+                    }
+                });
+            } else if (pageData.transferType == "Local Bank") {
+                // console.log(
+                //     "transferInfo.transferMode ===>",
+                //     transferInfo.transferMode
+                // );
+
+                if (transferInfo.transferMode == "ACH") {
+                    // ==== ACH TRANSFER
+                    getOTP(203).then((data) => {
+                        // console.log(data);
+                        if (data.responseCode == "000") {
+                            $("#transaction_form").hide(500);
+                            $("#transaction_summary").show(500);
+                        } else {
+                            toaster(data.message, "warning");
+                        }
+                    });
+                } else {
+                    // ====RTGS TRANSFER
+                    getOTP(202).then((data) => {
+                        // console.log(data);
+                        if (data.responseCode == "000") {
+                            $("#transaction_form").hide(500);
+                            $("#transaction_summary").show(500);
+                        } else {
+                            toaster(data.message, "warning");
+                        }
+                    });
+                }
+            } else if (pageData.transferType == "International Bank") {
+                // return;
+                getOTP(205).then((data) => {
+                    console.log(data);
+                    if (data.responseCode == "000") {
+                        $("#transaction_form").hide(500);
+                        $("#transaction_summary").show(500);
+                    } else {
+                        toaster(data.message, "warning");
+                    }
+                });
+            } else if (pageData.transferType == "Standing Order") {
+                getOTP(206).then((data) => {
+                    // console.log(data);
+                    if (data.responseCode == "000") {
+                        $("#transaction_form").hide(500);
+                        $("#transaction_summary").show(500);
+                    } else {
+                        toaster(data.message, "warning");
+                    }
+                });
+            } else {
+                return;
+            }
+        }
+
+        $("#transaction_form").hide(500);
+        $("#transaction_summary").show(500);
+        // ===== OWN ACCOUNT OTP ==========
+
+        // return;
+        // $("#transaction_form").hide();
+        // $("#transaction_summary").show();
         // $("#transfer_details_view").hide();
         validationsCompleted = true;
     });
 
     $("#confirm_transfer_button").on("click", (e) => {
         e.preventDefault();
-        console.log(transferInfo);
+        console.log("confirm_transfer_button ==>", transferInfo);
 
         if (!$("#terms_and_conditions").is(":checked")) {
             toaster("Accept Terms & Conditions to continue", "warning");
@@ -796,10 +1013,46 @@ $(() => {
         }
         confirmationCompleted = true;
         if (ISCORPORATE) {
-            corporateSpecific(transferInfo);
+            // let formdata = new FormData();
+            // formdata.append("transferInfoVou", transferInfo.voucher);
+
+            for (const key in transferInfo) {
+                if (transferInfo.hasOwnProperty(key)) {
+                    // console.log("key ==>", key);
+
+                    formData.append(key, transferInfo[key]);
+                }
+            }
+
+            // formData.append("voucher_file", transferInfo.voucher);
+
+            // console.log("ISCORPORATE ==>", formData);
+
+            // corporateSpecific(formData);
+            corporateSpecific(formData);
             return;
         }
-        $("#pin_code_modal").modal("show");
+
+        if (!$("#transfer_otp").val()) {
+            toaster("Enter OTP to continue", "warning");
+            return false;
+        }
+
+        // VALIDATE OTP
+        siteLoading("show");
+        var otp = $("#transfer_otp").val();
+
+        validateOTP(otp, 103).then((data) => {
+            console.log("verifyOTP==>", data);
+            if (data.responseCode == "000") {
+                siteLoading("hide");
+                $("#pin_code_modal").modal("show");
+            } else {
+                siteLoading("hide");
+                toaster(data.message, "error");
+            }
+            return;
+        });
     });
 
     $("#transfer_pin").on("click", (e) => {
@@ -816,7 +1069,15 @@ $(() => {
         const endPoint =
             transferType.toLowerCase().trim().replace(" ", "-") +
             "-transfer-api";
-        makeTransfer(endPoint, transferInfo);
+
+            for (const key in transferInfo) {
+                if (transferInfo.hasOwnProperty(key)) {
+                    // console.log("key ==>", key);
+
+                    formData.append(key, transferInfo[key]);
+                }
+            }
+        makeTransfer(endPoint, formData);
         $("#user_pin").val("").text("");
         confirmationCompleted = false;
     });

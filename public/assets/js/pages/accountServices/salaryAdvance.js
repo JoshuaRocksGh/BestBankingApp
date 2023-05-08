@@ -1,8 +1,10 @@
+let transferInfo = {};
+
 function salaryFeesRequest(transferInfo) {
     siteLoading("show");
     $.ajax({
         type: "POST",
-        url: "salary-advance",
+        url: "salary-advance-api",
         datatype: "application/json",
         data: transferInfo,
         headers: {
@@ -37,7 +39,7 @@ function salaryFeesRequest(transferInfo) {
 }
 
 function getSaladFees(transferInfo) {
-    // siteLoading("show");
+    siteLoading("show");
     $.ajax({
         type: "POST",
         url: "get-salary-advance-fee",
@@ -56,6 +58,8 @@ function getSaladFees(transferInfo) {
                 console.log(saladFees);
                 console.log(accountBalance);
                 if (saladFees > accountBalance) {
+                    siteLoading("hide");
+
                     swal.fire({
                         // title: "Transfer successful!",
                         html: "Your balance is insufficient for this request",
@@ -64,13 +68,32 @@ function getSaladFees(transferInfo) {
                         confirmButtonColor: "red",
                     });
                 } else {
-                    $("#display_transfer_fee").text(getFee[1]);
-                    $("#display_currency").text(getFee[0]);
+                    getOTP(406).then((data) => {
+                        // console.log(data);
+                        if (data.responseCode == "000") {
+                            siteLoading("hide");
+                            // getSaladFees(transferInfo);
+                            $("#display_transfer_amount").text(
+                                transferInfo.transferAmount
+                            );
+                            // $("#display_currency").text(transferInfo.transferCurrency);
+                            $("#display_purpose").text(
+                                transferInfo.tranferReason
+                            );
+                            $("#display_transfer_fee").text(getFee[1]);
+                            $("#display_currency").text(getFee[0]);
 
-                    $("#salary_advance_form").hide();
-                    $("#salary_advance_summary").show();
+                            $("#salary_advance_form").hide();
+                            $("#salary_advance_summary").toggle(500);
+                        } else {
+                            siteLoading("hide");
+
+                            toaster(data.message, "warning");
+                        }
+                    });
                 }
             } else {
+                siteLoading("hide");
                 swal.fire({
                     // title: "Transfer successful!",
                     html: response.message,
@@ -126,7 +149,6 @@ function corporateSalaryAdvance(transferInfo) {
 }
 
 $(() => {
-    let transferInfo = {};
     $("#from_account").change(function () {
         let accountInfo = $(this).val();
         // console.log(accountInfo);
@@ -153,14 +175,23 @@ $(() => {
         e.preventDefault;
 
         transferInfo.secPin = $("#user_pin").val();
+        // console.log(transferInfo);
+        // return;
+
         if (transferInfo.secPin.length !== 4) {
-            toaster("invalid pin", "warning");
+            toaster("Invalid pin", "warning");
             return false;
         }
+        getSaladFees(transferInfo);
 
-        salaryFeesRequest(transferInfo);
+        // salaryFeesRequest(transferInfo);
         $("#user_pin").val("").text("");
         // confirmationCompleted = false;
+    });
+
+    $("#amount").on("keyup", function () {
+        console.log($(this).val());
+        $(".key_transfer_amount").val(formatToCurrency($(this).val()));
     });
 
     $("#next_button").click(function () {
@@ -184,16 +215,15 @@ $(() => {
             toaster("invalid transfer amount", "warning");
             return false;
         }
+        $("#pin_code_modal").modal("show");
+        return false;
 
-        getSaladFees(transferInfo);
-        $("#display_transfer_amount").text(transferInfo.transferAmount);
-        // $("#display_currency").text(transferInfo.transferCurrency);
-        $("#display_purpose").text(transferInfo.tranferReason);
+        siteLoading("show");
     });
 
     $("#back_button").on("click", (e) => {
         e.preventDefault();
-        $("#salary_advance_form").show();
+        $("#salary_advance_form").toggle(500);
         $("#salary_advance_summary").hide();
         // validationsCompleted = false;
     });
@@ -217,6 +247,7 @@ $(() => {
         //     corporateSalaryAdvance(transferInfo);
         //     return;
         // }
-        $("#pin_code_modal").modal("show");
+        // $("#pin_code_modal").modal("show");
+        salaryFeesRequest(transferInfo);
     });
 });

@@ -114,16 +114,51 @@ function initBeneficiaryForm() {
         pageData.beneficiary.payeeName = $("#payment_subtype").val();
         pageData.beneficiary.paymentType = $("#edit_modal").attr("data-type");
         pageData.beneficiary.mode = $("#edit_modal").attr("data-mode");
+        pageData.beneficiary.otp = $("#beneficiary_otp").val();
 
         if (
             !pageData.beneficiary.account ||
             !pageData.beneficiary.nickname ||
-            !pageData.beneficiary.payeeName
+            !pageData.beneficiary.payeeName ||
+            !pageData.beneficiary.otp
         ) {
             toaster("All fields required", "warning");
             return;
         }
-        saveBeneficiary(pageData.beneficiary);
+        siteLoading("show");
+        console.log(pageData);
+
+        if (pageData.beneficiary.mode == "EDIT") {
+            // console.log(pageData.beneficiary);
+
+            validateOTP(pageData.beneficiary.otp, 503).then((data) => {
+                // console.log("verifyOTP==>", data);
+                // return;
+                if (data.responseCode == "000") {
+                    // $("#pin_code_modal").modal("show");
+                    // saveBeneficiary(beneficiaryDetails);
+                    saveBeneficiary(pageData.beneficiary);
+                } else {
+                    toaster(data.message, "error");
+                }
+                return;
+            });
+        }
+        // return;
+        validateOTP(pageData.beneficiary.otp, 502).then((data) => {
+            // console.log("verifyOTP==>", data);
+            if (data.responseCode == "000") {
+                // $("#pin_code_modal").modal("show");
+                // saveBeneficiary(beneficiaryDetails)
+                siteLoading("hide");
+                saveBeneficiary(pageData.beneficiary);
+            } else {
+                siteLoading("hide");
+
+                toaster(data.message, "error");
+            }
+            return;
+        });
     });
 
     $("#delete_btn").on("click", () => {

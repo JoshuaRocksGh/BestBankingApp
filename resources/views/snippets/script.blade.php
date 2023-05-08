@@ -19,6 +19,7 @@
 <script src="{{ asset('assets/plugins/blockui/jquery.blockUI.min.js') }}" defer></script>
 <script src="{{ asset('assets/plugins/select2/select2.min.js') }}" defer></script>
 <script src="{{ asset('assets/js/functions/genericFunctions.js') }}" defer></script>
+{{-- <script src="{{ assest('assets/js/temp/jquery.idle.js') }}"></script> --}}
 {{--  tour cdn  --}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/6.0.0/intro.min.js" crossorigin="anonymous"
@@ -37,8 +38,21 @@
             $('.offcanvas-collapse').toggleClass('open')
             $('.hamburger-menu').toggleClass('open');
         })
+        //var imageUrl = "{{ asset('assets/images/simple-shiny.png') }}";
+        //var imageUrl = "{{ asset('assets/images/simple-shiny2.png') }}";
+        var imageUrl = "{{ asset('assets/images/layered-bg4.png') }}";
+        $("#wrapper").css("background-image", "url(" + imageUrl + ")");
         $("#wrapper").css("background-color", "#f1f1f1").show();
-        //$("#wrapper").css("background-color", "#fedddd").show();
+        $('#wrapper').css('background-repeat', 'no-repeat');
+        $('#wrapper').css('background-size', 'cover');
+        $('#wrapper').css('height', '100%');
+        //$("#wrapper").css("background-image", "#fedddd").show();
+        $("#wrapper1").css("background-image", "url(" + imageUrl + ")");
+        $("#wrapper1").css("background-color", "#f1f1f1").show();
+        $('#wrapper1').css('background-repeat', 'no-repeat');
+        $('#wrapper1').css('background-size', 'cover');
+        $('#wrapper1').css('height', '100%');
+        // $('#wrapper1').css('padding-bottom', '200px');
         $('.password-eye').on('click', function() {
             var $this = $(this),
                 $passwordInput = $this.prev(),
@@ -86,6 +100,29 @@
 </script>
 
 <script type="text/javascript">
+    document.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+
+    });
+
+        // hide inspect element
+// document.onkeydown=function(e){
+//     if(event.keyCode == 123 ){
+//         return false
+//     }
+
+//     if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+//         return false;
+//     }
+
+//     if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+//         return false;
+//     }
+
+//     if(e.ctrlKey && e.shiftKey && e.keyCode == 'U'.charCodeAt(0)){
+//         return false;
+//     }
+// }
     const getDeviceOS = () => {
         if (navigator.appVersion.indexOf("Win") != -1) {
             return "Windows";
@@ -126,6 +163,9 @@
 </script>
 
 <script>
+    const deviceType = getDeviceType();
+    const deviceOS = getDeviceOS();
+    const deviceID = getGPU();
     // Set timeout variables.
     //var timoutWarning = 840000; // Display warning in 14 Mins.
     var timoutWarning = 30000; // Display warning in 14 Mins.
@@ -165,4 +205,113 @@
 
     //StartWarningTimer()
     //IdleWarning()
+
+    function getOTP(transType) {
+        //console.log("get otp called");
+        //return "here"
+        return $.ajax({
+            type: "POST",
+            url: "get-otp-api",
+            datatype: "application/json",
+            data: {
+                deviceOS: deviceOS,
+                deviceType: deviceType,
+                deviceID: deviceID,
+                //userID: userID,
+                transType: transType,
+            },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+
+        })
+
+        //return getOtpResponse;
+    }
+
+    function validateOTP(otp, transType) {
+        return $.ajax({
+            type: "POST",
+            url: "verify-otp-api",
+            datatype: "application/json",
+            data: {
+                deviceOS: deviceOS,
+                deviceType: deviceType,
+                deviceID: deviceID,
+                //userID: userID,
+                transType: transType,
+                otp: otp,
+            },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+
+        })
+    }
+
+    function getLoginOTP(transType, userID) {
+        return $.ajax({
+            type: "POST",
+            url: "get-otp-api",
+            datatype: "application/json",
+            data: {
+                deviceOS: deviceOS,
+                deviceType: deviceType,
+                deviceID: deviceID,
+                userID: userID,
+                transType: transType,
+            },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+
+        })
+    }
+
+    function validateLoginOTP(otp, transType, userID) {
+        return $.ajax({
+            type: "POST",
+            url: "verify-otp-api",
+            datatype: "application/json",
+            data: {
+                deviceOS: deviceOS,
+                deviceType: deviceType,
+                deviceID: deviceID,
+                userID: userID,
+                transType: transType,
+                otp: otp,
+            },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+
+        })
+    }
+
+    // $(document).idle({
+    //     onIdle: function() {
+    //         window.location.href = 'logout';
+
+    //     },
+    //     idle: 600000,
+    //     keepTracking: true
+    // });
+
+    // var idleTime = 300000; // 5 minutes (in milliseconds)
+    // // var idleTime = 300; // 5 minutes (in milliseconds)
+    // var idleTimer;
+
+    // // Reset the timer on user activity
+    // $(document).on('mousemove keydown scroll', function() {
+    //     // alert("hhhh")
+    //     clearTimeout(idleTimer);
+    //     idleTimer = setTimeout(refreshPage, idleTime);
+    // });
+
+    // // Refresh the page after idle time
+    // function refreshPage() {
+    //     window.location.replace("login");
+    //     // window.location = "home";
+    //     // location.reload();
+    // }
 </script>

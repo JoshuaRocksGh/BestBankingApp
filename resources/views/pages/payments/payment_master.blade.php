@@ -80,6 +80,7 @@
             <div class="tab-content dashboard-body" data-title="Salone Link Form"
                 data-intro="Complete fields to perform transaction">
                 <div class="tab-pane show active" id="send_{{ $currentType }}_page">
+                    {{--  REQUEST FORM  --}}
                     <div class="mx-auto  h-100 " style="max-width: 650px" id="request_form_div">
                         <form action="#" class="select_beneficiary" id="send_{{ $currentType }}_payment_details_form"
                             autocomplete="off" aria-autocomplete="none">
@@ -167,7 +168,7 @@
 
                                 </div>
 
-                                <div class="form-group row mb-3">
+                                <div class="form-group align-items-center row">
 
                                     <b class="col-md-4 text-dark">Amount&nbsp;
                                         <span class="text-danger">*</span></b>
@@ -176,11 +177,13 @@
                                     <div class="input-group mb-1 col-md-8" style="padding: 0px;">
                                         <div class="input-group-prepend">
                                             <input type="text" value="SLL" class="input-group-text display_currency"
-                                                id="select_currency" style="width: 80px;" readonly>
+                                                id="select_currency" style="width: 80px;" readonly />
                                         </div>
 
                                         &nbsp;&nbsp;
-                                        <input type="text" class="form-control " id="amount"
+                                        <input class="form-control  text-input key_transfer_amount" type="text" disabled>
+                                        {{-- <div></div> --}}
+                                        <input type="text" class="form-control text-input  ml-2 " id="amount"
                                             placeholder="Enter Amount To Transfer"
                                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
                                             required>
@@ -215,6 +218,146 @@
                         </form>
 
 
+                    </div>
+                    {{--  SUMMARY FORM  --}}
+                    <div id="transaction_summary" style='display:none'>
+                        <div class="table-responsive p-4 mx-auto table_over_flow" style="max-width: 650px">
+                            <table class="table mb-0 table-striped p-4 mx-auto">
+                                <tbody>
+                                    <tr class="success_gif show-on-success" style="display: none">
+                                        <td class="text-center bg-white" colspan="2">
+                                            <img src="{{ asset('land_asset/images/statement_success.gif') }}"
+                                                style="zoom: 0.5" alt="">
+                                        </td>
+                                    </tr>
+                                <tr class="show-on-success" style="display: none">
+                                    <td class="text-center bg-white" colspan="2">
+                                        <span class="text-success font-13 text-bold " id="success-message"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sender Details:</td>
+                                    <td>
+                                        <span class="d-block font-13 text-primary h3 display_from_account_name"
+                                            id="display_from_account_name"> </span>
+                                        <span class="d-block font-13 text-primary h3 display_from_account_no"
+                                            id="display_from_account_no"></span>
+                                        <span
+                                            class="font-13 text-primary h3 account_currency display_from_account_currency"
+                                            id="display_from_account_currency">
+                                        </span>
+                                        &nbsp;
+                                        <span class="font-13 text-primary h3 display_from_account_amount"
+                                            id="display_from_account_amount"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Receiver Details:</td>
+                                    <td>
+                                        <span class="d-block font-13 text-primary h3 display_receiver_name"
+                                            id="display_receiver_name">
+                                        </span>
+                                        <span class="d-block font-13 text-primary h3 display_receiver_telephone"
+                                            id="display_receiver_telephone"></span>
+                                        <span class="font-13 text-primary h3 account_currency display_receiver_Adddress"
+                                            id="display_receiver_Adddress">
+                                        </span>
+                                        &nbsp;
+                                        {{--  <span class="font-13 text-primary h3 display_from_account_balance"
+                            id="display_from_account_balance"></span>  --}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Amount:</td>
+                                    <td>
+                                        <span class="font-13 text-success h3 display_currency" id="display_currency">
+                                        </span>
+                                        &nbsp;
+                                        <span class="font-13 text-success h3 display_transfer_amount"
+                                            id="display_transfer_amount"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Purpose:</td>
+                                    <td>
+                                        <span class="font-13 text-primary h3 display_purpose" id="display_purpose"></span>
+                                    </td>
+                                </tr>
+                                {{--  <tr>
+                    <td>Category:</td>
+                    <td>
+                        <span class="font-13 text-primary h3 display_category" id="display_category"></span>
+
+                    </td>
+                </tr>  --}}
+                <tr>
+                    <td>Transfer Date: </td>
+                    <td>
+                        <span class=" font-13 text-primary h3"
+                            id="display_transfer_date">{{ date('d F, Y') }}</span>
+                    </td>
+                </tr>
+                                <tr>
+                                    <td>Posted By: </td>
+                                    <td>
+                                        <span class="font-13 text-primary h3"
+                                            id="display_posted_by">{{ session()->get('userAlias') }}</span>
+                                    </td>
+                                </tr>
+                                {{--  ====== ENTER OTP =======  --}}
+                    @if (!config('app.corporate'))
+                                <tr>
+                                    <td>
+                                        <h4 class="text-danger">Enter OTP</h4>
+                                    </td>
+                                    <td><input type="text" class="form-control text-input  " placeholder="Enter Otp"
+                                            id="transfer_otp"
+                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
+                                            required></td>
+                                </tr>
+                                @endif
+                                <tr class="hide-on-success bg-danger  text-white">
+                                    <td colspan="2">
+                                        <div class="custom-control d-flex custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input d-block" name="terms_and_conditions"
+                                                id="terms_and_conditions">
+                                            <label class="custom-control-label d-flex  align-items-center font-weight-bold"
+                                                for="terms_and_conditions">
+                                                By checking this box, you agree to
+                                                abide by the Terms and Conditions
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+
+                            </table>
+
+                        </div>
+                        <br>
+                        <div class="form-group text-center hide-on-success">
+
+                            <span> <button class="btn btn-rounded back-form-button" type="button" id="back_button"> <i
+                                        class="mdi mdi-reply-all-outline"></i>&nbsp;Back</button>
+                                &nbsp; </span>
+                            <span>
+                                &nbsp;
+                                <button class="btn  btn-rounded form-button" type="button" id="confirm_transfer_button">
+                                    <span id="confirm_transfer">Confirm
+                                        Transfer</span>
+                                    <span class="spinner-border spinner-border-sm mr-1" role="status" id="spinner"
+                                        aria-hidden="true" style="display: none"></span>
+                                    <span id="spinner-text" style="display: none">Loading...</span>
+                                </button>
+                            </span>
+
+                            <span>&nbsp; <button class="btn btn-light btn-rounded hide_on_print" type="button"
+                                    id="print_receipt" onclick="window.print()" style="display: none">Print
+                                    Receipt
+                                </button></span>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane" id="redeem_{{ $currentType }}_page">

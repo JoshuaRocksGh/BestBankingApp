@@ -71,7 +71,7 @@
                         <label for="pin" class="col-4 col-form-label text-dark">
                             Enter Amount </label>
                         <input type="number" class="form-control col-8" placeholder="Enter a fixed amount to receive"
-                            id="amount"
+                            id="amount" autocomplete="off"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
                     </div>
 

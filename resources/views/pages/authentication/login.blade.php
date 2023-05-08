@@ -128,6 +128,8 @@
                 <h1 class="text-red page-header font-weight-bold font-20"> {{ $TYPE }} Internet Banking </h1>
             </div>
             <div class="card-body mt-5 mx-auto" style="max-width: 500px">
+
+                {{--  // ========= LOGIN FORM ========  --}}
                 <div id="login_form">
 
                     <h2 class="mt-0 text-left font-weight-bold font-18 mb-4">Sign In</h2>
@@ -139,22 +141,29 @@
                             style="display: none">
                         </div>
 
+                        <div class="alert alert-success bg-success text-white border-0 " role="alert"
+                            id="successful_login" style="display: none">
+                        </div>
+
                         <div class="form-group">
                             <label for="user_id">User ID</label>
                             <input class="form-control" type="text" id="user_id" placeholder="Enter Username"
                                 parsley-trigger="change" autocomplete="off" autofocus maxlength="50"
                                 aria-autocomplete="off">
                         </div>
+                        <!-- other form fields here -->
+                        <input type="hidden" name="csrf-token" id="csrf-token" value="{{ csrf_token() }}">
+                        <!-- submit button here -->
                         <div class="form-group">
                             <div class="d-flex justify-content-between align-items-end">
                                 <label for="password">Password</label>
-                                @if (!config('app.corporate'))
-                                    <button type="button" class="text-muted text-right font-12" id="forgot_password"
-                                        onmouseover='this.style.textDecoration="underline"'
-                                        onmouseout='this.style.textDecoration="none"'>Forgot
-                                        your
-                                        password?</button>
-                                @endif
+                                {{--  @if (!config('app.corporate'))  --}}
+                                <button type="button" class="text-danger text-right font-12" id="forgot_password"
+                                    onmouseover='this.style.textDecoration="underline"'
+                                    onmouseout='this.style.textDecoration="none"'>Forgot
+                                    your
+                                    password?</button>
+                                {{--  @endif  --}}
                             </div>
                             <div class="password-group">
                                 <input type="password" id="password" maxlength="50" class="password-input form-control"
@@ -180,74 +189,146 @@
                     @endif
 
                 </div>
-                @if (!config('app.corporate'))
-                    <div id="password_reset_area" style="display:none">
-                        <!-- title-->
-                        <h2 class="mt-0 mb-4 font-weight-bold font-18 text-left">Reset Password</h2>
-                        <p class="text-muted mb-4">Enter the required details to reset password</p>
-
-                        <!-- form -->
-                        <form id="reset_password_form" action="#" autocomplete="off" aria-autocomplete="off">
-                            <div class="alert alert-danger text-white bg-danger" role="alert" id="error_alert"
-                                style="display: none">
-                            </div>
-                            <div class="alert alert-warning text-white bg-warning " role="alert" id="no_question"
-                                style="display: none">
-                            </div>
-                            <div class="alert alert-success bg-success text-white" role="alert" id="reset_success"
-                                style="display: none">
-                            </div>
 
 
-                            <div class="form-group" id="user_id_view">
-                                <label for="reset_user_id">Enter User ID</label>
+                {{--  // ====== OTP FORM =====  --}}
+                <div id="enter_otp" style="display:none">
+                    {{--  <div id="enter_otp">  --}}
+                    <h2 class="mt-0 mb-4 font-weight-bold font-18 text-left">Enter OTP</h2>
+
+                    <form id="validate_otp_form" action="#" autocomplete="off" aria-autocomplete="off">
+                        @csrf
+                        <div class="alert alert-danger bg-danger text-white border-0 " role="alert" id="display_otp_error"
+                            style="display: none">
+                        </div>
+                        <div class="form-group" id="otp_view">
+                            <label for="reset_user_id">Enter Otp</label>
+                            <div class="input-group input-group-merge ">
+                                <input type="email" id="enter_otp_input" placeholder="Enter otp recieved" name="enter_otp"
+                                    class="form-control" autocomplete="off" aria-autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0 text-center">
+                            <br />
+
+                            <button class="btn btn-danger btn-block" type="sumbit" id="verify_otp_button">
+                                <span class="submit_otp_button">Verify</span>
+                                <span class="spinner-border spinner-border-sm mr-1 spinner-text-next"
+                                    style="display: none" role="status" aria-hidden="true"></span>
+                                <span class="spinner-text-next" style="display: none">Loading...</span>
+                            </button>
+
+                        </div>
+                    </form>
+
+                </div>
+
+
+                {{--  // ======== RESET PASSWORD FORM =========  --}}
+                {{--  @if (!config('app.corporate'))  --}}
+                <div id="password_reset_area" style="display:none">
+                    <!-- title-->
+                    <h2 class="mt-0 mb-4 font-weight-bold font-18 text-left">Reset Password</h2>
+                    <p class="text-muted mb-4">Enter the required details to reset password</p>
+
+                    <!-- form -->
+                    <form id="reset_password_form" action="#" autocomplete="off" aria-autocomplete="off">
+                        <div class="alert alert-danger text-white bg-danger" role="alert" id="error_alert"
+                            style="display: none">
+                        </div>
+                        <div class="alert alert-warning text-white bg-warning " role="alert" id="no_question"
+                            style="display: none">
+                        </div>
+                        <div class="alert alert-success bg-success text-white" role="alert" id="reset_success"
+                            style="display: none">
+                        </div>
+
+
+                        <div class="form-group" id="user_id_view">
+                            <label for="reset_user_id">Enter User ID</label>
+                            <div class="input-group input-group-merge ">
+                                <input type="email" id="reset_user_id" placeholder="Enter User ID"
+                                    name="reset_user_id" class="form-control" autocomplete="off"
+                                    aria-autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="security_question_form" style="display: none">
+                            <div class=" text-12 text-danger">Security Question</div>
+                            <label for="security_question_answer" id="security_question">Security Question</label>
+                            <input type="text" id="security_question_answer" name="security_question_answer"
+                                class="form-control" autocomplete="off" aria-autocomplete="off">
+                            <input type="text" id="security_question_code" autocomplete="new-password" hidden>
+                            <br>
+                            <label for="security_question_answer">New Password</label>
+                            <div class="password-group">
+                                <input type="password" id="reset_password" maxlength="50"
+                                    class="password-input form-control" placeholder="Enter New Password"
+                                    autocomplete="off" aria-autocomplete="off">
+                                <span class="password-eye"></span>
+                            </div>
+                            {{--  <input type="password" placeholder="Enter New Password" id="reset_password"
+                                name="reset_password" class="form-control" autocomplete="off" aria-autocomplete="off">  --}}
+                            <br>
+                            <label for="security_question_answer">Confirm Password</label>
+                            <div class="password-group">
+                                <input type="password" id="reset_confirm_password" maxlength="50"
+                                    class="password-input form-control" placeholder="Confirm Password" autocomplete="off"
+                                    aria-autocomplete="off">
+                                <span class="password-eye"></span>
+                            </div>
+                            {{--  <input type="password" placeholder="Confirm Password" id="reset_confirm_password"
+                                name="reset_confirm_password" autocomplete="new-password" class="form-control" />  --}}
+                        </div>
+
+                        <div class="form-group" id="security_question_otp" style="display: none">
+                            <div class="form-group" id="user_id_view_otp">
+                                <label for="user_id_view_otp">Enter Otp</label>
                                 <div class="input-group input-group-merge ">
-                                    <input type="email" id="reset_user_id" placeholder="Enter User ID"
-                                        name="reset_user_id" class="form-control" autocomplete="off"
+                                    <input type="text" id="reset_user_id_otp" placeholder="Enter otp received"
+                                        name="reset_user_id_otp" class="form-control" autocomplete="off"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
                                         aria-autocomplete="off">
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="form-group" id="security_question_form" style="display: none">
-                                <div class=" text-12 text-danger">Security Question</div>
-                                <label for="security_question_answer" id="security_question">Security Question</label>
-                                <input type="text" id="security_question_answer" name="security_question_answer"
-                                    class="form-control" autocomplete="off" aria-autocomplete="off">
-                                <input type="text" id="security_question_code" autocomplete="new-password" hidden>
-                                <br>
-                                <label for="security_question_answer">New Password</label>
-                                <input type="password" placeholder="Enter New Password" id="reset_password"
-                                    name="reset_password" class="form-control" autocomplete="off"
-                                    aria-autocomplete="off">
-                                <br>
-                                <label for="security_question_answer">Confirm Password</label>
-                                <input type="password" placeholder="Confirm Password" id="reset_confirm_password"
-                                    name="reset_confirm_password" autocomplete="new-password" class="form-control" />
-                            </div>
+                        <div class="form-group mb-0 text-center">
+                            <br>
+                            <button class="btn btn-danger btn-block" type="button" id="user_id_next_btn">
+                                <span class="user_id_next_btn_text">Next</span>
+                                <span class="spinner-border spinner-border-sm mr-1 spinner-text-next"
+                                    style="display: none" role="status" aria-hidden="true"></span>
+                                <span class="spinner-text-next" style="display: none">Loading</span>
+                            </button>
+                            <button class="btn btn-danger btn-block" style="display: none" type="button"
+                                id="security_question_submit">
+                                <span id="security_question_submit_text">Submit</span>
+                                <span class="spinner-border spinner-border-sm mr-1 security_question_submit_spinner"
+                                    role="status" aria-hidden="true" id="" style="display: none"></span>
+                                <span class="spinner-text-next security_question_submit_spinner" style="display: none"
+                                    id="">Loading</span>
 
-                            <div class="form-group mb-0 text-center">
-                                <br>
-                                <button class="btn btn-danger btn-block" type="button" id="user_id_next_btn">
-                                    <span class="user_id_next_btn_text">Next</span>
-                                    <span class="spinner-border spinner-border-sm mr-1 spinner-text-next"
-                                        style="display: none" role="status" aria-hidden="true"></span>
-                                    <span class="spinner-text-next" style="display: none">Loading</span>
-                                </button>
-                                <button class="btn btn-danger btn-block" style="display: none" type="button"
-                                    id="security_question_submit">
-                                    <span id="security_question_submit_text">Submit</span>
-                                    <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"
-                                        id="submit_spinner" style="display: none"></span>
-                                </button>
-                            </div>
-                            <div class="mt-4 text-center"> <button type="button"
-                                    class=" font-weight-bold text-red  mx-auto" id="reset_password_back_button">Back to
-                                    Login
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                @endif
+                            </button>
+                            <button class="btn btn-danger btn-block" style="display: none" type="button"
+                                id="security_question_otp_submit">
+                                <span id="security_question_otp_submit_text">Submit</span>
+                                <span class="spinner-border spinner-border-sm mr-1 otp_submit_spinner" role="status"
+                                    aria-hidden="true" id="" style="display: none"></span>
+                                <span class="spinner-text-next otp_submit_spinner" style="display: none"
+                                    id="">Loading</span>
+
+                            </button>
+                        </div>
+                        <div class="mt-4 text-center"> <button type="button" class=" font-weight-bold text-red  mx-auto"
+                                id="reset_password_back_button">Back to
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {{--  @endif  --}}
                 @if (!config('app.corporate'))
                     <div id="self_enroll_form" class=" form-center" style="display: none">
                         <h2 class="mt-0 text-left my-4 font-18 font-weight-bold">Self Enroll</h2>
@@ -255,10 +336,15 @@
                         <div class="alert alert-danger bg-danger text-white border-0" role="alert"
                             id="self_enroll_message" style="display: none">
                         </div>
+                        <div class="alert alert-success bg-success text-white border-0 " role="alert"
+                            id="successful_self_enroll" style="display: none">
+                        </div>
 
                         <div id="self_enroll_form1" class="form-group">
                             <form action="POST" id="parent_self_enroll_form_1">
                                 @csrf
+                                <i class="mdi mdi-alert-circle"></i>You must be an account holder of the bank
+
                                 <div class="form-group">
                                     <label class="my-2 " for="customer_number_input"> Customer Number</label>
                                     <input class="form-control " type="number" id="customer_number_input"
@@ -290,24 +376,26 @@
                                 <label for="phone_number_input"> Phone Number<span class="text-danger">*</span></label>
 
                                 <input class="form-control mb-0" type="number" id="phone_number_input"
-                                    placeholder="Enter your phone number" parsley-trigger="change" autocomplete="none" />
+                                    placeholder="Enter register number with bank. eg(23225643079)"
+                                    parsley-trigger="change" aria-autocomplete="off" autocomplete="off" />
                                 <br />
                                 <label for="id_number_input"> ID Number<span class="text-danger">*</span></label>
 
                                 <input class="form-control mb-0" type="text" id="id_number_input"
-                                    placeholder="Enter your id number" parsley-trigger="change" autocomplete="none" />
+                                    placeholder="Enter id number registered with bank" parsley-trigger="change"
+                                    aria-autocomplete="off" autocomplete="off" />
                                 <br />
                                 <label for="date_of_birth_input"> Date of birth<span class="text-danger">*</span></label>
 
-                                <input type="text" id="date_of_birth_input" placeholder="Enter your date of birth"
-                                    class="form-control mb-0" parsley-trigger="change" autocomplete="none"
-                                    data-provide="datepicker" data-date-autoclose="true">
+                                <input type="date" id="date_of_birth_input" placeholder="Enter your date of birth"
+                                    class="form-control mb-0" parsley-trigger="change" autocomplete="off"
+                                    aria-autocomplete="off" data-provide="datepicker" data-date-autoclose="true">
 
                                 <br />
 
 
                                 <div class="form-group mb-0 text-center">
-                                    <button class="btn btn-primary btn-block" id="b_next2" type="submit"><span
+                                    <button class="btn btn-danger btn-block" id="b_next2" type="submit"><span
                                             id="s_next2">Next</span>
                                         <span id="s_loading2">
                                             <span class="spinner-border spinner-border-sm mr-1" role="status"
@@ -331,7 +419,7 @@
                                     <br />
                                 </div>
                                 <div class="form-group mb-0 text-center">
-                                    <button class="btn btn-primary btn-block" id="b_next3" type="submit"><span
+                                    <button class="btn btn-danger btn-block" id="b_next3" type="submit"><span
                                             id="s_next3">Register</span>
                                         <span id="s_loading3">
                                             <span class="spinner-border spinner-border-sm mr-1" role="status"

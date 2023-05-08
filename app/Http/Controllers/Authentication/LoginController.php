@@ -58,6 +58,7 @@ class LoginController extends Controller
         // return $req;
         // Get Location
         $res = Http::get('http://ip-api.com/json');
+        // return $res;
         $base_response = new BaseResponse();
 
         $user_id = strtoupper($req->user_id);
@@ -67,27 +68,32 @@ class LoginController extends Controller
         $deviceID = $req->deviceID;
         // return $deviceType;
         $data =  [
-            "appVersion" => env('APP_CHANNEL'),
-            // "brand" => Browser::deviceFamily(),
+            "appVersion" => "IB",
+            "authToken" => "",
             "brand" => $deviceType,
+            "channel" => env('APP_CHANNEL'),
             "country" => $res['country'],
+            "entrySource" => env('APP_ENTRYSOURCE'),
             // "deviceId" => Browser::browserName(),
-            // "deviceId" => Browser::browserName(),
+            "deviceName" => $deviceType,
             "deviceId" => $deviceID,
             "deviceIp" => request()->ip(),
-            "deviceOs" => "A",
+            "deviceOs" => "I",
             "manufacturer" => $deviceOS,
             "model" => Browser::browserName(),
             "password" => $password,
+            "phoneNumber" => "",
             "userId" => $user_id,
-            "channel" => env('APP_CHANNEL')
+            "userName" => ""
 
         ];
-        return $data;
+        // return $data;
+        // return \config('base_urls.api_base_url') ;
+        // return env('API_BASE_URL') . "/user/login";
 
         try {
-            $response = Http::post(env('API_BASE_URL') . "/user/login", $data);
-            return $response;
+            $response = Http::post(env('API_BASE_URL') . "user/login", $data);
+            // return $response;
             if (!$response->ok()) { // API response status code is 200
                 return $base_response->api_response('500', 'API SERVER ERROR',  NULL); // return API BASERESPONSE
             }
@@ -106,58 +112,58 @@ class LoginController extends Controller
                 return  $base_response->api_response('900', 'Personal account, use Personal Internet Banking platform',  NULL);
             }
 
+            // return $userDetail->customerType;
+            // dd(env('CIB_API_BASE_URL') . "get-mandate/$user_id");
+            // $mandateRes = Http::post(env('CIB_API_BASE_URL') . "get-mandate/$user_id");
+            // return env('CIB_API_BASE_URL') . "get-mandate/$user_id";
+
             if ($userDetail->customerType == "C") {
+
                 $mandateRes = Http::post(env('CIB_API_BASE_URL') . "get-mandate/$user_id");
-                // return $mandateRes['data'][0]['panel'];
-                // return $mandateRes['data'][0]['panel'];
-                $userMandate = $mandateRes['data'][0]['panel'];
-                // $userMandate = "A";
+                if ($mandateRes['responseCode'] == "000") {
+                    // return $mandateRes['data'][0]['panel'];
+                    // return $mandateRes;
+                    $userMandate = $mandateRes['data'][0]['panel'];
+                    // $userMandate = "A";
+                } else {
+                    $userMandate = null;
+                }
             } else {
                 $userMandate = "";
             }
 
 
-            // dd(env('API_BASE_URL') . "account/accountFD/$userDetail->customerNumber");
-            // $investmentResponse = Http::get(env('API_BASE_URL') . "account/accountFD/$userDetail->customerNumber");
-            // $userInvestment = $base_response->api_response($investmentResponse->responseCode, $investmentResponse->message,  $investmentResponse->data);
-            // return $userInvestment;
 
-            // dd(env('API_BASE_URL') . "loans/getLoans", $userDetail->userTokens);
-            // $loanResponse = Http::post(env('API_BASE_URL') . "loans/getLoans", $userDetail->userToken);
-            // dd(env('API_BASE_URL') . "loans/getLoans", $userDetail->userToken);
-            // return $loanResponse;
-
-
-
-
+            // return $userMandate;
             session([
-                "userId" => $userDetail->userId,
-                "userAlias" => $userDetail->userAlias,
-                "setPin" => $userDetail->setPin,
-                "changePassword" => $userDetail->changePassword,
-                "email" => $userDetail->email,
-                "firstTimeLogin" => $userDetail->firstTimeLogin,
-                "userToken" => $userDetail->userToken,
-                "customerNumber" => $userDetail->customerNumber,
-                "customerPhone" => $userDetail->customerPhone,
-                "lastLogin" => $userDetail->lastLogin,
-                "customerType" => $userDetail->customerType,
-                "checkerMaker" => $userDetail->checkerMaker,
-                "accountDescription" => $userDetail->accountsList[0]->accountDesc,
-                "customerAccounts" => $userDetail->accountsList,
-                "customerLoans" => $userDetail->loansList,
+                "userId" => $userDetail->userId ?? "",
+                "userAlias" => $userDetail->userAlias ?? "",
+                "setPin" => $userDetail->setPin ?? "",
+                "changePassword" => $userDetail->changePassword ?? "",
+                "email" => $userDetail->email ?? "",
+                "firstTimeLogin" => $userDetail->firstTimeLogin ?? "",
+                "userToken" => $userDetail->userToken ?? "",
+                "customerNumber" => $userDetail->customerNumber ?? "",
+                "customerPhone" => $userDetail->customerPhone ?? "",
+                "lastLogin" => $userDetail->lastLogin ?? "",
+                "customerType" => $userDetail->customerType ?? "",
+                "checkerMaker" => $userDetail->checkerMaker ?? "",
+                "accountDescription" => $userDetail->accountsList[0]->accountDesc ?? "",
+                "customerAccounts" => $userDetail->accountsList ?? "",
+                "customerLoans" => $userDetail->loansList ?? "",
+                "customerInvestments" => $userDetail->investmentList ?? "",
                 // "userMandate" => 'A',
-                "userMandate" => $userMandate,
+                "userMandate" => $userMandate ?? "",
 
                 "deviceInfo" => [
                     "appVersion" => "Web",
-                    "deviceBrand" => $deviceType,
-                    "deviceCountry" =>  $res['country'],
-                    "deviceId" => $deviceID,
-                    "deviceIp" => request()->ip(),
-                    "deviceManufacturer" => $deviceOS,
+                    "deviceBrand" => $deviceType ?? "",
+                    "deviceCountry" =>  $res['country'] ?? "",
+                    "deviceId" => $deviceID ?? "",
+                    "deviceIp" => request()->ip() ?? "",
+                    "deviceManufacturer" => $deviceOS ?? "",
                     "deviceModel" => Browser::browserName(),
-                    "deviceOs" =>  $deviceOS,
+                    "deviceOs" =>  $deviceOS ?? "",
                 ],
                 "headers" => [
                     "x-api-key" => "123",
@@ -176,6 +182,7 @@ class LoginController extends Controller
 
             // ]);
 
+            // return session()->get('userMandate');
 
             return  $base_response->api_response($result->responseCode, $result->message,  $result->data); // return API BASERESPONSE
         } catch (\Exception $error) {
@@ -249,6 +256,128 @@ class LoginController extends Controller
             return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
 
 
+        }
+    }
+
+    public function get_otp(Request $request)
+    {
+        // return $request;
+        $res = Http::get('http://ip-api.com/json');
+        $base_response = new BaseResponse();
+
+        $user_id = strtoupper($request->user_id);
+        $deviceType = $request->deviceType;
+        $deviceOS = $request->deviceOS;
+        $deviceID = $request->deviceID;
+        $transType = $request->transType;
+        $authToken = session()->get('userToken');
+        $userAlias = session()->get('userAlias');
+        $customerNumber = session()->get('customerNumber');
+        $customerPhone = session()->get('customerPhone');
+        if ($request->userID) {
+            $userId = $request->userID;
+        } else {
+            $userId = session()->get('userId');
+        }
+
+        $channel = \config('otp.channel');
+        $entry_source = \config('otp.entry_source');
+
+
+        // return $deviceType;
+        $data =  [
+            // "appVersion" => env('APP_CHANNEL'),
+            "authToken" => $authToken,
+            "brand" => $deviceType,
+            "channel" => $channel,
+            "country" => $res['country'],
+            "customerName" => $userAlias,
+            "customerNumber" => $customerNumber,
+            "deviceId" => $deviceID,
+            "deviceIp" => request()->ip(),
+            "entrySource" => $entry_source,
+            "deviceOs" => "A",
+            "name" => $deviceOS,
+            "otp" => "",
+            "phoneNumber" => $customerPhone,
+            "transType" => $transType,
+            "userName" => $userId
+
+        ];
+
+        // return $data;
+        // return \config('base_urls.api_base_url') . "user/requestOTP";
+
+        try {
+            // $response = Http::post(env('API_BASE_URL') . "user/requestOTP", $data);
+            $response = Http::post(\config('base_urls.api_base_url') . "user/requestOTP", $data);
+
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $error) {
+
+            return $base_response->api_response('500', 'Cannot Contact API ... Check Your Connection',  $error->getMessage()); // return API BASERESPONSE
+        }
+    }
+
+    public function verify_otp(Request $request)
+    {
+        // return $request;
+        $res = Http::get('http://ip-api.com/json');
+        $base_response = new BaseResponse();
+
+        $user_id = strtoupper($request->user_id);
+        $deviceType = $request->deviceType;
+        $deviceOS = $request->deviceOS;
+        $deviceID = $request->deviceID;
+        $transType = $request->transType;
+        $otp = $request->otp;
+        $authToken = session()->get('userToken');
+        $userAlias = session()->get('userAlias');
+        $customerNumber = session()->get('customerNumber');
+        $customerPhone = session()->get('customerPhone');
+        if ($request->userID) {
+            $userId = $request->userID;
+        } else {
+            $userId = session()->get('userId');
+        }
+        // $userId = session()->get('userId');
+
+        $channel = \config('otp.channel');
+        $entry_source = \config('otp.entry_source');
+
+
+        // return $deviceType;
+        $data =  [
+            // "appVersion" => env('APP_CHANNEL'),
+            "authToken" => $authToken,
+            "brand" => $deviceType,
+            "channel" => $channel,
+            "country" => $res['country'],
+            "customerName" => $userAlias,
+            "customerNumber" => $customerNumber,
+            "deviceId" => $deviceID,
+            "deviceIp" => request()->ip(),
+            "entrySource" => $entry_source,
+            "deviceOs" => "A",
+            "name" => $deviceOS,
+            "otp" => $otp,
+            "phoneNumber" => $customerPhone,
+            "transType" => $transType,
+            "userName" => $userId
+
+        ];
+
+        // return $data;
+
+        try {
+            $response = Http::post(\config('base_urls.api_base_url') . "user/validateOTP", $data);
+
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $error) {
+
+            return $base_response->api_response('500', 'Cannot Contact API ... Check Your Connection',  $error->getMessage()); // return API BASERESPONSE
         }
     }
 }

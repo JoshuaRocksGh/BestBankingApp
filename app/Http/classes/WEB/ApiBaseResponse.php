@@ -25,6 +25,7 @@ class ApiBaseResponse
                 return response()->json([
                     'responseCode' => $result->responseCode,
                     'message' => $result->message,
+                    'summary' => $result->summary?? "",
                     'data' => $result->data
                 ], 200);
 

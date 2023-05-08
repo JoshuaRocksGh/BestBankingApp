@@ -133,38 +133,30 @@
 
                         <tr class="table-background ">
                             <th class="all">Date</th>
-                            <th class="all">Amount <span class="currency_display"></span></th>
+                            <th class="all">Purpose of Transfer <span class="account_currency_display_"></span> </th>
+                            <th class="all">Document Reference</th>
 
-                            <th class="all">Purpose of Transfer <span class="account_currency_display_"></span>
-                            </th>
+                            <th class="all">Debit <span class="currency_display"></span></th>
+                            <th class="all">Credit <span class="currency_display"></span></th>
+                            {{-- <th class="all">Purpose of Transfer <span class="account_currency_display_"></span> </th> --}}
+
+
                             <th class="all">Balance<span class="currency_display"></span>
                             </th>
-
-                            <th class="none">Attachment</th>
+                            <th class="all">Details</th>
+                            {{-- <th class="none">Attachment</th> --}}
                             {{--  <th class="none">Details</th>  --}}
-                            <th class="none">Details</th>
                         </tr>
-                        {{--  <tr>
-                            <td>145</td>
-                            <td>145</td>
-                            <td>145</td>
-                            <td>145</td>
-                            <td>145</td>
-                            <td>145</td>
-                        </tr>  --}}
+
+
+
 
                     </thead>
 
-
                     <tbody role="rowgroup" id="table_body_display">
-                        {{--  <tr id="display_opening_balance">
-                            <td>25/15/2022</td>
-                            <td></td>
-                            <td>Opening Balance</td>
-                            <td>518,833</td>
-                            <td></td>
-                            <td></td>
-                        </tr>  --}}
+                        {{-- <tr id="display_all_transactions">
+
+                        </tr> --}}
                         <td colspan="100%" class="text-center">
                             {!! $noDataAvailable !!}
                         </td>

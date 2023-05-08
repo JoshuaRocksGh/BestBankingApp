@@ -16,9 +16,23 @@ class KycController extends Controller
     public function validateKyc()
     {
         $customerNumber = session()->get('customerNumber');
-        $response = Http::get(env('API_BASE_URL') . "user/validateKyc/" . $customerNumber);
-        $result = new ApiBaseResponse();
-        return $result->api_response($response);
+        try {
+
+            $response = Http::get(env('API_BASE_URL') . "user/validateKyc/" . $customerNumber);
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $e) {
+
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+
+            return $result->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
+
+        }
     }
 
     public function kyc_update()

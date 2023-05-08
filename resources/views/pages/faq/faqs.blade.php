@@ -1,8 +1,8 @@
 <div class=" container dashboard mx-auto mb-0 site-card">
 
-    {{--  <a href="{{ url()->previous() }}" type="button" class="btn position-absolute" style="left: 5px"><i
+    <a href="{{ url()->previous() }}" type="button" class="btn position-absolute" style="left: 5px"><i
             class="fe-arrow-left"></i>&nbsp;Go
-        Back</a>  --}}
+        Back</a>
     <div class="dashboard-header text-center">
 
         <h3>Frequently Asked Questions</h3>

@@ -16,7 +16,7 @@
             margin-right: 0 !important;
             box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
             background-color: #dc3545 !important;
-            border-color: var(--gray) !important;
+            border-color: #dc3545 !important;
             color: white !important;
         }
     </style>

@@ -46,7 +46,7 @@
             $pageTitle = 'Approval Form';
         @endphp
         @include('snippets.pageHeader')
-        <div class="row">
+        <div class="row  ">
             <div class="col-12">
                 <div class="">
                     <div class=" card-body ">
@@ -76,14 +76,34 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <br><br>
+                                                                {{-- <br><br> --}}
+                                                                <table  class="table mb-0 table-striped mx-auto pending_status" style="margin-top: -15px;display:none">
+                                                                    <tbody>
+                                                                        <tr class="hide-on-success bg-danger  text-white">
+                                                                            <td colspan="2">
+                                                                                <div class="custom-control d-flex custom-checkbox ">
+                                                                                    <input type="checkbox" class="custom-control-input d-block" name="terms_and_conditions"
+                                                                                        id="terms_and_conditions">
+                                                                                    <label class="custom-control-label d-flex  align-items-center font-weight-bold"
+                                                                                        for="terms_and_conditions">
+                                                                                        By checking this box, you agree to
+                                                                                        abide by the Terms and Conditions
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+
+                                                                </table>
+                                                                <br>
                                                                 <div class="mt-3">
 
-                                                                    <div class="col-md-12 mb-3 pending_status">
+
+                                                                    <div class="col-md-12 mb-3 pending_status" style="display:none">
                                                                         <div class="row">
                                                                             <div class="col-md-2"></div>
                                                                             <button
-                                                                                class="btn btn-danger waves-effect waves-light col-md-3 btn-lg"
+                                                                                class="btn btn-secondary waves-effect waves-light col-md-3 btn-lg"
                                                                                 id="reject_transaction"
                                                                                 type="button">Reject
                                                                                 <i class="mdi mdi-cancel"></i>
@@ -222,6 +242,7 @@
 
 
 
+        {{--  bulk transfer modal  --}}
         <!--  Modal content for the Large example -->
         <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true">
@@ -241,7 +262,7 @@
                                         class="table table-bordered table-striped dt-responsive nowrap w-100 bulk_upload_list">
 
                                         <thead>
-                                            <tr class="bg-secondary text-white">
+                                            <tr class="table-background text-white">
                                                 <th>No</th>
                                                 <th>
                                                     <span id="bulk_header">Credit Acc</span>
@@ -254,7 +275,15 @@
                                         </thead>
 
                                         <tbody class="bulk_upload_list_body">
-
+                                            {{--  <tr>
+                                                <td colspan="4">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border avatar-lg text-danger  m-2 canvas_spinner"
+                                                            role="status">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>  --}}
                                         </tbody>
 
 
@@ -265,6 +294,83 @@
 
                             </div>
                         </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        {{--  Swift Rutile modal  --}}
+        <!--  Modal content for the Large example -->
+        <div class="modal fade" id="bs-example-modal-lg1" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title text-dark" id="myLargeModalLabel"> SWIFT TRANSFER DETAILS</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class=" card-body table-responsive">
+
+                                    <table id="datatable-buttons"
+                                        class="table table-bordered table-striped dt-responsive nowrap w-100 rutile_swift_details">
+
+                                        <thead>
+                                            <tr class="table-background text-white">
+                                                <th>Reference</th>
+                                                <th>Account</th>
+                                                <th>Amount</th>
+                                                <th>Beneficiary Account</th>
+                                                <th>Benficary Name</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="rutile_swift_details_body">
+                                            {{--  <tr>
+                                                <td colspan="4">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border avatar-lg text-danger  m-2 canvas_spinner"
+                                                            role="status">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>  --}}
+                                        </tbody>
+
+
+                                    </table>
+
+
+                                </div> <!-- end card body-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!--  Modal content for the Large example -->
+        <div class="modal fade" id="bs-example-modal-lg2" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title text-dark" id="myLargeModalLabel"> Transaction Invoice</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body display-trans-invoice">
+                        <img class="display-trans-invoice" style="width:700px;height:700px;padding:10px" />
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -361,6 +467,12 @@
                             request_type != null ? append_approval_details_bulk("Request Type", request_type) :
                                 '';
 
+                        } else if (request_type == 'SWIFT') {
+                            let request_type = 'Rutile Swift'
+                            request_type != null ? append_approval_details("Request Type", request_type) : '';
+                            request_type != null ? append_approval_details_rutile("Request Type",
+                                    request_type) :
+                                '';
                         } else if (request_type == 'DTRA') {
                             let request_type = 'Direct Transfer'
                             request_type != null ? append_approval_details("Request Type", request_type) : '';
@@ -385,7 +497,11 @@
                             let request_type = 'Complaints'
                             request_type != null ? append_approval_details("Request Type", request_type) : '';
 
-                        } else if (request_type == 'CHQS') {
+                        } else if (request_type == 'CNO') {
+                            let request_type = 'Create New Originator'
+                            request_type != null ? append_approval_details("Request Type", request_type) : '';
+
+                        }else if (request_type == 'CHQS') {
                             let request_type = 'Stop Cheque Request'
                             request_type != null ? append_approval_details("Request Type", request_type) : '';
                         } else if (request_type == 'CHQR') {
@@ -462,9 +578,9 @@
                         let bank_name = pending_request.bank_name;
                         bank_name != null ? append_approval_details("Bank Name", bank_name) : '';
 
-                        let beneficiary_name = pending_request.beneficiary_name;
+                        {{--  let beneficiary_name = pending_request.beneficiary_name;
                         beneficiary_name != null ? append_approval_details("Beneficiary Name",
-                            beneficiary_name) : '';
+                            beneficiary_name) : '';  --}}
 
                         let beneficiary_name_ = pending_request.beneficiaryname;
                         beneficiary_name_ != null ? append_approval_details("Beneficiary Name",
@@ -540,6 +656,12 @@
                         let posted_by = pending_request.postedby;
                         posted_by != null ? append_approval_details("Posted By", posted_by) : '';
 
+                        let transaction_invoice = pending_request.trans_invoice;
+                        transaction_invoice != null ? append_transaction_invoice("Transaction Invoice",
+                            transaction_invoice) : '';
+
+                        let transaction_invoice_batch = pending_request.invoice_batch;
+
                         let pending_approvers = pending_request.approvers
                         if (pending_approvers == null || pending_approvers == undefined) {
                             var approvers = 'PENDING APPROVAL'
@@ -581,7 +703,13 @@
                             $("#bkorp_header").show();
                             $("#bulk_header").hide();
                             ajax_call_bulk_korpor_details_endpoint(batch_number)
+                        } else if (request_type == 'SWIFT') {
+                            ajax_call_rutile_swift(batch_number)
+                            //console.log("swift ===>", pending_request)
+
                         }
+
+                        ajax_call_transaction_invoice(transaction_invoice_batch)
 
                         $.each(approvers_mandate, function(index) {
 
@@ -629,12 +757,22 @@
                     }
 
                 },
-                error: function(xhr, status, error) {
-
-                    setTimeout(function() {
-                        account_mandate(customer, request)
-                    }, $.ajaxSetup().retryAfter)
-                }
+                error: function(xhr, textStatus, errorThrown) {
+                    if (textStatus == "timeout") {
+                        this.tryCount++;
+                        if (this.tryCount <= this.retryLimit) {
+                            //try again
+                            $.ajax(this);
+                            return;
+                        }
+                        return;
+                    }
+                    if (xhr.status == 500) {
+                        $.ajax(this);
+                    } else {
+                        //handle error
+                    }
+                },
             })
         }
 
@@ -662,24 +800,15 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log(response)
                     if (response.responseCode == '000') {
                         let details = response.data.uploadData
 
 
+                        // $(".bulk_upload_list tr").remove();
                         table.clear().draw()
                         let count = 1
 
                         $.each(details, function(index) {
-
-                            // $('.bulk_upload_list_body').append(`
-                        //         <tr class="">
-                        //             <th>${count}</th>
-                        //             <th>${details[index].accountNumber}</th>
-                        //             <th>${formatToCurrency(parseFloat(details[index].amount))}</th>
-                        //             <th>${details[index].name}</th>
-                        //         </tr>
-                        //     `)
 
                             table.row.add([
                                 count,
@@ -694,6 +823,7 @@
 
                     } else {
 
+                        console.log("get-bulk-detail-list-for-approval==>", response)
 
                     }
 
@@ -773,6 +903,93 @@
 
         }
 
+        function ajax_call_rutile_swift(batch_no) {
+            var table = $('.rutile_swift_details').DataTable({
+                destroy: true
+            });
+            var nodes = table.rows().nodes();
+
+            $.ajax({
+                type: 'POST',
+                url: "../../get-swift-rutile-detail-list-for-approval",
+                datatype: 'application/json',
+                data: {
+                    'batch_no': batch_no
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    //console.log("get-swift-rutile-detail-list-for-approval ==>", JSON.parse(response));
+                    var res = JSON.parse(response)
+
+                    if (res.responseCode == '000') {
+                        let swift_details = res.data
+
+
+                        console.log("rutile response ==>", swift_details);
+
+                        // $(".bulk_upload_list tr").remove();
+                        table.clear().draw()
+                        {{--  let count = 1  --}}
+
+                        $.each(swift_details, function(index) {
+
+                            table.row.add([
+                                swift_details[index].transaction_reference,
+                                swift_details[index].creditor_account_no,
+
+                                swift_details[index].currency + " " + formatToCurrency(
+                                    parseFloat(swift_details[index]
+                                        .transaction_amount)),
+                                swift_details[index].beneficiary_account,
+                                swift_details[index].beneficiary_name_and_address_1,
+
+                            ]).draw(false)
+                        })
+
+                    } else {
+
+
+
+                    }
+                }
+            })
+        }
+
+        function ajax_call_transaction_invoice(batch_no) {
+            $.ajax({
+                type: "POST",
+                url: '../../get-transaction-invoice-api',
+                {{--  contentType: "application/json; charset=utf-8",  --}}
+                datatype: 'application/json',
+                data: {
+                    'batch_no': batch_no
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    {{--  console.log(response)  --}}
+                    if (response.responseCode == "000") {
+                        {{--  console.log(response.data)  --}}
+                        $(".display-trans-invoice").attr("src", "data:image/jpeg;base64," + response.data)
+                    } else {
+                        setTimeout(function() {
+                            ajax_call_transaction_invoice(batch_no)
+                        }, 1000)
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    {{--  setTimeout(function() {
+                        ajax_call_bulk_korpor_details_endpoint(batch_no)
+                    }, $.ajaxSetup().retryAfter)  --}}
+                }
+            })
+        }
+
         function append_approval_details(description, data) {
 
             $('#approval_details').append(`<div class="row ">
@@ -793,6 +1010,28 @@
                 </div>
                 <hr class="mt-0">`)
         };
+
+        function append_approval_details_rutile() {
+            $('#approval_details').append(`<div class="row ">
+                    <span class="col-md-6 text-left font-14">Swift Details</span>
+                    <span class="col-md-6 text-right text-primary ">
+                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#bs-example-modal-lg1">View Transaction Details</button>
+
+                    </span>
+                </div>
+                <hr class="mt-0">`)
+        }
+
+        function append_transaction_invoice() {
+            $('#approval_details').append(`<div class="row ">
+                    <span class="col-md-6 text-left font-14">Transaction Invoice</span>
+                    <span class="col-md-6 text-right text-primary ">
+                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#bs-example-modal-lg2">View Transaction Invoice</button>
+
+                    </span>
+                </div>
+                <hr class="mt-0">`)
+        }
 
         $(document).ready(function() {
 
@@ -836,6 +1075,14 @@
             $("#approve_transaction").click(function(e) {
 
                 e.preventDefault();
+                if (!$("#terms_and_conditions").is(":checked")) {
+            toaster("Accept Terms & Conditions to continue", "warning");
+            return false;
+        }
+                $("#approve_transaction").attr("disabled", true);
+                $("#reject_transaction").attr("disabled", true);
+
+
 
 
 
@@ -874,7 +1121,7 @@
                     success: function(response) {
                         siteLoading('hide')
 
-                        console.log(response)
+                        // console.log(response)
                         let res = JSON.parse(response);
                         if (res.responseCode == '000' || res.responseCode == '200') {
                             siteLoading('hide')
@@ -897,10 +1144,10 @@
 
 
                             setTimeout(function() {
-                                window.location = 'approvals-pending'
-                                window.opener.location.reload();
+                                // window.location = 'approvals-pending'
+                                // window.opener.location.reload();
                                 window.close();
-                            }, 5000)
+                            }, 3000)
 
 
                         } else {
@@ -915,6 +1162,8 @@
                                 confirmButtonColor: "red",
 
                             });
+                            $("#approve_transaction").attr("disabled", false);
+                            $("#reject_transaction").attr("disabled", false);
 
                         }
 
@@ -922,6 +1171,8 @@
                     },
                     error: function(xhr, status, error) {
                         $('#approve_transaction').html(`Approve<i class="mdi mdi-check-all">`)
+                            $("#approve_transaction").attr("disabled", false);
+                $("#reject_transaction").attr("disabled", false);
                     }
                 })
             }
@@ -945,7 +1196,11 @@
                         ajax_post()
 
                     } else if (result.isDenied) {
+
                         toaster('Failed to approve transaction', 'error')
+                        $("#approve_transaction").attr("disabled", false);
+                        $("#reject_transaction").attr("disabled", false);
+
                         {{-- Swal.fire('Failed to approve transaction', '', 'info') --}}
                     }
                 })

@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>RC BANKING</title>
+    <title>SLCB BANKING</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Internet Banking Application" name="Internet Banking Portal for Rokel Commercial Bank." />
     <meta content="Banking Application" name="Union Systems Global" />
@@ -77,7 +77,7 @@
     </div> <!-- End Preloader--> --}}
 
     <!-- Begin page -->
-    <div id="wrapper">
+    <div id="wrapper1">
         @include('snippets.nav')
 
 

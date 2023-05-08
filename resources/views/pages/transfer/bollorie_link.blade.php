@@ -77,7 +77,11 @@
                                         id="select_currency" style="width: 80px;" readonly>
                                 </div>
 
-                                &nbsp;&nbsp;
+                                &nbsp;
+                                <input class="form-control  text-input key_transfer_amount" type="text" disabled>
+                                &nbsp;
+
+
                                 <input type="text" class="form-control " id="amount"
                                     placeholder="Enter Amount To Transfer"
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
@@ -165,7 +169,7 @@
                         <table class="table mb-0 table-striped p-4 mx-auto">
 
                             <tbody>
-                                {{--  <tr class="success_gif show-on-success" style="display: none">
+                                <tr class="success_gif show-on-success" style="display: none">
                                     <td class="text-center bg-white" colspan="2">
                                         <img src="{{ asset('land_asset/images/statement_success.gif') }}"
                                             style="zoom: 0.5" alt="">
@@ -175,7 +179,7 @@
                                     <td class="text-center bg-white" colspan="2">
                                         <span class="text-success font-13 text-bold " id="success-message"></span>
                                     </td>
-                                </tr>  --}}
+                                </tr>
 
                                 <tr>
                                     <td>Sender Details:</td>

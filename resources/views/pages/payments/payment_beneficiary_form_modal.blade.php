@@ -56,6 +56,15 @@
                                 placeholder="Enter beneficiary name">
                         </div>
                     </div>
+                    <div class="row mb-2">
+                        <h4 class="col-12 text-danger">Enter Otp:</h4>
+                        <div class="col-12">
+                            <input type="text" class="form-control" id="beneficiary_otp" placeholder="Enter Otp"
+                                minlength="1" maxlength="4"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
+                                required>
+                        </div>
+                    </div>
                 </form>
 
             </div>

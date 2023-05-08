@@ -48,7 +48,7 @@
     </div> --}}
 
     <div class="dashboard site-card">
-        <div class="tab-content dashboard-body border-primary border p-4">
+        <div class="tab-content dashboard-body border-danger border p-4">
             <div data-title="Account Tab" data-intro="Select account to display all standing orders">
                 <label class="d-block mb-1 text-dark"> Select Account</label>
                 <select data-style="" class="form-control accounts-select" id="from_account" required>

@@ -1,7 +1,7 @@
 let datatableOptions = {
     destroy: true,
     // lengthChange: false,
-    pageLength: 5,
+    pageLength: 6,
     // searching: false,
     // scrollY: "500px",
     // info: false,
@@ -52,10 +52,10 @@ function getTransferStatus(customerNumber) {
                     table.row
                         .add([
                             data[i].postingDate.split(" ")[0],
-                            data[i].beneficiaryName,
-                            formattedAmount,
-                            data[i].payerAccountDescription,
                             data[i].payerAccount,
+                            data[i].beneficiaryAccount,
+                            formattedAmount,
+                            // data[i].payerAccountDescription,
                             data[i].status,
                             button,
                         ])

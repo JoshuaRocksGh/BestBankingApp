@@ -2,6 +2,7 @@ function approve_request() {
     Swal.fire({
         title: "Do you want to Logout?",
         icon: "question",
+        // input: "text",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: `Proceed`,
@@ -9,10 +10,34 @@ function approve_request() {
         cancelButtonColor: "#df1919",
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
+        // console.log("result==>", result);
+
+        // return;
+
         if (result.isConfirmed) {
             setTimeout(() => {
                 window.location.replace("logout");
             }, 1000);
+            // if (!result.value) {
+            //     toaster("Enter Otp", "warning");
+            //     return;
+            // }
+            // validateOTP(result.value, 105).then((data) => {
+            //     // console.log("verifyOTP==>", data);
+            //     if (data.responseCode == "000") {
+            //         setTimeout(() => {
+            //             window.location.replace("logout");
+            //         }, 1000);
+
+            //         // $("#submit").attr("disabled", true);
+            //     } else {
+            //         toaster(data.message, "warning");
+            //         return;
+            //     }
+            //     return;
+            // });
+
+            return;
         } else if (result.isDenied) {
             return;
             // toaster('Failed to approve transaction', 'error')
@@ -264,6 +289,9 @@ function getAccountOption(account) {
         availableBalance,
         currency,
     } = account;
+
+    var thisAmount = formatToCurrency(availableBalance);
+    // console.log("thisAmount ==>", thisAmount);
     let option = ` <option data-content="<div class='account-card row'>
 <div class='col-2 text-center'><div class='account-icon mx-auto'><span>${accountDesc[0]}</span></div></div>
 <div class='col-10 align-self-center'>
@@ -276,7 +304,7 @@ data-account-currency="${currency}" data-account-balance="${availableBalance}"
 data-account-mandate="${accountMandate}" data-account-description="${accountDesc}"
 data-account-currency-code="${currencyCode}"
 value="${accountType}~${accountDesc}~${accountNumber}~${currency}~${availableBalance}~${currencyCode}~${accountMandate}">
-${accountDesc} || ${accountNumber} || ${currency} ${availableBalance}
+${accountDesc} || ${accountNumber} || ${currency} ${thisAmount}
 </option>`;
     return option;
 }
@@ -343,6 +371,8 @@ function decodeString(stringToDecode) {
 
 $("#sidebar_logout").on("click", (e) => {
     e.preventDefault();
+    approve_request();
+
     // Swal.fire({
     //     title: "Logout successful!",
     //     html: "Redirecting ...",
@@ -353,5 +383,13 @@ $("#sidebar_logout").on("click", (e) => {
     //     window.location.replace("logout");
     // }, 1000);
 
-    approve_request();
+    // getOTP(105).then((data) => {
+    //     console.log("logout otp==>", data);
+    //     if (data.responseCode == "000") {
+    //         approve_request();
+    //     } else {
+    //         error_alert(data.message, "#failed_login");
+    //     }
+    // });
+    // return;
 });

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\AccountServices;
 
+use App\Http\classes\API\BaseResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class AccountServicesController extends Controller
@@ -33,16 +35,38 @@ class AccountServicesController extends Controller
         $authToken = session()->get('userToken');
         $userID = session()->get('userId');
 
+        // $userID = session()->get('userId');
+
+        // $accountDetails = $request->transferAccount;
+        $client_ip = request()->ip();
+        $api_headers = session()->get('headers');
+        $deviceInfo = session()->get('deviceInfo');
+
+        $entrySource = env('APP_ENTRYSOURCE');
+        $channel = env('APP_CHANNEL');
+
         $data = [
             "authToken" => $authToken,
-            'userId' => $userID
+            // 'userId' => $userID
+            // "authToken" => "string",
+            "brand" => $deviceInfo['deviceBrand'],
+            "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $client_ip,
+            "deviceName" => $deviceInfo['deviceOs'],
+            "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
+            "userId" => $userID,
+            "userName" => $userID
         ];
         // return $data;
 
         $response = Http::post(env('API_BASE_URL') . "/account/saladAccount/", $data);
         // $result = json_decode($response);
         // return response()->json($result);
-        // return $result;
+        // return $response;
         // return view('pages.accountServices.salary_advance');
 
         return view('pages.accountServices.salary_advance', ["result" => $response]);
@@ -51,7 +75,28 @@ class AccountServicesController extends Controller
     //method to return confirm cheque
     public function chequeServices()
     {
-        return view('pages.accountServices.chequeServices.cheque_services');
+        $base_response = new BaseResponse();
+
+
+        try {
+
+            $branchResponse = Http::get(env('API_BASE_URL') . "utilities/getBranches");
+            // return
+
+            // $branches = $branchResponse['data'];
+            // return $branches;
+            return view('pages.accountServices.chequeServices.cheque_services', ['branches' => $branchResponse]);
+        } catch (\Exception $e) {
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+
+            // return back();
+            return $base_response->api_response('500', $e->getMessage(),  NULL); // return API BASERESPONSE
+
+        }
     }
 
     //method to return fd creation screen

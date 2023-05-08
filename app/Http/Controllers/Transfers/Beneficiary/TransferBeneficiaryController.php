@@ -20,6 +20,12 @@ class TransferBeneficiaryController extends Controller
 
         $userID = session()->get('userId');
         $customerNumber = session()->get('customerNumber');
+        // $authToken = session()->get('userToken');
+        $authToken = session()->get('userToken');
+        $userId = session()->get('userId');
+        $deviceInfo = session()->get('deviceInfo');
+        $channel = \config('otp.channel');
+        $entrySource = \config('otp.entry_source');
         $data = [
             "accountDetails" => [
                 "beneficiaryAccount" => $req->accountNumber,
@@ -35,6 +41,7 @@ class TransferBeneficiaryController extends Controller
                 "countryOfResidence" => null
             ],
 
+            "authToken" => $authToken,
             "bankDetails" => [
                 "bankAddress" => null,
                 "bankBranch" => null,
@@ -58,6 +65,15 @@ class TransferBeneficiaryController extends Controller
 
             "beneficiaryType" => $req->type,
 
+            "brand" => $deviceInfo['deviceBrand'],
+            "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $deviceInfo['deviceIp'],
+            "deviceName" => $deviceInfo['deviceBrand'],
+            "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
             "securityDetails" => [
                 "approvedBy" => $customerNumber,
                 "approvedDateTime" => date('Y-m-d'),
@@ -83,11 +99,15 @@ class TransferBeneficiaryController extends Controller
     {
 
         $data = $this->checkRequest($req);
+
+        // return $req;
+
+        // dd(\config('base_urls.api_base_url') . "beneficiary/updateTransferBeneficiary", $data);
         try {
             if ($req->mode === "EDIT") {
-                $response = Http::put(env('API_BASE_URL') . "/beneficiary/updateTransferBeneficiary", $data);
+                $response = Http::put(\config('base_urls.api_base_url') . "/beneficiary/updateTransferBeneficiary", $data);
             } else {
-                $response = Http::post(env('API_BASE_URL') . "/beneficiary/addTransferBeneficiary", $data);
+                $response = Http::post(\config('base_urls.api_base_url') . "/beneficiary/addTransferBeneficiary", $data);
             }
 
             $result = new ApiBaseResponse();
@@ -109,10 +129,42 @@ class TransferBeneficiaryController extends Controller
 
     public function deleteBeneficiary(Request $req)
     {
-        $response = Http::delete(
-            env('API_BASE_URL') . "/beneficiary/deleteTransferBeneficiary/" . $req->beneficiaryId
-        );
-        $result = new ApiBaseResponse();
-        return $result->api_response($response);
+        $base_response = new BaseResponse();
+
+        $deviceInfo = session()->get('deviceInfo');
+        $userId = session()->get('userId');
+        // $deviceInfo = session()->get('deviceInfo');
+        $channel = \config('otp.channel');
+        $entrySource = \config('otp.entry_source');
+
+        $data = [
+            "authToken" => session()->get('userToken'),
+            "beneficiaryID" => $req->beneficiaryId,
+            "brand" => $deviceInfo['deviceBrand'],
+            "channel" => $channel,
+            "country" => $deviceInfo['deviceCountry'],
+            "deviceId" => $deviceInfo['deviceId'],
+            "deviceIp" => $deviceInfo['deviceIp'],
+            "deviceName" => $deviceInfo['deviceBrand'],
+            "entrySource" => $entrySource,
+            "manufacturer" => $deviceInfo['deviceManufacturer'],
+            "phoneNumber" => "",
+            "userName" => $userId
+        ];
+        // return $data;
+        try {
+            $response = Http::post(env('API_BASE_URL') . "/beneficiary/deleteTransferBeneficiary/", $data);
+            $result = new ApiBaseResponse();
+            return $result->api_response($response);
+        } catch (\Exception $e) {
+
+            DB::table('tb_error_logs')->insert([
+                'platform' => 'ONLINE_INTERNET_BANKING',
+                'user_id' => 'AUTH',
+                'message' => (string) $e->getMessage()
+            ]);
+            return $base_response->api_response('500', "Internal Server Error",  NULL); // return API BASERESPONSE
+
+        }
     }
 }

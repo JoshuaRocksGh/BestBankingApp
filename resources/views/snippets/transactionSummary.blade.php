@@ -107,13 +107,13 @@
                         </td>
                     </tr>
 
-                    <tr>
+                    {{-- <tr>
                         <td>Category:</td>
                         <td>
                             <span class="font-13 text-primary h3 display_category" id="display_category"></span>
 
                         </td>
-                    </tr>
+                    </tr> --}}
                     @if ($currentPath === 'Standing Order')
                         <tr>
                             <td>Start Date: </td>
@@ -149,6 +149,32 @@
                                 id="display_posted_by">{{ session()->get('userAlias') }}</span>
                         </td>
                     </tr>
+                    @if (
+                        $currentPath === 'Local Bank' ||
+                            $currentPath === 'Same Bank' ||
+                            $currentPath === 'International Bank' ||
+                            $currentPath === 'Standing Order')
+                        @if (config('app.corporate'))
+                            <tr>
+                                <td>Invoice Attachment: </td>
+                                <td>
+                                    <span class=" font-13 text-primary h3" id="display_voucher_attachment"></span>
+                                </td>
+                            </tr>
+                        @endif
+                    @endif
+                    {{--  ====== ENTER OTP =======  --}}
+                    @if (!config('app.corporate'))
+                        <tr>
+                            <td>
+                                <h4 class="text-danger">Enter OTP</h4>
+                            </td>
+                            <td><input type="text" class="form-control text-input  " placeholder="Enter Otp"
+                                    id="transfer_otp"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
+                                    required></td>
+                        </tr>
+                    @endif
                     <tr class="hide-on-success bg-danger  text-white">
                         <td colspan="2">
                             <div class="custom-control d-flex custom-checkbox ">

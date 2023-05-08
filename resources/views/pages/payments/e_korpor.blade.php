@@ -5,3 +5,4 @@
     $currentType = 'korpor';
 @endphp
 @include('pages.payments.payment_master')
+@include('pages.payments.paymentSummary')

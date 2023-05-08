@@ -1,9 +1,12 @@
+// import beneficiaryForm from "./beneficiaryForm";
+
 function getBeneficiaryList() {
     $.ajax({
         tpye: "GET",
         url: "transfer-beneficiary-list",
         datatype: "application/json",
         success: function (response) {
+            // console.log("transfer-beneficiary-list ==>", response);
             if (response.responseCode == "000") {
                 const data = response.data;
                 pageData.allBeneficiaries = data;
@@ -27,10 +30,21 @@ function getBeneficiaryList() {
                 });
                 drawBeneficiaryTable();
             } else {
+                setTimeout(function () {
+                    getBeneficiaryList();
+                }, 1000);
                 $("#beneficiary_table").hide();
                 $("#beneficiary_list_loader").hide();
                 $("#beneficiary_list_retry_btn").show();
             }
+        },
+        error: function (xhr, status, error) {
+            console.log("xhr == >", xhr);
+            console.log("status == >", status);
+            console.log("error == >", error);
+            setTimeout(function () {
+                getBeneficiaryList();
+            }, 1000);
         },
     });
 }
@@ -100,15 +114,41 @@ function drawBeneficiaryTable() {
             const beneficiaryData = beneficiaries.find(
                 (e) => e.BENE_ID === $(editButton).attr("data-bene-id")
             );
-            editBankBeneficiary(beneficiaryData, currentType);
+            siteLoading("show");
+            getOTP(504).then((data) => {
+                // console.log(data);
+                if (data.responseCode == "000") {
+                    siteLoading("hide");
+
+                    editBankBeneficiary(beneficiaryData, currentType);
+                } else {
+                    siteLoading("hide");
+
+                    toaster(data.message, "warning");
+                }
+            });
         });
     });
 }
 
 $(() => {
     getBeneficiaryList();
+
     $("#add_beneficiary").on("click", () => {
-        addBankBeneficiary($(".current-type").attr("data-bene-type"));
+        siteLoading("show");
+
+        getOTP(501).then((data) => {
+            // console.log(data);
+            if (data.responseCode == "000") {
+                siteLoading("hide");
+
+                addBankBeneficiary($(".current-type").attr("data-bene-type"));
+            } else {
+                siteLoading("hide");
+
+                toaster(data.message, "warning");
+            }
+        });
     });
 
     let beneficiaryTypes = document.querySelectorAll(".beneficiary-type");

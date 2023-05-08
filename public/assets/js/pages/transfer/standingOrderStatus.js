@@ -10,11 +10,11 @@ let datatableOptions = {
             targets: [3, 4, 6, 7],
             render: (data) => data.split(" ")[0],
         },
-        {
-            targets: [8],
-            render: (data) =>
-                `<button class="text-white align-items-center btn  bg-danger cancel-order text-center" data-order-number="${data}"><i style="cursor: pointer;" class="fas fa-ban mr-1"></i> cancel</button>`,
-        },
+        // {
+        //     targets: [8],
+        //     render: (data) =>
+        //         `<button class="text-white align-items-center btn  bg-danger cancel-order text-center" data-order-number="${data}"><i style="cursor: pointer;" class="fas fa-ban mr-1"></i> cancel</button>`,
+        // },
         {
             // trancate with ellipses ex
             targets: "_all",
@@ -40,8 +40,12 @@ function getStandingOrderStatus(accountNumber) {
         },
         success: function (response) {
             $("#standing_order_display_area tbody").empty();
+            console.log("get-standing-order-status-api ->", response);
             if (response.responseCode == "000") {
                 let data = response.data;
+                // let table = $("#standing_order_display_area").DataTable(
+                //     datatableOptions
+                // );
                 let table = $("#standing_order_display_area").DataTable(
                     datatableOptions
                 );
@@ -61,12 +65,13 @@ function getStandingOrderStatus(accountNumber) {
                             e.frequency,
                             e.firstPaymentDate,
                             e.lastPaymentDate,
-                            e.orderNumber,
+                            // e.orderNumber,
+                            `<button class="text-white align-items-center btn  bg-danger cancel-order text-center" data-order-number="${e.orderNumber}" onclick="renderCancelButtons()"><i style="cursor: pointer;" class="fas fa-ban mr-1"></i> cancel</button>`,
                         ])
                         .order([0, "desc"])
                         .draw(false);
                 });
-                renderCancelButtons();
+                // renderCancelButtons();
             } else {
                 toaster(response.message, "warning");
                 $("#standing_order_display_area tbody").append(
@@ -77,28 +82,32 @@ function getStandingOrderStatus(accountNumber) {
             }
             siteLoading("hide");
         },
-        // error: function (xhr, status, error) {
-        //     setTimeout(function () {
-        //         getStandingOrderStatus(accountNumber);
-        //     }, $.ajaxSetup().retryAfter);
-        // },
+        error: function (xhr, status, error) {
+            // setTimeout(function () {
+            getStandingOrderStatus(accountNumber);
+            // }, $.ajaxSetup().retryAfter);
+        },
     });
 }
 function renderCancelButtons() {
     $(".cancel-order").on("click", (e) => {
         let orderNumber = $(e.currentTarget).attr("data-order-number");
         Swal.fire({
-            title: "Really cancel this Standing Order?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
+            title: "Do you want to cancel Standing Order?",
+            // text: "You won't be able to revert this!",
+            icon: "question",
+            showDenyButton: false,
             showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#D3D3D3",
-            confirmButtonText: "Yes, Proceed!",
+            confirmButtonColor: "#18c40d",
+            cancelButtonColor: "#df1919",
+            confirmButtonText: " Proceed!",
         }).then((result) => {
             if (result.isConfirmed) {
                 let pass = true;
+                // if (ISCORPORATE) {
+                // }
                 $("#pin_code_modal").modal("show");
+
                 $("#transfer_pin").on("click", () => {
                     if (!pass) {
                         return;
@@ -154,4 +163,8 @@ $(function () {
         getStandingOrderStatus(accountNumber);
     });
     $("#from_account").trigger("change");
+
+    $(".cancel-order").click(function () {
+        console.log("clicked");
+    });
 });

@@ -146,4 +146,5 @@
         const noDataAvailable = {!! json_encode($noDataAvailable) !!}
     </script>
     <script src="assets/js/pages/transfer/beneficiary/beneficiaryList.js"></script>
+    <script src="assets/js/pages/transfer/beneficiary/beneficiaryForm.js"></script>
 @endsection

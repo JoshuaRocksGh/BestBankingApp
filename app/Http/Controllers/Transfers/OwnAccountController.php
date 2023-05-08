@@ -42,7 +42,7 @@ class OwnAccountController extends Controller
     public function own_account_transfer(Request $req)
     {
 
-        // return $req ;
+        // return $req;
 
         $base_response = new BaseResponse();
         $authToken = session()->get('userToken');

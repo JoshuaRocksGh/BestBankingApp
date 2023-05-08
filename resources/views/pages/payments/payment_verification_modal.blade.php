@@ -50,13 +50,16 @@
                         <span> From</span><span class="font-weight-bold" id="details_from_account"> </span>
                     </div>
                     <div class="d-item">
-                        <span> Recipient Name</span><span class="font-weight-bold" id="details_to_account"> </span>
+                        <span class="details_to_account"> Recipient Name</span><span class="font-weight-bold details_to_account" id="details_to_account"> </span>
 
                     </div>
                     <div class="d-item">
                         <span>Recipient Account</span><span class="font-weight-bold" id="details_recipient_number">
                         </span>
 
+                    </div>
+                    <div class="d-item display_dycar" style="display: none">
+                        <span> Meter Address</span><span class="font-weight-bold" id="details_meter_address"> </span>
                     </div>
                     <div class="d-item">
                         <span> Amount</span><span class="font-weight-bold" id="details_amount"> </span>
@@ -68,9 +71,30 @@
                     <div class="d-item">
                         <span> Expense Type</span><span class="font-weight-bold" id="details_expense_type"> </span>
                     </div>
+                    <div class="d-item display_dycar" style="display: none">
+                        <span>Meter Balance</span><span class="font-weight-bold" id="details_meter_balance"> </span>
+                    </div>
+
+
+                    <div class="d-item display_dycar" style="display: none">
+                        <span> Last Meter Amount</span><span class="font-weight-bold" id="details_last_meter_amount"> </span>
+                    </div>
+                    {{-- <div class="d-item display_dycar" style="display: none">
+                        <span> Prepaid Debt</span><span class="font-weight-bold" id="details_prepaid_debt"> </span>
+                    </div> --}}
                     <div class="d-item">
                         <span> Transaction Fee</span><span class="font-weight-bold" id="details_trans_fee"> </span>
                     </div>
+                    @if (!config('app.corporate'))
+                        <div class="d-item">
+                            {{--  <span class="text-danger"> Enter OTP</span>  --}}
+                            <input type="text" class="form-control text-input" id="transfer_otp"
+                                placeholder="Enter OTP"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"
+                                required />
+                        </div>
+                    @endif
+
 
                 </div>
                 <div class='mx-3 px-3 py-1 detail-card total bg-info'>
