@@ -679,6 +679,7 @@
     position: relative;
     /* width: 80px; */
     /* height: 80px; */
+    color: black;
 }
 
 .lds-hourglass:after {
@@ -689,8 +690,8 @@
     height: 0;
     margin: 8px;
     box-sizing: border-box;
-    border: 10px solid var(--danger);
-    border-color: var(--danger) transparent var(--danger) transparent;
+    border: 10px solid var(--black);
+    border-color: var(--black) transparent var(--black) transparent;
     animation: lds-hourglass 1.5s infinite;
 }
 

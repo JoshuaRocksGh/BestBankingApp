@@ -158,7 +158,7 @@
                             <div class="d-flex justify-content-between align-items-end">
                                 <label for="password">Password</label>
                                 {{--  @if (!config('app.corporate'))  --}}
-                                <button type="button" class="text-dark text-right font-12" id="forgot_password"
+                                <button type="button" class="text-danger text-right font-12" id="forgot_password"
                                     onmouseover='this.style.textDecoration="underline"'
                                     onmouseout='this.style.textDecoration="none"'>Forgot
                                     your
@@ -172,7 +172,7 @@
                             </div>
                         </div>
                         <div class="form-group mt-4">
-                            <button class="btn btn-primary btn-block" type="submit" id="submit"><span id="log_in">Log
+                            <button class="btn btn-dark btn-block" type="submit" id="submit"><span id="log_in">Log
                                     In</span>
                                 <span class="spinner-border spinner-border-sm mr-1" role="status" style="display: none"
                                     id="spinner" aria-hidden="true"></span>
@@ -296,7 +296,7 @@
 
                         <div class="form-group mb-0 text-center">
                             <br>
-                            <button class="btn btn-danger btn-block" type="button" id="user_id_next_btn">
+                            <button class="btn btn-danger btn-dark" type="button" id="user_id_next_btn">
                                 <span class="user_id_next_btn_text">Next</span>
                                 <span class="spinner-border spinner-border-sm mr-1 spinner-text-next"
                                     style="display: none" role="status" aria-hidden="true"></span>
