@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/chasefavicon.png') }}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
     <link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet">
 
@@ -83,7 +82,7 @@
     <!-- Pre-loader -->
     <div id="site_loader" style="z-index: 9999999999999">
         <div>
-            <img class="pulse mx-auto" style="width: 100px;" src="{{ asset('assets/images/logoSLCB.png') }}" />
+            <img class="pulse mx-auto" style="width: 100px;" src="{{ asset('assets/images/chasebankLogo.png') }}" />
             <div class="mt-2  text-danger d-flex tw-relative"><span class="lds-hourglass tw-absolute"></span> <span
                     class="text-semibold align-self-center mx-2 font-weight-bold">
                     Loading</span></div>

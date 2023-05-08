@@ -123,16 +123,16 @@
             style="background-image: url({{ asset('assets/images/vectorBCK.jpeg') }});background-repeat: no-repeat;background-size: cover; min-width:400 ">
             <div class="text-center">
                 <a class="d-inline-block mb-4" href="{{ url('/') }}">
-                    <img src="{{ asset('assets/images/slcb-bg-logo.png') }} " alt="company logo" height="120">
+                    <img src="{{ asset('assets/images/chasebank.png') }} " alt="company logo" height="120">
                 </a>
-                <h1 class="text-red page-header font-weight-bold font-20"> {{ $TYPE }} Internet Banking </h1>
+                <h1 class="text-red page-header font-weight-bold font-16"> {{ $TYPE }} Internet Banking </h1>
             </div>
             <div class="card-body mt-5 mx-auto" style="max-width: 500px">
 
                 {{--  // ========= LOGIN FORM ========  --}}
                 <div id="login_form">
 
-                    <h2 class="mt-0 text-left font-weight-bold font-18 mb-4">Sign In</h2>
+                    <h2 class="mt-0 text-left font-weight-bold font-16 mb-4">Sign In</h2>
                     <!-- form -->
                     <form action="POST" id="login_post_form" autocomplete="off" aria-autocomplete="off">
                         @csrf
@@ -158,7 +158,7 @@
                             <div class="d-flex justify-content-between align-items-end">
                                 <label for="password">Password</label>
                                 {{--  @if (!config('app.corporate'))  --}}
-                                <button type="button" class="text-danger text-right font-12" id="forgot_password"
+                                <button type="button" class="text-dark text-right font-12" id="forgot_password"
                                     onmouseover='this.style.textDecoration="underline"'
                                     onmouseout='this.style.textDecoration="none"'>Forgot
                                     your
@@ -172,7 +172,7 @@
                             </div>
                         </div>
                         <div class="form-group mt-4">
-                            <button class="btn btn-danger btn-block" type="submit" id="submit"><span id="log_in">Log
+                            <button class="btn btn-primary btn-block" type="submit" id="submit"><span id="log_in">Log
                                     In</span>
                                 <span class="spinner-border spinner-border-sm mr-1" role="status" style="display: none"
                                     id="spinner" aria-hidden="true"></span>
