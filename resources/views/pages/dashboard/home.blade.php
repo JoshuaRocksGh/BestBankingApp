@@ -26,7 +26,7 @@
                     @endif
                 </div>
             </nav>
-            <div class="tab-content dashboard-body border-primary border " id="nav-tabContent">
+            <div class="tab-content dashboard-body border-info border " id="nav-tabContent">
                 <div class="tab-pane fade h-100 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row ">
                         <nav class="d-flex col-sm-2 col-md-auto  align-self-center no-after dashboard-header h-100 align-items-center"

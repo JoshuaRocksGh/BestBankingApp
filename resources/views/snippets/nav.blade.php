@@ -15,7 +15,7 @@
         {{-- <span>
             {{ session()->get('accountDescription') }}
         </span> --}}
-        <div class="d-none d-md-block rounded-pill border font-11 mx-4 py-1  text-capitalize px-2 border-primary">
+        <div class="d-none d-md-block rounded-pill border font-11 mx-4 py-1  text-capitalize px-2 border-info">
             @if (config('app.corporate'))
                 corporate
             @else
@@ -33,7 +33,7 @@
                 <div class="font-12 ">
                     {{ session()->get('deviceInfo')['deviceIp'] }}
                 </div>
-                <div class="text-primary  font-10">
+                <div class="text-info  font-10">
                     Last Login IP
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <div class="font-12">
                     {{ explode('GMT', session()->get('lastLogin'), 4)[0] }}
                 </div>
-                <div class="text-primary  font-10">
+                <div class="text-info  font-10">
                     Last Login Date
                 </div>
             </div>
@@ -59,14 +59,14 @@
             </div>
 
             <div class="mx-2">
-                <div class="font-10 text-center text-primary" style="line-height: 1"> Welcome Back </div>
+                <div class="font-10 text-center text-info" style="line-height: 1"> Welcome Back </div>
                 <div class="font-14 font-weight-bold text-uppercase">
                     {{ session()->get('userAlias') }}
 
                 </div>
             </div>
             <a href="{{ url('logout') }}" class=" ml-2">
-                <i class="d-none d-sm-inline-block text-primary fas fa-sign-out-alt"></i>
+                <i class="d-none d-sm-inline-block text-info fas fa-sign-out-alt"></i>
             </a>
 
         </div>
