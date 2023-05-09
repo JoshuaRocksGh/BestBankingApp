@@ -46,8 +46,8 @@
 }
 
 .hamburger-menu span {
-    background: var(--danger);
-    color: var(--danger);
+    background: var(--info);
+    color: var(--info);
     display: block;
     position: absolute;
     height: 3px;
@@ -176,12 +176,12 @@
 
 #side-menu a:hover {
     /* background-color: var(--brand); */
-    background-color: var(--danger);
+    background-color: var(--black);
 }
 #side-menu a[aria-expanded="true"] {
     border-left: solid 5px var(--white);
     padding-left: 15px;
-    background-color: var(--danger);
+    background-color: var(--info);
     /* border-left: 1px solid var(--white); */
 }
 
@@ -199,8 +199,8 @@
 
 #side-menu a.current-page {
     background-color: var(--white);
-    color: red;
-    border-left: 5px solid var(--danger);
+    color: black;
+    border-left: 5px solid var(--info);
 }
 /* #side-menu .menu-item-header.current-menu-header {
     border-left: solid 5px var(--brand);
@@ -224,7 +224,7 @@
     content: "";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    color: #dc3545;
+    color: var(--info);
     position: absolute;
     bottom: 0;
     right: 50%;
