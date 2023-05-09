@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-content dashboard-body border-danger border" id="transaction_summary" style="min-height: 0px;">
+        <div class="tab-content dashboard-body border-info border" id="transaction_summary" style="min-height: 0px;">
 
 
 

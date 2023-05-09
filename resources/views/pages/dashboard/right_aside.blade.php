@@ -51,23 +51,23 @@
     </div>
 
     <div class=" site-card p-1">
-        <div class="site-card-body py-2 bg-danger" style="min-height: 10px !important;">
+        <div class="site-card-body py-2 bg-info" style="min-height: 10px !important;">
             <h6 class="text-center mb-0 text-white">Bank Contact</h6>
         </div>
         <div class="site-card-body">
-            <div class="mb-2 font-13"> <i class="mr-1 fas fa-user text-danger"></i><span class="font-weight-bold">Name
+            <div class="mb-2 font-13"> <i class="mr-1 fas fa-user text-info"></i><span class="font-weight-bold">Name
                     :
-                </span><span>Public Bank Ltd.</span> </div>
-            <div class="mb-2 font-13"> <i class="mr-1 fas fa-phone text-danger"></i><span class="font-weight-bold">Phone
+                </span><span>SIB Bank Ltd.</span> </div>
+            <div class="mb-2 font-13"> <i class="mr-1 fas fa-phone text-info"></i><span class="font-weight-bold">Phone
                 </span> <span>+232 88 225225</span>
                 <br>
                 <span class="text-center">+232 79 211121</span>
                 <br>
                 </span> <span>+232 31 464541</span>
             </div>
-            <div class="mb-2 font-13"> <i class="mr-1 fas fa-envelope text-danger"></i><span
+            <div class="mb-2 font-13"> <i class="mr-1 fas fa-envelope text-info"></i><span
                     class="font-weight-bold">Email
-                    :</span> <span> customercare@slcb.com</span> </div>
+                    :</span> <span> customercare@sibll.com</span> </div>
 
         </div>
     </div>

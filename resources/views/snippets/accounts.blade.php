@@ -10,7 +10,7 @@
         data-content=" <div class='overflow-hidden'>
     <div class=' d-flex px-8 align-items-center' style='line-height: 1.5 !important'>
         <div class='d-none mr-2 d-sm-block'>
-            <img style='width: 50px;' src='assets/images/logoSLCB.png' />
+            <img style='width: 50px;' src='assets/images/chasebankLogo.png' />
 
         </div>
         <div class='d-flex w-100 justify-content-between align-items-center'>

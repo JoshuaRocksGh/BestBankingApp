@@ -56,7 +56,7 @@
                             <div class="col-md-8">
 
                                 <div class="dashboard site-card">
-                                    <div class=" tab-content dashboard-body border-danger border table-responsive p-8">
+                                    <div class=" tab-content dashboard-body border-info border table-responsive p-8">
 
                                         <div class="">
                                             <div class="">
@@ -77,14 +77,20 @@
                                                                 </div>
 
                                                                 {{-- <br><br> --}}
-                                                                <table  class="table mb-0 table-striped mx-auto pending_status" style="margin-top: -15px;display:none">
+                                                                <table
+                                                                    class="table mb-0 table-striped mx-auto pending_status"
+                                                                    style="margin-top: -15px;display:none">
                                                                     <tbody>
                                                                         <tr class="hide-on-success bg-danger  text-white">
                                                                             <td colspan="2">
-                                                                                <div class="custom-control d-flex custom-checkbox ">
-                                                                                    <input type="checkbox" class="custom-control-input d-block" name="terms_and_conditions"
+                                                                                <div
+                                                                                    class="custom-control d-flex custom-checkbox ">
+                                                                                    <input type="checkbox"
+                                                                                        class="custom-control-input d-block"
+                                                                                        name="terms_and_conditions"
                                                                                         id="terms_and_conditions">
-                                                                                    <label class="custom-control-label d-flex  align-items-center font-weight-bold"
+                                                                                    <label
+                                                                                        class="custom-control-label d-flex  align-items-center font-weight-bold"
                                                                                         for="terms_and_conditions">
                                                                                         By checking this box, you agree to
                                                                                         abide by the Terms and Conditions
@@ -99,7 +105,8 @@
                                                                 <div class="mt-3">
 
 
-                                                                    <div class="col-md-12 mb-3 pending_status" style="display:none">
+                                                                    <div class="col-md-12 mb-3 pending_status"
+                                                                        style="display:none">
                                                                         <div class="row">
                                                                             <div class="col-md-2"></div>
                                                                             <button
@@ -177,16 +184,16 @@
                                 <div class=" site-card p-1">
                                     <div class="site-card-body ">
                                         <h3 class=" text-center">Account Mandate</h3>
-                                        <p id="account_mandate" class="text-center text-danger" style="font-size:18px">
+                                        <p id="account_mandate" class="text-center text-info" style="font-size:18px">
                                         </p>
 
                                         <br>
                                         <h3 class=" text-center">Initiated By</h3>
-                                        <p id="initiated_by" class="text-center text-danger" style="font-size:18px"></p>
+                                        <p id="initiated_by" class="text-center text-info" style="font-size:18px"></p>
 
                                         <br>
                                         <h3 class="mb-1 text-center approvers_list_title">Status</h3>
-                                        <p id="approvers_list" class="text-center text-danger" style="font-size:18px">
+                                        <p id="approvers_list" class="text-center text-info" style="font-size:18px">
                                         </p>
 
                                     </div>
@@ -196,7 +203,7 @@
 
 
                                 <div class="site-card p-1">
-                                    <div class="site-card-body py-2 bg-danger" style="min-height: 10px !important;">
+                                    <div class="site-card-body py-2 bg-info" style="min-height: 10px !important;">
                                         <h6 class="text-center mb-0 text-white text-bold">Approvers</h6>
                                     </div>
                                     <div class="site-card-body">
@@ -501,7 +508,7 @@
                             let request_type = 'Create New Originator'
                             request_type != null ? append_approval_details("Request Type", request_type) : '';
 
-                        }else if (request_type == 'CHQS') {
+                        } else if (request_type == 'CHQS') {
                             let request_type = 'Stop Cheque Request'
                             request_type != null ? append_approval_details("Request Type", request_type) : '';
                         } else if (request_type == 'CHQR') {
@@ -1076,9 +1083,9 @@
 
                 e.preventDefault();
                 if (!$("#terms_and_conditions").is(":checked")) {
-            toaster("Accept Terms & Conditions to continue", "warning");
-            return false;
-        }
+                    toaster("Accept Terms & Conditions to continue", "warning");
+                    return false;
+                }
                 $("#approve_transaction").attr("disabled", true);
                 $("#reject_transaction").attr("disabled", true);
 
@@ -1171,8 +1178,8 @@
                     },
                     error: function(xhr, status, error) {
                         $('#approve_transaction').html(`Approve<i class="mdi mdi-check-all">`)
-                            $("#approve_transaction").attr("disabled", false);
-                $("#reject_transaction").attr("disabled", false);
+                        $("#approve_transaction").attr("disabled", false);
+                        $("#reject_transaction").attr("disabled", false);
                     }
                 })
             }

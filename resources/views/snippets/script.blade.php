@@ -40,7 +40,7 @@
         })
         //var imageUrl = "{{ asset('assets/images/simple-shiny.png') }}";
         //var imageUrl = "{{ asset('assets/images/simple-shiny2.png') }}";
-        var imageUrl = "{{ asset('assets/images/layered-bg4.png') }}";
+        var imageUrl = "{{ asset('assets/images/layered-sib.png') }}";
         $("#wrapper").css("background-image", "url(" + imageUrl + ")");
         $("#wrapper").css("background-color", "#f1f1f1").show();
         $('#wrapper').css('background-repeat', 'no-repeat');
@@ -105,24 +105,24 @@
 
     });
 
-        // hide inspect element
-// document.onkeydown=function(e){
-//     if(event.keyCode == 123 ){
-//         return false
-//     }
+    // hide inspect element
+    // document.onkeydown=function(e){
+    //     if(event.keyCode == 123 ){
+    //         return false
+    //     }
 
-//     if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
-//         return false;
-//     }
+    //     if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+    //         return false;
+    //     }
 
-//     if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
-//         return false;
-//     }
+    //     if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+    //         return false;
+    //     }
 
-//     if(e.ctrlKey && e.shiftKey && e.keyCode == 'U'.charCodeAt(0)){
-//         return false;
-//     }
-// }
+    //     if(e.ctrlKey && e.shiftKey && e.keyCode == 'U'.charCodeAt(0)){
+    //         return false;
+    //     }
+    // }
     const getDeviceOS = () => {
         if (navigator.appVersion.indexOf("Win") != -1) {
             return "Windows";

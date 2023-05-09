@@ -123,7 +123,7 @@
             style="background-image: url({{ asset('assets/images/vectorBCK.jpeg') }});background-repeat: no-repeat;background-size: cover; min-width:400 ">
             <div class="text-center">
                 <a class="d-inline-block mb-4" href="{{ url('/') }}">
-                    <img src="{{ asset('assets/images/chasebank.png') }} " alt="company logo" height="120">
+                    <img src="{{ asset('assets/images/SIBBanner.png') }} " alt="company logo" height="60">
                 </a>
                 <h1 class="text-red page-header font-weight-bold font-16"> {{ $TYPE }} Internet Banking </h1>
             </div>

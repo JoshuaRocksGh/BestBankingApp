@@ -311,7 +311,7 @@ ${accountDesc} || ${accountNumber} || ${currency} ${thisAmount}
 
 function siteLoading(state) {
     if (state === "show") {
-        $("#site_loader").css("background-color", "#ddd1ac");
+        $("#site_loader").css("background-color", "#e4f8f8");
         $("#site_loader").fadeIn(500, "linear");
         return;
     }
@@ -324,7 +324,7 @@ function blockUi(data) {
         block: "#body",
         message: "Please Wait",
         size: "75px",
-        bgColor: "#f7eeee",
+        bgColor: "#e4f8f8",
         opacity: "0.3",
     };
     data = Object.assign(defaults, data);

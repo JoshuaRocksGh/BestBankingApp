@@ -1,7 +1,7 @@
 <div class="modal fade" id="create_originator" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-md modal-dialog-centered" role="document" style="wid">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title text-white font-18 font-weight-bold">
                     Create New Originator
                 </h5>
@@ -66,7 +66,7 @@
 
                         <div class="modal-footer">
 
-                            <button class="btn form-button"  id="new_originator_form">Submit
+                            <button class="btn form-button" id="new_originator_form">Submit
                             </button>
                         </div>
                     </form>
@@ -96,9 +96,10 @@
 
             // console.log(originatorData.accountDetails, originatorData.firstName, originatorData.lastName, !originatorData.email ,originatorData.telephone)
 
-            if(originatorData.account == "" || originatorData.firstName =="" || originatorData.lastName =="" || originatorData.telephone == "" || originatorData.email == ""){
+            if (originatorData.account == "" || originatorData.firstName == "" || originatorData
+                .lastName == "" || originatorData.telephone == "" || originatorData.email == "") {
                 toaster("Please complete all fields", "warning")
-                        return;
+                return;
             }
             // if()
 
@@ -114,7 +115,7 @@
                 },
                 success: function(response) {
                     // console.log(response)
-            siteLoading(false)
+                    siteLoading(false)
 
                     if (response.responseCode == '000') {
                         toaster(response.message, "success");
