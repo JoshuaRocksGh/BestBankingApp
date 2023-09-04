@@ -77,13 +77,13 @@ function submitChequeRequest(data) {
         .done((response) => {
             console.log("success=>", response);
             // if (response?.data) {
-                // const { data } = response;
-                if (response.responseCode === "000") {
-                    toaster(response.message, "success");
-                    $("#cheque_request_form")[0].reset();
-                } else {
-                    toaster(response.message, "error");
-                }
+            // const { data } = response;
+            if (response.responseCode === "000") {
+                toaster(response.message, "success");
+                $("#cheque_request_form")[0].reset();
+            } else {
+                toaster(response.message, "error");
+            }
             // }
         })
         .fail((e) => {
@@ -107,40 +107,41 @@ function submitChequeBlock(data) {
     }
     // var url = "cheque-book-block-api";
 
-    return $.ajax({
-        type: "POST",
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        dataType: "application/json",
-        url: url,
-        data,
-        beforeSend: (xhr) => {
-            siteLoading("show");
-        },
-    })
-        .always((e) => siteLoading("hide"))
-        .done((response) => {
-            console.log(response);
-            if (response?.data) {
-                const { data } = response;
-                if (data.status === "success") {
-                    toaster(data.message, "success");
+    return (
+        $.ajax({
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            datatype: "application/json",
+            url: url,
+            data,
+            beforeSend: (xhr) => {
+                siteLoading("show");
+            },
+        })
+            // .always((e) => siteLoading("hide"))
+            .done((response) => {
+                siteLoading("hide");
+                console.log(response);
+                // const { data } = response;
+                if (response.responseCode === "000") {
+                    toaster(response.message, "success");
                     $("#cheque_request_form")[0].reset();
                 } else {
-                    toaster(data.message, "error");
+                    toaster(response.message, "error");
                 }
-            }
-        })
-        .fail((e) => {
-            console.log(e.responseText);
-            const res = JSON.parse(e.responseText);
-            if (res?.message) {
-                toaster(res.message, "error");
-                return;
-            }
-            toaster("Something went wrong", "error");
-        });
+            })
+            .fail((e) => {
+                console.log(e.responseText);
+                const res = JSON.parse(e.responseText);
+                if (res?.message) {
+                    toaster(res.message, "error");
+                    return;
+                }
+                toaster("Something went wrong", "error");
+            })
+    );
 }
 
 $(function () {

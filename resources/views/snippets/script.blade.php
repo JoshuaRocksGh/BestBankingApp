@@ -288,30 +288,38 @@
         })
     }
 
-    // $(document).idle({
-    //     onIdle: function() {
-    //         window.location.href = 'logout';
+    var logoutTimer; // Variable to store the logout timer
+    var idleTimeoutDuration = 300000; // 5 minutes (adjust as needed)
+    //var idleTimeoutDuration = 30000; // 5 minutes (adjust as needed)
 
-    //     },
-    //     idle: 600000,
-    //     keepTracking: true
-    // });
+    // Function to reset the logout timer
+    function resetLogoutTimer() {
+        clearTimeout(logoutTimer);
+        startLogoutTimer();
+    }
 
-    // var idleTime = 300000; // 5 minutes (in milliseconds)
-    // // var idleTime = 300; // 5 minutes (in milliseconds)
-    // var idleTimer;
+    // Function to start the logout timer
+    function startLogoutTimer() {
+        logoutTimer = setTimeout(logout, idleTimeoutDuration);
+    }
 
-    // // Reset the timer on user activity
-    // $(document).on('mousemove keydown scroll', function() {
-    //     // alert("hhhh")
-    //     clearTimeout(idleTimer);
-    //     idleTimer = setTimeout(refreshPage, idleTime);
-    // });
+    // Function to perform the logout
+    function logout() {
+        // Add your logout logic here
+        //console.log('User logged out');
+        window.location.replace("logout");
+        window.close('http://localhost/laravel/New-SLCB-Corporate-Banking/public/approvals-pending-transfer-details/')
+    }
 
-    // // Refresh the page after idle time
-    // function refreshPage() {
-    //     window.location.replace("login");
-    //     // window.location = "home";
-    //     // location.reload();
-    // }
+    // Event listeners to track user activity
+    function handleUserActivity() {
+        resetLogoutTimer();
+    }
+
+    window.addEventListener('mousemove', handleUserActivity);
+    window.addEventListener('keydown', handleUserActivity);
+    window.addEventListener('scroll', handleUserActivity);
+
+    // Start the initial logout timer
+    startLogoutTimer();
 </script>

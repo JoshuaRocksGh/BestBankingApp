@@ -405,11 +405,9 @@
 
             var customer = @json($customer_no);
             var request = @json($request_id);
-            var mandate = @json($mandate)
+            {{--  var mandate = @json($mandate)  --}}
 
-            //console.log(customer);
-            //console.log(request);
-            //console.log(mandate);
+
 
             $.ajax({
                 type: 'GET',

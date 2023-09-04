@@ -9,7 +9,7 @@ function login(email, password) {
         url: "login-api",
         datatype: "application/json",
         data: {
-            _token: $('meta[name="csrf-token"]').attr("content"),
+            // _token: $('meta[name="csrf-token"]').attr("content"),
             deviceOS: deviceOS,
             deviceType: deviceType,
             deviceID: deviceID,

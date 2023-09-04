@@ -77,7 +77,7 @@
     @include('snippets.script')
 </head>
 
-<body id="body" class="" style="position:relative;">
+<body id="body" class="" style="position:relative; zoom:0.9">
 
     <!-- Pre-loader -->
     <div id="site_loader" style="z-index: 9999999999999">

@@ -136,7 +136,8 @@ function getCountries() {
                     `<option selected disabled value=""> --- Select Country ---</option>`
                 );
                 $.each(data, (i) => {
-                    let { actualCode, codeType, description } = myCOuntriesArray[i];
+                    let { actualCode, codeType, description } =
+                        myCOuntriesArray[i];
                     option = `<option value="${codeType}"  data-country-code="${actualCode}">${description}</option>`;
                     $("#onetime_select_country").append(option);
                 });
@@ -182,7 +183,8 @@ function getInternationalBanks(countryCode) {
                     `<option selected disabled value=""> --- Select Bank ---</option>`
                 );
                 $.each(data, (i) => {
-                    let { BICODE, BANK_DESC, COUNTRY } = myInternationalBanksArray[i];
+                    let { BICODE, BANK_DESC, COUNTRY } =
+                        myInternationalBanksArray[i];
                     option = `<option value="${BICODE}" data-bank-country="${COUNTRY}" >${BANK_DESC}</option>`;
                     $("#onetime_select_bank").append(option);
                 });
@@ -735,11 +737,7 @@ $(() => {
                 getInternationalBanks(onetimeToAccount.bankCountryCode);
                 $("#onetime_select_bank").prop("selectedIndex", -1);
             });
-
-
         }
-
-
     }
     // =========================================================
     //Other Checks
@@ -1070,13 +1068,13 @@ $(() => {
             transferType.toLowerCase().trim().replace(" ", "-") +
             "-transfer-api";
 
-            for (const key in transferInfo) {
-                if (transferInfo.hasOwnProperty(key)) {
-                    // console.log("key ==>", key);
+        for (const key in transferInfo) {
+            if (transferInfo.hasOwnProperty(key)) {
+                // console.log("key ==>", key);
 
-                    formData.append(key, transferInfo[key]);
-                }
+                formData.append(key, transferInfo[key]);
             }
+        }
         makeTransfer(endPoint, formData);
         $("#user_pin").val("").text("");
         confirmationCompleted = false;

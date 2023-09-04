@@ -12,7 +12,7 @@
         </div>
         <div class="form-group align-items-center ">
 
-            <label class=" text-dark">Salary Advance Amount</label>
+            {{--  <label class=" text-dark">Salary Advance Amount</label>  --}}
 
             {{--  <div class="input-group mb-1" style="padding: 0px;">
                 <div class="input-group-prepend">

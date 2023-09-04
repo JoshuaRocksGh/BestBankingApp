@@ -44,6 +44,7 @@
                     <li>
                         <a href="{{ url('international-bank') }}">International Bank</a>
                     </li>
+
                     {{-- <li>
                         <a href="{{ url('bollore-link') }}">Bollore Link</a>
                     </li> --}}
@@ -95,6 +96,9 @@
                         <a href="{{ url('payments') }}">Make Payment</a>
                     </li>
                     {{-- @if (!config('app.corporate')) --}}
+                    <li>
+                        <a href="{{ url('instant-payment') }}">Instant Payment</a>
+                    </li>
                     <li>
                         <a href="{{ url('airport-tax') }}">Airport Tax</a>
                     </li>

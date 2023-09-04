@@ -46,6 +46,7 @@ use App\Http\Controllers\Payments\Bulk\BulkKorporController;
 use App\Http\Controllers\Payments\BulkUpload\BulkUploadsController;
 use App\Http\Controllers\Payments\BulkUpload\CorporateKorporController as BulkUploadCorporateKorporController;
 use App\Http\Controllers\Payments\CardlessController;
+use App\Http\Controllers\Payments\InstantPayment;
 use App\Http\Controllers\Payments\KorporController;
 use App\Http\Controllers\Payments\PaymentsController;
 use App\Http\Controllers\Payments\paymentController;
@@ -217,6 +218,8 @@ Route::group(['middleware' => ['userAuth']], function () {
     Route::post('/get-bulk-detail-list-for-approval', [PendingController::class, 'get_bulk_detail_list_for_approval'])->name('get-bulk-detail-list-for-approval');
     Route::post('/corporate-initiate-cardless', [CardlessController::class, 'corporate_cardless_transfer'])->name('corporate-initiate-cardless');
     Route::get('/get-blink-pay', [BlinkPayController::class, 'get_blink_pay'])->name('get-blink-pay');
+    Route::get('/instant-payment', [InstantPayment::class, 'get_intstant_payment'])->name('/instant-payment');
+
 
 
 
