@@ -89,7 +89,7 @@ class LoginController extends Controller
         ];
         // return $data;
         // return \config('base_urls.api_base_url') ;
-        // return env('API_BASE_URL') . "/user/login";
+        // return env('API_BASE_URL') . "user/login";
 
         try {
             $response = Http::post(env('API_BASE_URL') . "user/login", $data);
