@@ -117,20 +117,29 @@ class LoginController extends Controller
             // $mandateRes = Http::post(env('CIB_API_BASE_URL') . "get-mandate/$user_id");
             // return env('CIB_API_BASE_URL') . "get-mandate/$user_id";
 
-            if ($userDetail->customerType == "C") {
-
-                $mandateRes = Http::post(env('CIB_API_BASE_URL') . "get-mandate/$user_id");
-                if ($mandateRes['responseCode'] == "000") {
-                    // return $mandateRes['data'][0]['panel'];
-                    // return $mandateRes;
-                    $userMandate = $mandateRes['data'][0]['panel'];
-                    // $userMandate = "A";
-                } else {
-                    $userMandate = null;
-                }
-            } else {
-                $userMandate = "";
-            }
+            // if ($userDetail->customerType == "C") {
+            //     try {
+            //         $mandateRes = Http::post(env('CIB_API_BASE_URL') . "get-mandate/$user_id");
+            //         dd($mandateRes);
+            //         if ($mandateRes['responseCode'] == "000") {
+            //             // return $mandateRes['data'][0]['panel'];
+            //             // return $mandateRes;
+            //             $userMandate = $mandateRes['data'][0]['panel'];
+            //             // $userMandate = "A";
+            //         } else {
+            //             $userMandate = "";
+            //         }
+            //     } catch (\Exception $error) {
+            //         return $base_response->api_response('500', 'Failed To Get User Mandate ',  NULL); // return API BASERESPONSE
+            //         // DB::table('tb_error_logs')->insert([
+            //         //     'platform' => 'ONLINE_INTERNET_BANKING',
+            //         //     'user_id' => 'MANDATE SERVER',
+            //         //     'message' => (string) $error->getMessage()
+            //         // ]);
+            //     }
+            // } else {
+            //     $userMandate = "";
+            // }
 
 
 
@@ -152,8 +161,8 @@ class LoginController extends Controller
                 "customerAccounts" => $userDetail->accountsList ?? "",
                 "customerLoans" => $userDetail->loansList ?? "",
                 "customerInvestments" => $userDetail->investmentList ?? "",
-                // "userMandate" => 'A',
-                "userMandate" => $userMandate ?? "",
+                "userMandate" => 'A',
+                // "userMandate" => $userMandate ?? "",
 
                 "deviceInfo" => [
                     "appVersion" => "Web",

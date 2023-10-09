@@ -24,7 +24,7 @@ function reject_file_upload(batch_no) {
                 toaster(response.message, "success", "").then(() => {
                     setTimeout(function () {
                         window.location = "bulk-transfer";
-                    }, 200);
+                    }, 500);
                 });
             } else {
                 // siteLoading("hide");
@@ -165,10 +165,11 @@ function reject_upload(batch_no) {
         confirmButtonText: "Reject",
     }).then((result) => {
         if (result.isConfirmed) {
-            alert("confirme");
-            // reject_file_upload(batch_no);
-        } else {
-            alert("cancelled");
+            // alert("confirme");
+            reject_file_upload(batch_no);
+        } else if (result.isDenied) {
+            return;
+            // alert("Cancelled");
         }
         // return fetch(ipAPI);
         // if (result.isConfirmed) {

@@ -293,33 +293,31 @@
     //var idleTimeoutDuration = 30000; // 5 minutes (adjust as needed)
 
     // Function to reset the logout timer
-    function resetLogoutTimer() {
+    {{--  function resetLogoutTimer() {
         clearTimeout(logoutTimer);
         startLogoutTimer();
-    }
+    }  --}}
 
     // Function to start the logout timer
-    function startLogoutTimer() {
+    {{--  function startLogoutTimer() {
         logoutTimer = setTimeout(logout, idleTimeoutDuration);
-    }
+    }  --}}
 
     // Function to perform the logout
-    function logout() {
-        // Add your logout logic here
-        //console.log('User logged out');
+    {{--  function logout() {
         window.location.replace("logout");
         window.close('http://localhost/laravel/New-SLCB-Corporate-Banking/public/approvals-pending-transfer-details/')
-    }
+    }  --}}
 
     // Event listeners to track user activity
-    function handleUserActivity() {
+    {{--  function handleUserActivity() {
         resetLogoutTimer();
-    }
+    }  --}}
 
-    window.addEventListener('mousemove', handleUserActivity);
+    {{--  window.addEventListener('mousemove', handleUserActivity);
     window.addEventListener('keydown', handleUserActivity);
-    window.addEventListener('scroll', handleUserActivity);
+    window.addEventListener('scroll', handleUserActivity);  --}}
 
     // Start the initial logout timer
-    startLogoutTimer();
+    {{--  startLogoutTimer();  --}}
 </script>

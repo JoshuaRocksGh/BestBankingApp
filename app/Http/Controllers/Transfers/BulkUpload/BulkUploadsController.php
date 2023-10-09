@@ -30,13 +30,16 @@ class BulkUploadsController extends Controller
         // return view('pages.transfer.bulkTransfers.new_bulk_transfer');
         // die();
         $base_response = new BaseResponse();
+        // return $customer_no;
+        
 
 
         try {
-            // $response = Http::get(env('API_BASE_URL') . "corporate/getBulkUploadDataHist/$user_id/$customer_no");
+            $response = Http::get(env('API_BASE_URL') . "corporate/getBulkUploadDataHist/$user_id/$customer_no");
             // return $response;
             // dd("http://10.1.1.56:8680/ibank/api/v1.0/corporate/getBulkUploadDataHist/$user_id/$customer_no");
-            $response = Http::get("http://10.1.1.56:8680/ibank/api/v1.1/corporate/getBulkUploadDataHist/$user_id/$customer_no");
+            // $response = Http::get("http://192.168.1.75:8080/ibank/api/v1.1/corporate/getBulkUploadDataHist/$user_id/$customer_no");
+            // $response = Http::get("http://192.168.1.75:8080/corporate/getBulkUploadDataHist/$user_id/$customer_no");
             // return $response['responseCode'];
             // return $response;
             $result = new ApiBaseResponse();
@@ -45,16 +48,16 @@ class BulkUploadsController extends Controller
             // return json_decode($response->body();
             $allUploads =   $response['data'] ?? "";
             // return $allUploads;
-            if($response['responseCode'] == '000' && $allUploads != ""){
+            return view('pages.transfer.bulkTransfers.new_bulk_transfer');
+            if ($response['responseCode'] == '000' && $allUploads != "") {
                 // return "correct";
                 return view('pages.transfer.bulkTransfers.new_bulk_transfer', [
                     "bulkUploads" => $allUploads,
                 ]);
-            }else{
+            } else {
                 // return "incorrect";
                 return view('pages.transfer.bulkTransfers.new_bulk_transfer');
             }
-
         } catch (\Exception $e) {
 
             DB::table('tb_error_logs')->insert([
@@ -336,7 +339,9 @@ class BulkUploadsController extends Controller
                 'file',
                 file_get_contents($path),
                 $filename
-            )->post("http://10.1.1.56:8680/ibank/api/v1.1/corporate/uploadBulkNew", $data);
+            )->post(env('API_BASE_URL') . "corporate/uploadBulkNew", $data);
+            
+            // post("http://192.168.1.75:8080/corporate/uploadBulkNew", $data);
 
             // post(env('API_BASE_URL') . "corporate/uploadBulkNew", $data);
 
@@ -822,7 +827,7 @@ class BulkUploadsController extends Controller
                 'user_id' => 'AUTH',
                 'message' => (string) $e->getMessage()
             ]);
-            return $base_response->api_response('500', "Internal Server Error",  NULL); // return API BASERESPONSE
+            return $base_response->api_response('500', "Internal Server Error",  $e->getMessage()); // return API BASERESPONSE
         }
 
         die();

@@ -29,7 +29,7 @@
 <div class="modal fade" id="edit_modal" data-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header bg-danger" id="beneficiary_form_header">
+            <div class="modal-header bg-info" id="beneficiary_form_header">
                 <h5 class="modal-title font-18 py-1 text-center text-white text-capitalize font-weight-bold"
                     id="beneficiary_form_title">
                     Beneficiary Form</h5>

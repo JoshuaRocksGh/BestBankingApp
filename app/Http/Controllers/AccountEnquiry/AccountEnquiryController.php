@@ -73,7 +73,7 @@ class AccountEnquiryController extends Controller
             // "userId"    => $userID
 
             "accountNumber" => $accountNumber,
-            "authToken" => $authToken ,
+            "authToken" => $authToken,
             "brand" => $deviceInfo['deviceBrand'],
             "channel" => $channel,
             "country" => $deviceInfo['deviceCountry'],
@@ -99,7 +99,7 @@ class AccountEnquiryController extends Controller
 
 
         ];
-        //  return $data;
+        // return $data;
         // return env('API_BASE_URL') . "account/getTransactions";
         // account/ministatement
         try {
@@ -205,10 +205,10 @@ class AccountEnquiryController extends Controller
         // return json_decode($request);
         // return  date($postingDate);
         $currentDateTime = date($postingDate);
-		$newDateTime = new DateTime($currentDateTime);
-		$newDateTime->setTimezone(new DateTimeZone("UTC"));
-		$dateTimeUTC = $newDateTime->format("Y-m-d h:i A");
-		// return $dateTimeUTC;
+        $newDateTime = new DateTime($currentDateTime);
+        $newDateTime->setTimezone(new DateTimeZone("UTC"));
+        $dateTimeUTC = $newDateTime->format("Y-m-d h:i A");
+        // return $dateTimeUTC;
         return view('pages.accountEnquiry.transaction_receipt', [
             "debitAccount" => $debitAccount,
             "debitAccountName" => $debitAccountName,
