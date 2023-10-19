@@ -31,7 +31,7 @@ class BulkUploadsController extends Controller
         // die();
         $base_response = new BaseResponse();
         // return $customer_no;
-        
+
 
 
         try {
@@ -340,7 +340,7 @@ class BulkUploadsController extends Controller
                 file_get_contents($path),
                 $filename
             )->post(env('API_BASE_URL') . "corporate/uploadBulkNew", $data);
-            
+
             // post("http://192.168.1.75:8080/corporate/uploadBulkNew", $data);
 
             // post(env('API_BASE_URL') . "corporate/uploadBulkNew", $data);
@@ -639,7 +639,7 @@ class BulkUploadsController extends Controller
         } catch (\Exception $e) {
             // Alert::error('', 'Failed To Delete Record');
             // return back();
-            return $base_response->api_response($result->responseCode, $result->message,  NULL);
+            return $base_response->api_response('500', $e->getMessage(),  NULL);
         }
     }
 

@@ -34,11 +34,13 @@
                             <label class="col-md-4 text-dark">Transfer Type </label>
                             <div class="col-md-8">
                                 <div class="radio radio-info form-check-inline">
-                                    <input type="radio" id="inlineRadio1" value="normal" name="trans_type" checked>&nbsp;&nbsp;
+                                    <input type="radio" id="inlineRadio1" value="normal" name="trans_type"
+                                        checked>&nbsp;&nbsp;
                                     <label class="pt-1" for="inlineRadio1 mt-1">Normal</label>
                                 </div>
                                 <div class="radio form-check-inline">
-                                    <input type="radio" id="inlineRadio2" value="invoice" name="trans_type">&nbsp;&nbsp;
+                                    <input type="radio" id="inlineRadio2" value="invoice"
+                                        name="trans_type">&nbsp;&nbsp;
                                     <label class="pt-1" for="inlineRadio2"> Invoice Transaction </label>
                                 </div>
 
@@ -198,6 +200,16 @@
                                             <option disabled selected>--- Not Selected ---</option>
 
                                         </select></div>
+                                </div>
+                            @endif
+                            @if ($currentPath === 'International Bank')
+                                <div class="row align-items-center mb-1">
+                                    <label class="text-dark col-md-4">Bank Swift Code</label>
+                                    <div class="px-0 col-md-8">
+                                        <input type="text"
+                                            class="form-control  text-input  onetime_bank_swift_code"
+                                            placeholder="Bank Swift Code" id="onetime_bank_swift_code" disabled>
+                                    </div>
                                 </div>
                             @endif
                             <div class="form-group align-items-center row">

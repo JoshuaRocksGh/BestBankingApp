@@ -14,11 +14,16 @@ function getBeneficiaryList() {
                 pageData.BENE_OTB = [];
                 pageData.BENE_INTB = [];
                 data.forEach((e) => {
-                    if (e.BENEF_TYPE === "SAB" || e.TRANS_TYPE === "SAM") {
+                    if (
+                        e.BENEF_TYPE === "SAB" ||
+                        e.TRANS_TYPE === "SAM" ||
+                        e.TRANS_TYPE === "This Bank"
+                    ) {
                         pageData.BENE_SAB.push(e);
                     } else if (
                         e.BENEF_TYPE === "OTB" ||
-                        e.TRANS_TYPE === "OTR"
+                        e.TRANS_TYPE === "OTR" ||
+                        e.TRANS_TYPE === "Other Banks"
                     ) {
                         pageData.BENE_OTB.push(e);
                     } else if (

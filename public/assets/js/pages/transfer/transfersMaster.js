@@ -738,6 +738,11 @@ $(() => {
                 $("#onetime_select_bank").prop("selectedIndex", -1);
             });
         }
+
+        $("#onetime_select_bank").change(function () {
+            // console.log($(this).val());
+            $("#onetime_bank_swift_code").val($(this).val());
+        });
     }
     // =========================================================
     //Other Checks

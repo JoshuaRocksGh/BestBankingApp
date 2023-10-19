@@ -188,7 +188,7 @@
                                         </p>
 
                                         <br>
-                                        <h3 class=" text-center">Initiated By</h3>
+                                        <h3 class=" text-center">Posted By</h3>
                                         <p id="initiated_by" class="text-center text-info" style="font-size:18px"></p>
 
                                         <br>
@@ -421,6 +421,7 @@
 
                         let pending_request = response.data[0];
                         let approvers_mandate = response.data[1]
+                        let account_users = response.data[2]
                         console.log("pending_request=>", pending_request);
 
                         if (pending_request == null || pending_request == '') {
@@ -430,11 +431,17 @@
                         }
 
                         $('#account_mandate').text(pending_request.account_mandate);
-                        $('#initiated_by').text(pending_request.postedby);
+
+                        $('#initiated_by').text(pending_request.user_name)
+
+                        {{--  account_users.forEach((index) =>
+                            index.user_id == pending_request.postedby ? $('#initiated_by').text(index
+                                .user_alias) : pending_request.user_name)  --}}
+
 
 
                         let post_date = pending_request.post_date;
-                        post_date != null ? append_approval_details("Issue Date", post_date) : '';
+                        post_date != null ? append_approval_details("Posting Date", post_date) : '';
 
                         let request_type = pending_request.request_type;
                         if (request_type == 'SO') {
@@ -587,7 +594,7 @@
                         beneficiary_name != null ? append_approval_details("Beneficiary Name",
                             beneficiary_name) : '';  --}}
 
-                        let beneficiary_name_ = pending_request.beneficiaryname;
+                        let beneficiary_name_ = pending_request.beneficiary_name;
                         beneficiary_name_ != null ? append_approval_details("Beneficiary Name",
                             beneficiary_name_) : '';
 
@@ -658,8 +665,8 @@
 
 
 
-                        let posted_by = pending_request.postedby;
-                        posted_by != null ? append_approval_details("Posted By", posted_by) : '';
+                        {{--  let posted_by = pending_request.postedby;
+                        posted_by != null ? append_approval_details("Posted By", posted_by) : '';  --}}
 
                         let transaction_invoice = pending_request.trans_invoice;
                         transaction_invoice != null ? append_transaction_invoice("Transaction Invoice",
@@ -674,8 +681,13 @@
                                 `<p class="approvers" style="font-size:18px">${approvers}</p>`)
                         } else {
                             $('.approvers_list_title').text('Approved By')
-                            $('#approvers_list').append(
-                                `<p class="approvers" style="font-size:18px">  ${pending_approvers}</p>`)
+                            account_users.forEach((index) =>
+                                index.user_id == pending_approvers ? $('#approvers_list').append(
+                                    `<p class="approvers" style="font-size:18px">  ${index.user_alias}</p>`
+                                ) :
+                                $('#approvers_list').append(
+                                    `<p class="approvers" style="font-size:18px">  </p>`)
+                            )
                         }
 
 
@@ -724,8 +736,8 @@
                             $('.approvers_list').append(
                                 `
                                 <tr>
-                                    <td>${approvers_mandate[index].first_name} ${approvers_mandate[index].surname}</td>
-                                    <td>${approvers_mandate[index].approver_state}</td>
+                                    <td>${approvers_mandate[index].first_name?? " "} ${approvers_mandate[index].surname ?? " "}</td>
+                                    <td>${approvers_mandate[index].approver_state?? ""}</td>
                                 </tr>
                                 `
                             )
@@ -763,7 +775,8 @@
 
                 },
                 error: function(xhr, textStatus, errorThrown) {
-                    if (textStatus == "timeout") {
+                    account_mandate()
+                    {{--  if (textStatus == "timeout") {
                         this.tryCount++;
                         if (this.tryCount <= this.retryLimit) {
                             //try again
@@ -776,10 +789,12 @@
                         $.ajax(this);
                     } else {
                         //handle error
-                    }
+                    }  --}}
                 },
             })
         }
+
+
 
         function ajax_call_bulk_details_endpoint(batch_no) {
             var table = $('.bulk_upload_list').DataTable({
@@ -1037,13 +1052,14 @@
                 </div>
                 <hr class="mt-0">`)
         }
+        account_mandate();
 
         $(document).ready(function() {
 
-            setTimeout(function() {
+            {{--  setTimeout(function() {
                 account_mandate();
 
-            }, 300);
+            }, 300);  --}}
 
             //Reject Button
             $("#reject_transaction").click(function(e) {

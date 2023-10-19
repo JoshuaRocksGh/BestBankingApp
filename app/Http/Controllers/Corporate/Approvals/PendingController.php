@@ -38,7 +38,7 @@ class PendingController extends Controller
 
         // return $mandate;
         return view('pages.corporate.approvals.pending_transfer_details', ['request_id' => $request_id, 'customer_no' => $customer_no]);
-        die();
+        // die();
         try {
             $response = Http::post(env('CIB_API_BASE_URL') . "check-mandate/$customer_no/$userID");
             // dd(env('CIB_API_BASE_URL') . "check-mandate/$customer_no/$userID");

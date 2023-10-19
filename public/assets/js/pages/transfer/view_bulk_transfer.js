@@ -194,6 +194,6 @@ $(document).ready(function () {
     });
 
     $("#reject_upload_btn").click(function () {
-        // reject_upload(batch_no);
+        reject_upload(batch_no);
     });
 });
